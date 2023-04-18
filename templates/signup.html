@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% include "partials/__includes__.html" %}
+
+    <title>Sign Up | {{ settings.app_name }}</title>
+  </head>
+
+  <body>
+    <main
+      x-data="{
+
+
+
+            passwordsMatch : true,
+                    submitting : false,
+                    showOverlay :  false,
+                    reqError : false,
+                    reqErrorMsg : '',
+            actionText : 'Signing up...',
+            success :  false,
+
+
+
+
+
+        }"
+      class="min-h-screen bg-[url('/static/bg1.jpg')] bg-no-scroll bg-sky-200 bg-no-repeat bg-right-bottom w-full flex flex-col justify-center items-center"
+    >
+      {% include "partials/__widgets__.html" %}
+
+      <div class="w-full flex flex-col items-center justify-center mt-4 mb-6">
+        <img
+          alt="logo"
+          src="/static/logo.jpg"
+          class="w-32 h-32 bg-blend-overlay rounded-full mx-auto"
+        />
+      </div>
+
+      <h2
+        class="text-center font-bold text-2xl md:text-4xl mb-6 md:mb-12 text-white"
+        style="text-shadow: 1px 1px 2px black"
+      >
+        {{ settings.app_name }}
+      </h2>
+
+      <form
+        @submit.prevent="submitForm($event)"
+        x-data="{
+
+
+                    submitForm : async (e)=>{
+
+
+                        let formData = new FormData(e.target);
+
+                        let object = {};
+
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+                        console.log(object);
+                        if(object.password !== object.password2){
+
+                            passwordsMatch = false;
+                            submitting = false;
+                            return;
+                        }
+
+                        passwordsMatch = true;
+                        submitting = true;
+
+
+
+                        try{
+
+                            
+                            const res =  await fetch('/sign-up', {  
+                            method: 'POST',  
+                            headers: {  
+                                'Content-Type': 'application/json'  
+                            },  
+                            body: JSON.stringify(object)  
+                        });
+
+                        if(!res.ok){
+
+                                if(res.status === 422){
+                                    console.log('Form errors found');
+
+                                    const errors = await res.json();
+                                    console.log(errors);
+
+
+                                    reqError = true;
+                                    reqErrorMsg = JSON.stringify(errors);
+
+
+                                }
+                                else{
+
+                                    const errorMsg = (await res.json()).detail;
+                                    console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                                }
+
+
+                        } else{
+
+
+
+                            console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Your account has been created. You can now login';
+                        success = true;
+                        setTimeout(()=>{
+                            reqError = false;
+                            window.location.href = '/sign-in';
+
+                        }, 1000);
+
+                        }
+
+                        
+                    }
+
+                    catch(err){
+
+                        console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+
+                    }
+
+                    submitting = false;
+
+
+
+
+
+                        
+
+                        
+
+
+                      
+                    },
+
+
+
+
+
+                }"
+        method="post"
+        class="max-w-md w-[90%] mx-auto bg-sky-50 p-6 rounded-lg shadow-lg mb-16"
+      >
+        <legend class="text-2xl font-bold text-black pb-6">Register</legend>
+
+        <div class="md:grid grid-cols-1 md:grid-cols-1 gap-y-4 gap-x-12">
+          <div class="mb-6">
+            <label
+              for="firstname"
+              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Firstname
+            </label>
+
+            <input
+              required
+              type="text"
+              name="firstname"
+              id="firstname"
+              placeholder="Firstname"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label
+              for="lastname"
+              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Lastname
+            </label>
+
+            <input
+              required
+              type="text"
+              name="lastname"
+              id="lastname"
+              placeholder="Lastname"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label
+              for="email"
+              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Email
+            </label>
+
+            <input
+              required
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email address"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label
+              for="phone"
+              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Phone Number
+            </label>
+
+            <input
+              required
+              type="phone"
+              name="phone"
+              inputmode="numeric"
+              id="phone"
+              placeholder="Phone Number"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label
+              for="dateofbirth"
+              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Date of Birth
+            </label>
+
+            <input
+              required
+              type="date"
+              name="dateofbirth"
+              inputmode="text"
+              id="dateofbirth"
+              value="1970-01-01"
+              min="1900-01-01"
+              max="2005-12-31"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <div class="flex justify-between mb-2">
+              <label
+                for="password"
+                class="block text-sm text-gray-600 dark:text-gray-400"
+              >
+                Password
+              </label>
+            </div>
+
+            <input
+              required
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <div class="flex justify-between mb-2">
+              <label
+                for="password2"
+                class="block text-sm text-gray-600 dark:text-gray-400"
+              >
+                Confirm Password
+              </label>
+            </div>
+
+            <input
+              required
+              type="password"
+              name="password2"
+              id="password2"
+              placeholder="Confirm Password"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+
+            <p
+              x-show.important="!passwordsMatch"
+              class="text-sm py-2 text-red-500"
+            >
+              Passwords do not match.
+            </p>
+          </div>
+        </div>
+        <div class="mt-8 mb-2">
+          <a
+            href="/sign-in"
+            class="text-sm block text-gray-400 focus:text-gray-500 focus:outline-none focus:underline hover:text-gray-500 pb-4"
+          >
+            Already have an account? Sign In
+          </a>
+
+          <button
+            x-show="!success"
+            type="submit"
+            class="w-full px-4 py-3 text-white transition bg-sky-500/80 hover:bg-sky-500 rounded-md focus:bg-sky-600 focus:outline-none"
+          >
+            <span> Sign up </span>
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

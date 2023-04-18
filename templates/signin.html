@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% include "partials/__includes__.html" %}
+
+    <title>Sign in | {{ settings.app_name }}</title>
+  </head>
+
+  <body>
+    <main
+      x-data="{
+            
+            reqError : false,
+            reqErrorMsg : 'Error',
+            reqSuccess : false,
+            reqSuccessMsg : 'Success',                  
+            reqLoading : false,
+            reqLoadingText : 'Loading',
+             submitting : false,
+            showOverlay :  false,
+            actionText : 'Signing in...',
+            success :  false,
+            
+        }"
+      class="min-h-screen bg-[url('/static/bg1.jpg')] bg-sky-200 bg-no-repeat bg-no-scroll bg-right-bottom w-full flex flex-col justify-center items-center"
+    >
+      {% include "partials/__widgets__.html" %}
+
+      <div class="w-full flex flex-col items-center justify-center mt-4 mb-6">
+        <img
+          alt="logo"
+          src="/static/logo.jpg"
+          class="w-32 h-32 bg-blend-overlay rounded-full mx-auto"
+        />
+      </div>
+
+      <h2
+        class="text-center font-bold text-2xl md:text-4xl mb-6 md:mb-12 text-white"
+        style="text-shadow: 1px 1px 2px black"
+      >
+        {{ settings.app_name }}
+      </h2>
+
+      <form
+        method="post"
+        x-data="{
+
+                    submitForm : async (e)=>{
+
+
+                        let formData = new FormData(e.target);
+                        
+                        let object = {};
+                        
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+
+                        submitting = true;
+
+
+                        try{
+                        
+                        
+                        const res = await fetch('/sign-in', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(object)
+                        });
+                        
+                        if(!res.ok){
+                        
+                        if(res.status === 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                            console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                        }
+                        
+                        
+                        } else{
+                        
+                        
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'You have been signed in.';
+                        success = true;
+
+                        setTimeout(()=>{
+                            window.location.href = '/apps/dashboard'
+
+                        }, 100);
+
+                      
+                        
+                        }
+                        
+                        
+                        }
+                        
+                        catch(err){
+                        
+                        console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                        
+                        }
+                        
+                        submitting = false;
+
+
+
+                        
+                    }
+
+            }"
+        @submit.prevent="submitForm($event)"
+        class="max-w-md w-[90%] mx-auto bg-sky-50 p-6 rounded-lg shadow-lg"
+      >
+        <legend class="text-2xl font-bold text-black pb-6">Sign in</legend>
+
+        <div class="mb-6">
+          <label
+            for="email"
+            class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+          >
+            Email
+          </label>
+
+          <input
+            type="email"
+            required
+            name="email"
+            id="email"
+            placeholder="Email address"
+            class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+          />
+        </div>
+
+        <div class="mb-6">
+          <div class="flex justify-between mb-2">
+            <label
+              for="password"
+              class="block text-sm text-gray-600 dark:text-gray-400"
+            >
+              Password
+            </label>
+
+            <a
+              href="/forgot-password"
+              class="text-sm text-gray-400 focus:text-gray-500 focus:outline-none focus:underline hover:text-gray-500"
+            >
+              Forgot password?
+            </a>
+          </div>
+
+          <input
+            type="password"
+            required
+            name="password"
+            id="password"
+            placeholder="Password"
+            class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+          />
+        </div>
+
+        <div class="mt-8 mb-2">
+          <a
+            href="/sign-up"
+            class="text-sm block text-gray-400 focus:text-gray-500 focus:outline-none focus:underline hover:text-gray-500 pb-4"
+          >
+            Don't have an account? Sign up
+          </a>
+
+          <button
+            x-show="!success"
+            type="submit"
+            class="w-full px-4 py-3 text-white transition bg-sky-500/80 hover:bg-sky-500 rounded-md focus:bg-sky-600 focus:outline-none"
+          >
+            Sign in
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

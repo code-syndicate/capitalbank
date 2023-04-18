@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html :class="$store.darkMode.on ? 'dark' : '' " lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% include "partials/__includes__.html" %}
+
+    <title>{{ settings.app_name }}</title>
+  </head>
+  <body>
+    <main class="min-h-screen w-full">
+      {% include "partials/__sidebar__.html" %}
+
+      <div
+        class="w-full md:w-[75%] lg:w-[85%] lg:ml-[15%] min-h-screen md:ml-[25%]"
+      >
+        <!-- Section Box starts  -->
+
+        <div class="w-full flex flex-row justify-between items-center">
+          <!-- Box 1  -->
+          <div class="w-[70%] pt-6">
+            <p class="font-bold text-2xl text-black px-6 py-2">Acccount</p>
+
+            <!-- Flex Box of dashbaord info starts  -->
+
+            <div
+              class="w-full flex flex-row justify-start items-start space-x-8 p-4"
+            >
+              <!-- Rectangle card featuring account number  -->
+              <div class="rounded-lg p-4 shadow shadow-black">
+                <div class="flex flex-col items-start">
+                  <p class="text-gray-700 py-1 font-bold text-3xl">
+                    28763728873838
+                  </p>
+                  <h1 class="text-gray-600 font-bold text-sm">
+                    Account Number
+                  </h1>
+                </div>
+              </div>
+
+              <!-- Rectangle card featuring account type  -->
+              <div class="rounded-lg p-4 shadow shadow-black">
+                <div class="flex flex-col items-start">
+                  <p class="text-gray-700 py-1 font-bold text-3xl">
+                    Offshore Standard
+                  </p>
+                  <h1 class="text-gray-600 font-bold text-sm">Account Type</h1>
+                </div>
+              </div>
+            </div>
+
+            <!-- ----------------------  -->
+
+            <p class="font-bold text-2xl text-black px-6 py-2 mt-4">My Cards</p>
+
+            <div
+              class="w-full flex flex-row justify-start items-start space-x-8 p-4"
+            >
+              <!-- Rectangle card featuring account number  -->
+              <div
+                class="rounded-lg bg-red-200 p-4 w-[50%] min-h-[180px] shadow-sm shadow-black"
+              ></div>
+
+              <!-- Rectangle card featuring account type  -->
+              <div
+                class="rounded-lg bg-sky-200 w-[50%] min-h-[180px] p-4 shadow-sm shadow-black"
+              ></div>
+            </div>
+
+            <!-- Flex Box of dashbaord info ends  -->
+          </div>
+
+          <!-- Box 2  -->
+
+          <div class="border-l-2 self-stretch border-gray-200 w-[30%]"></div>
+        </div>
+
+        <!-- Section box ends  -->
+      </div>
+    </main>
+  </body>
+</html>

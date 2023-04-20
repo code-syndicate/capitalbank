@@ -26,3 +26,6 @@ logs
 /__data__
 *__data__*
 
+.vscode 
+.deployment
+

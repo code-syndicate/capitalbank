@@ -31,7 +31,8 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
     if not auth:
         return RedirectResponse("/sign-in")
 
-    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request})
+    user,  _ = auth
+    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user})
 
 
 @router.get("/sign-out", tags=["Sign out"], )

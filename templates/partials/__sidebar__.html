@@ -1,5 +1,7 @@
 <nav
-  class="min-h-screen hidden md:block lg:w-[15%] md:w-[25%] bg-sky-50/60 dark:bg-black p-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
+  x-show="showSidebar"
+  x-transition
+  class="min-h-screen md:block lg:w-[15%] md:w-[25%] bg-white md:bg-sky-50/60 dark:bg-black pt-32 md:pt-6 px-6 pb-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
 >
   <div
     class="space-y-3 dark:bg-black absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
@@ -33,11 +35,13 @@
     </a>
   </div>
 
-  <div class="w-full flex flex-col itens-center justify-center mt-4 mb-16">
+  <div
+    class="w-full hidden md:block flex flex-col itens-center justify-center mt-4 mb-16"
+  >
     <img
       alt="logo"
       src="/static/logo.jpg"
-      class="w-48 h-auto bg-blend-overlay mx-auto"
+      class="w-16 md:w-48 h-auto shadow mx-auto"
     />
   </div>
 
@@ -47,36 +51,144 @@
     <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
       <li class="space-x-2 block">
         <i class="text-lg bi-house"></i>
-        <span class="hidden md:inline-block"> Home </span>
+        <span class="md:inline-block"> Home </span>
       </li>
     </a>
 
     <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
       <li class="space-x-2 block">
         <i class="text-lg bi-person"></i>
-        <span class="hidden md:inline-block"> Account </span>
+        <span class="md:inline-block"> Account </span>
       </li>
     </a>
 
     <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
       <li class="space-x-2 block">
         <i class="text-lg bi-arrow-left-right"></i>
-        <span class="hidden md:inline-block"> Transfer </span>
+        <span class="md:inline-block"> Transfer </span>
       </li>
     </a>
 
     <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
       <li class="space-x-2 block">
         <i class="text-lg bi-clock"></i>
-        <span class="hidden md:inline-block"> Transactions </span>
+        <span class="md:inline-block"> Transactions </span>
       </li>
     </a>
 
     <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
       <li class="space-x-2 block">
         <i class="text-lg bi-gear"></i>
-        <span class="hidden md:inline-block"> Settings </span>
+        <span class="md:inline-block"> Settings </span>
       </li>
     </a>
   </ul>
+</nav>
+
+<nav
+  x-transition
+  class="min-h-screen hidden md:block lg:w-[15%] md:w-[25%] bg-white md:bg-sky-50/60 dark:bg-black pt-32 md:pt-6 px-6 pb-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
+>
+  <div
+    class="space-y-3 dark:bg-black absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
+  >
+    <a href="" class="block hover:bg-gray-200 cursor-pointer py-1">
+      <li class="space-x-2 block">
+        <i class="bi-exclamation-circle text-xl"></i>
+        <span> Get Help </span>
+      </li>
+    </a>
+
+    <li
+      x-data
+      @click="$store.darkMode.toggle()"
+      class="space-x-2 block hover:bg-gray-200 cursor-pointer py-1"
+      x-transition
+    >
+      <i x-show="!$store.darkMode.on" class="bi-toggle-off text-xl"></i>
+      <i x-show="$store.darkMode.on" class="bi-toggle-on text-xl"></i>
+
+      <span> Dark mode </span>
+    </li>
+    <a
+      href="/sign-out"
+      class="block text-red-400 hover:bg-gray-200 cursor-pointer py-1"
+    >
+      <li class="space-x-2 block">
+        <i class="bi-box-arrow-left text-xl"></i>
+        <span> Sign out </span>
+      </li>
+    </a>
+  </div>
+
+  <div
+    class="w-full hidden md:block flex flex-col itens-center justify-center mt-4 mb-16"
+  >
+    <img
+      alt="logo"
+      src="/static/logo.jpg"
+      class="w-16 md:w-48 h-auto shadow mx-auto"
+    />
+  </div>
+
+  <ul
+    class="space-y-6 flex flex-col items-start lg:pl-4 justify-center pl-2 text-black/70 text-sm font-bold"
+  >
+    <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+      <li class="space-x-2 block">
+        <i class="text-lg bi-house"></i>
+        <span class="md:inline-block"> Home </span>
+      </li>
+    </a>
+
+    <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+      <li class="space-x-2 block">
+        <i class="text-lg bi-person"></i>
+        <span class="md:inline-block"> Account </span>
+      </li>
+    </a>
+
+    <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+      <li class="space-x-2 block">
+        <i class="text-lg bi-arrow-left-right"></i>
+        <span class="md:inline-block"> Transfer </span>
+      </li>
+    </a>
+
+    <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+      <li class="space-x-2 block">
+        <i class="text-lg bi-clock"></i>
+        <span class="md:inline-block"> Transactions </span>
+      </li>
+    </a>
+
+    <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+      <li class="space-x-2 block">
+        <i class="text-lg bi-gear"></i>
+        <span class="md:inline-block"> Settings </span>
+      </li>
+    </a>
+  </ul>
+</nav>
+
+<nav
+  class="fixed md:hidden top-0 inset-x-0 w-full p-2 bg-sky-300 flex flex-row items-center justify-between"
+>
+  <div
+    class="border border-white hover:bg-white/70 hover:text-sky-500 rounded text-white px-2"
+  >
+    <i
+      x-show="!showSidebar"
+      @click="toggleSidebar"
+      class="bi bi-list text-2xl"
+    ></i>
+    <i x-show="showSidebar" @click="toggleSidebar" class="bi bi-x text-2xl"></i>
+  </div>
+
+  <div class="flex flex-row items-center justfy-center space-x-1">
+    <img alt="logo" src="/static/logo.jpg" class="w-8 h-auto shadow mx-auto" />
+    <h2 class="font-bold text-white text-left text-base px-2">
+      Capital Security Bank
+    </h2>
+  </div>
 </nav>

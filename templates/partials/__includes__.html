@@ -13,6 +13,14 @@
         this.on = !this.on;
       },
     });
+
+    Alpine.store("sidebar", {
+      on: false,
+
+      toggle() {
+        this.on = !this.on;
+      },
+    });
   });
 </script>
 
@@ -23,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-  href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;700&family=Roboto:wght@400;700&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;700&display=swap"
   rel="stylesheet"
 />
 <link
@@ -38,7 +46,7 @@
 
 <style>
   * {
-    font-family: "Mulish";
+    font-family: "Poppins";
   }
 
   ::-webkit-scrollbar-track {

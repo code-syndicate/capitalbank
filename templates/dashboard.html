@@ -10,28 +10,43 @@
     <title>{{ settings.app_name }}</title>
   </head>
   <body>
-    <main class="min-h-screen w-full">
+    <div
+      class="min-h-screen w-full"
+      x-data="{
+
+
+
+        showSidebar :  false,
+        toggleSidebar : function () {
+            this.showSidebar = !this.showSidebar;
+        },
+
+
+
+    }"
+    >
       {% include "partials/__sidebar__.html" %}
 
       <div
-        class="w-full md:w-[75%] lg:w-[85%] lg:ml-[15%] min-h-screen md:ml-[25%]"
+        class="mt-12 md:mt-0 w-full bg-sky-100 md:bg-white md:w-[75%] lg:w-[85%] lg:ml-[15%] min-h-screen md:ml-[25%]"
       >
         <!-- Section Box starts  -->
 
-        <div class="w-full flex flex-row justify-between items-center">
+        <div class="w-full flex flex-row justify-between items-start">
           <!-- Box 1  -->
-          <div class="w-[70%] pt-6">
-            <p class="font-bold text-2xl text-black px-6 py-2">Acccount</p>
-
-            <!-- Flex Box of dashbaord info starts  -->
+          <div class="w-full lg:w-[80%] pt-6">
+            <p class="font-bold text-2xl text-black px-6 py-2">
+              <i class="bi bi-speedometer2"></i>
+              Account
+            </p>
 
             <div
-              class="w-full flex flex-row justify-start items-start space-x-8 p-4"
+              class="w-full flex flex-col md:flex-row justfy-center md:justify-start items-start space-y-6 md:space-y-0 md:space-x-8 p-4"
             >
               <!-- Rectangle card featuring account number  -->
-              <div class="rounded-lg p-4 shadow shadow-black">
+              <div class="rounded-lg p-4 shadow-lg w-full border">
                 <div class="flex flex-col items-start">
-                  <p class="text-gray-700 py-1 font-bold text-3xl">
+                  <p class="text-gray-700 py-1 font-bold text-2xl">
                     28763728873838
                   </p>
                   <h1 class="text-gray-600 font-bold text-sm">
@@ -41,9 +56,9 @@
               </div>
 
               <!-- Rectangle card featuring account type  -->
-              <div class="rounded-lg p-4 shadow shadow-black">
+              <div class="rounded-lg p-4 shadow-lg w-full border">
                 <div class="flex flex-col items-start">
-                  <p class="text-gray-700 py-1 font-bold text-3xl">
+                  <p class="text-gray-700 py-1 font-bold text-2xl">
                     Offshore Standard
                   </p>
                   <h1 class="text-gray-600 font-bold text-sm">Account Type</h1>
@@ -51,34 +66,173 @@
               </div>
             </div>
 
-            <!-- ----------------------  -->
+            <!-- Flex Box of dashbaord info starts  -->
 
             <p class="font-bold text-2xl text-black px-6 py-2 mt-4">My Cards</p>
 
-            <div
-              class="w-full flex flex-row justify-start items-start space-x-8 p-4"
-            >
-              <!-- Rectangle card featuring account number  -->
+            <div>
               <div
-                class="rounded-lg bg-red-200 p-4 w-[50%] min-h-[180px] shadow-sm shadow-black"
-              ></div>
+                class="w-full flex flex-col md:flex-row justify-center md:justify-start items-start md:space-x-8 space-y-8 md:space-y-0 p-4"
+              >
+                <!-- Rectangle card featuring account number  -->
+                <div
+                  class="rounded-lg aspect-[16/9] bg-gradient-to-br from-red-100 via-red-400 to-red-100 p-4 w-full min-h-[190px] shadow border border-red-100"
+                >
+                  <!-- Inside of the debit card  -->
+                  <div
+                    class="w-full h-full flex flex-col space-y-3 justify-between items-start"
+                  >
+                    <div class="flex flex-row justify-between items-center">
+                      <img
+                        src="/static/logo.jpg"
+                        class="w-10 h-10 rounded-full"
+                      />
+                      <p class="text-gray-700 font-bold text-sm px-2">
+                        Debit Card
+                      </p>
+                    </div>
+                    <div class="flex flex-row justify-between items-center">
+                      <p
+                        style="font-family: Orbitron"
+                        class="text-gray-700 font-bold text-xl"
+                      >
+                        1234 5678 8765 4321
+                      </p>
+                    </div>
 
-              <!-- Rectangle card featuring account type  -->
-              <div
-                class="rounded-lg bg-sky-200 w-[50%] min-h-[180px] p-4 shadow-sm shadow-black"
-              ></div>
+                    <div class="flex flex-row justify-between items-center">
+                      <p
+                        class="text-gray-700 font-bold text-base uppercase px-1"
+                      >
+                        John Doe
+                      </p>
+                    </div>
+                    <div
+                      class="flex w-full flex-row justify-between items-center"
+                    >
+                      <p class="text-gray-700 font-bold text-sm px-1">
+                        Expiry 05/24
+                      </p>
+                      <p class="text-gray-700 font-bold text-sm">CVV 267</p>
+                    </div>
+                  </div>
+
+                  <!-- End : Inside of the debit card  -->
+                </div>
+
+                <!-- Rectangle card featuring account type  -->
+                <div
+                  class="rounded-lg aspect-[16/9] bg-gradient-to-br from-sky-100 via-sky-500 to-sky-100 p-4 w-full min-h-[190px] p-4 shadow border border-sky-100"
+                >
+                  <!-- Inside of the debit card  -->
+                  <div
+                    class="w-full h-full flex flex-col space-y-3 justify-between items-start"
+                  >
+                    <div class="flex flex-row justify-between items-center">
+                      <img
+                        src="/static/logo.jpg"
+                        class="w-10 h-10 rounded-full"
+                      />
+                      <p class="text-gray-700 font-bold text-sm px-2">
+                        Debit Card
+                      </p>
+                    </div>
+                    <div class="flex flex-row justify-between items-center">
+                      <p
+                        style="font-family: Orbitron"
+                        class="text-gray-700 font-bold text-xl"
+                      >
+                        1234 5678 8765 4321
+                      </p>
+                    </div>
+
+                    <div class="flex flex-row justify-between items-center">
+                      <p
+                        class="text-gray-700 font-bold text-base uppercase px-1"
+                      >
+                        John Doe
+                      </p>
+                    </div>
+                    <div
+                      class="flex w-full flex-row justify-between items-center"
+                    >
+                      <p class="text-gray-700 font-bold text-sm px-1">
+                        Expiry 05/24
+                      </p>
+                      <p class="text-gray-700 font-bold text-sm">CVV 267</p>
+                    </div>
+                  </div>
+
+                  <!-- End : Inside of the debit card  -->
+                </div>
+              </div>
             </div>
 
-            <!-- Flex Box of dashbaord info ends  -->
+            <!-- Another  -->
+
+            <p class="font-bold text-2xl text-black px-6 py-2 mt-4">
+              Live Exchange Rates
+            </p>
+
+            <div></div>
           </div>
 
-          <!-- Box 2  -->
+          <!-- Flex Box of dashbaord info ends  -->
+          <div
+            class="border-l-2 self-stretch min-h-screen bg-gray-100 py-6 hidden lg:block w-[20%]"
+          >
+            <!-- Profile Avatar  -->
+            <div class="w-full flex flex-col justify-center items-center">
+              <img
+                src="/static/avatar.webp"
+                class="w-36 h-36 rounded-full border-gray-200"
+              />
 
-          <div class="border-l-2 self-stretch border-gray-200 w-[30%]"></div>
+              <div class="space-y-3 mt-6 flex flex-col">
+                <p class="text-gray-900 font-bold text-center text-xl">
+                  {{user.firstname }} {{ user.lastname}}
+                </p>
+
+                <p
+                  style="font-family: Orbitron"
+                  class="text-sky-500 font-bold text-base"
+                >
+                  {{user.level.value}} USER
+                </p>
+              </div>
+
+              <div
+                class="mt-8 text-center px-4 text-sm flex mx-auto flex-col space-y-6"
+              >
+                <p
+                  class="px-3 py-1 bg-gray-300 rounded-2xl text-gray-500 font-bold"
+                >
+                  Email Address
+                </p>
+                <p class="text-gray-700 font-bold">{{user.email}}</p>
+                <p
+                  class="px-3 py-1 bg-gray-300 rounded-2xl text-gray-500 font-bold"
+                >
+                  Date of Birth
+                </p>
+                <p class="text-gray-700 font-bold">{{user.dateOfBirth }}</p>
+
+                <p
+                  class="px-3 py-1 bg-gray-300 rounded-2xl text-gray-500 font-bold"
+                >
+                  Phone Number
+                </p>
+
+                <p class="text-gray-700 font-bold">{{user.phone}}</p>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Box 2  -->
 
         <!-- Section box ends  -->
       </div>
-    </main>
+    </div>
   </body>
 </html>

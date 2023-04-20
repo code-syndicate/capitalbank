@@ -40,6 +40,15 @@ class ActionIdentifiers(str, Enum):
     CONFIRM_PHONE_VERIFICATION = "CONFIRM_PHONE_VERIFICATION"
 
 
+class UserLevels(str, Enum):
+    GOLD = "GOLD"
+    SILVER = "SILVER"
+    BRONZE = "BRONZE"
+    DIAMOND = "DIAMOND"
+    PLATINUM = "PLATINUM"
+    
+
+
 class QueueStatus(str, Enum):
     QUEUED = "QUEUED"
     FAILED = "FAILED"
@@ -149,6 +158,9 @@ class UserInputModel(UserBaseModel):
 class UserDBModel(UserBaseModel):
     uid: str = Field(default_factory=get_uuid4)
     role: UserRoles = Field(default=UserRoles.USER)
+    level : UserLevels = Field(default=UserLevels.BRONZE)
+    account_number: Union[str, None] = Field(
+        default_factory=gen_acct_number, alias="accountNumber")
     address: Union[str, None] = Field(
         default=None,  min_length=2, max_length=35)
     country: Union[str, None] = Field(

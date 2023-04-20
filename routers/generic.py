@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Request, Response, Depends
+from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends
+from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
@@ -25,14 +26,21 @@ async def index(request: Request):
 
 
 @router.get("/apps/dashboard", tags=["Dashboard"], response_class=HTMLResponse)
-async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_user), msgs:  list[str] = Depends(get_msgs)):
+async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_user), tab: Union[str, None] = Query(alias="tab", default="dash"), msgs:  list[str] = Depends(get_msgs)):
     print(msgs)
 
     if not auth:
         return RedirectResponse("/sign-in")
 
     user,  _ = auth
-    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user})
+
+    views = ["dash", "transfer", "withdraw",
+             "transactions", "profile", "settings"]
+
+    if not tab.lower() in views:
+        tab = views[0]
+
+    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab})
 
 
 @router.get("/sign-out", tags=["Sign out"], )

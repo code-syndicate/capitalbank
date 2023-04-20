@@ -1,0 +1,38 @@
+<div
+  class="border-l-2 hidden lg:block xl:w-[20%] self-stretch min-h-screen bg-gray-100 py-6 w-[30%]"
+>
+  <!-- Profile Avatar  -->
+  <div class="w-full flex flex-col justify-center items-center">
+    <img
+      src="/static/avatar.webp"
+      class="w-36 h-36 rounded-full border-gray-200"
+    />
+
+    <div class="space-y-3 mt-6 flex flex-col">
+      <p class="text-gray-900 font-bold text-center text-xl">
+        {{user.firstname }} {{ user.lastname}}
+      </p>
+
+      <p style="font-family: Orbitron" class="text-sky-500 font-bold text-base">
+        {{user.level.value}} USER
+      </p>
+    </div>
+
+    <div class="mt-8 text-center px-2 text-sm flex mx-auto flex-col space-y-6">
+      <p class="px-2 py-1 bg-gray-300 rounded-2xl text-gray-500 font-bold">
+        Email Address
+      </p>
+      <p class="text-gray-700 font-bold">{{user.email}}</p>
+      <p class="px-2 py-1 bg-gray-300 rounded-2xl text-gray-500 font-bold">
+        Date of Birth
+      </p>
+      <p class="text-gray-700 font-bold">{{user.dateOfBirth }}</p>
+
+      <p class="px-2 py-1 bg-gray-300 rounded-2xl text-gray-500 font-bold">
+        Phone Number
+      </p>
+
+      <p class="text-gray-700 font-bold">{{user.phone}}</p>
+    </div>
+  </div>
+</div>

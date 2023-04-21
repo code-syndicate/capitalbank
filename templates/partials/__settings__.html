@@ -2,7 +2,7 @@
   <!-- Edit Profile Form  -->
 
   <div
-    class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-8 xl:space-y-0 mt-8"
+    class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-16 xl:pt-6 xl:space-y-0"
     x-data="{
             
             reqError : false,
@@ -141,7 +141,7 @@
       <h1 class="text-3xl font-bold text-sky-500">Edit Profile</h1>
       <form
         x-on:submit.prevent="submitForm1($event)"
-        class="flex flex-col justify-center items-center space-y-6 mt-8"
+        class="flex flex-col justify-center items-center space-y-6 mt-8 max-w-md w-[90%] mx-auto"
         action=""
         method="POST"
       >
@@ -357,7 +357,7 @@
       <h1 class="text-3xl font-bold text-sky-500">Change Password</h1>
       <form
         x-on:submit.prevent="submitForm2($event)"
-        class="flex flex-col justify-center items-center space-y-6 mt-8"
+        class="flex flex-col justify-center items-center space-y-6 mt-8 max-w-md w-[90%] mx-auto"
       >
         <div class="flex flex-col w-full space-y-2">
           <label

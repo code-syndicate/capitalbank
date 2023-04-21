@@ -34,7 +34,7 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
 
     user,  _ = auth
 
-    views = ["dash", "transfer", "withdraw",
+    views = ["dash", "transfer", "transfers",
              "transactions", "profile", "settings"]
 
     if not tab.lower() in views:
@@ -111,7 +111,7 @@ async def signup_post(request: Request, form: UserInputModel):
         raise HTTPException(status_code=400, detail="Passwords do not match!")
 
     data.update({
-        "password_hash":  hash_password(form.password2)
+        "password_hash":  hash_password(form.password2),
     })
 
     user = UserDBModel(**data)

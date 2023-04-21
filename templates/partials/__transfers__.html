@@ -1,0 +1,90 @@
+<div class="w-full xl:w-[80%] lg:w-[70%]">
+  <!-- Edit Profile Form  -->
+
+  <div
+    class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-8 xl:space-y-0 mt-8"
+  >
+    <div class="max-w-md mx-auto">
+      <h1 class="text-3xl font-bold text-sky-500 px-4 pb-8">Transfer Money</h1>
+
+      <form>
+        <div>
+          <label
+            for="amount"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Amount
+          </label>
+          <div class="mt-1">
+            <input
+              id="amount"
+              name="amount"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="$100.00"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label
+            for="account"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Account to transfer to
+          </label>
+          <div class="mt-1">
+            <input
+              id="account"
+              name="account"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="jane.smith@example.com"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label
+            for="bank"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Bank Name
+          </label>
+          <div class="mt-1">
+            <input
+              id="bank"
+              name="bank"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="MyBank"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label
+            for="details"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Other Details
+          </label>
+          <div class="mt-1">
+            <textarea
+              id="details"
+              name="details"
+              rows="3"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="Enter any additional details here."
+            ></textarea>
+          </div>
+        </div>
+        <div class="mt-6">
+          <button
+            type="submit"
+            class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
+          >
+            Send Money
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

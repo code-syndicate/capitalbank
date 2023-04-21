@@ -3,7 +3,7 @@ from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import AuthSession, ChangePasswordInput, RequestAccessTokenInput, UserBaseModel, UserInputModel, UserDBModel
+from models.users import AuthSession, ChangePasswordInput, RequestAccessTokenInput, TransferInput1, TxType, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs
@@ -136,6 +136,49 @@ async def change_user_password(form: ChangePasswordInput, auth:  UserDBModel = D
 
     await db[Collections.users].update_one({"uid": user.uid}, {"$set": {"password_hash": new_password_hash}})
     await db[Collections.sessions].delete_many({"user_id": user.uid})
+
+
+@router.post("/tx/in")
+async def create_in_transaction(form: TransferInput1, auth:  UserDBModel = Depends(get_session_user)):
+    user, _ = auth
+
+    if form.amount > user.balance:
+        raise HTTPException(401, "Insufficient balance.")
+
+    tx = InFiatTransfer(
+        sender=user.uid,
+        amount=form.amount,
+        txtype=TxType.DEBIT,
+        description=form.description,
+    )
+
+    user.balance -= form.amount
+
+    await db[Collections.transfers].insert_one(tx.dict())
+    await db[Collections.users].update_one({"uid": user.uid}, {"$set": user.dict()})
+
+
+@router.post("/tx/out")
+async def create_in_transaction(form: TransferInput2, auth:  UserDBModel = Depends(get_session_user)):
+    user, _ = auth
+
+    if form.amount > user.balance:
+        raise HTTPException(401, "Insufficient balance.")
+
+    tx = OutFiatTransfer(
+        sender=user.uid,
+        amount=form.amount,
+        txtype=TxType.DEBIT,
+        description=form.description,
+        receiver_account_name=form.receiver_account_name,
+        receiver_account_number=form.receiver_account_number,
+        receiver_bank_name=form.receiver_bank_name,
+    )
+
+    user.balance -= form.amount
+
+    await db[Collections.transfers].insert_one(tx.dict())
+    await db[Collections.users].update_one({"uid": user.uid}, {"$set": user.dict()})
 
 
 @router.post("/sign-up", tags=["Signup"], )

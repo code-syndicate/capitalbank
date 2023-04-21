@@ -10,6 +10,40 @@
         this.eTx = !this.eTx;
       },
 
+
+
+
+       
+            
+            reqError : false,
+            reqErrorMsg : 'Error',
+            reqSuccess : false,
+            reqSuccessMsg : 'Success',                  
+            reqLoading : false,
+            reqLoadingText : 'Loading',
+            actionText : 'Loading',
+
+            submitting : false,
+            showOverlay :  false,
+            actionText : 'Processing...',
+            success :  false,
+            passwordsMatch :  true,
+
+
+
+
+            submitForm1 : async (e)=>{
+
+            },
+
+
+            submitForm2 : async (e)=>{
+
+            },
+
+            
+        
+
     }"
   >
     <div class="w-full mx-auto">
@@ -67,23 +101,7 @@
             />
           </div>
         </div>
-        <!-- <div class="mt-4">
-          <label
-            for="bank"
-            class="block text-sm text-gray-600 dark:text-gray-400"
-          >
-            Bank Name
-          </label>
-          <div class="mt-1">
-            <input
-              id="bank"
-              name="bank"
-              type="text"
-              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
-              placeholder="MyBank"
-            />
-          </div>
-        </div> -->
+
         <div class="mt-4">
           <label
             for="description"
@@ -104,6 +122,7 @@
         <!-- Submit button  -->
         <div class="flex justify-center items-center mt-8">
           <button
+            x-on:submit.prevent="submitForm1($event)"
             type="submit"
             class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
           >
@@ -211,6 +230,7 @@
         <!-- Submit button  -->
         <div class="flex justify-center items-center mt-8">
           <button
+            x-on:submit.prevent="submitForm2($event)"
             type="submit"
             class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
           >

@@ -12,6 +12,7 @@ class Collections(str, Enum):
     tokens = "tokens"
     likes = "likes"
     sessions = "sessions"
+    transfers = "transfers"
     
 
 

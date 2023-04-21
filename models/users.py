@@ -68,17 +68,32 @@ class RequestEmailOrSMSVerificationInput(BaseModel):
     uid: str = Field(min_length=32)
     channel: PasswordResetChannels
 
+class TransferInputBase(BaseModel):
+    amount: float
+    description: Union[str, None] = None
+
+
+class TransferInput1(TransferInputBase):
+    receiver: EmailStr
+
+
+class TransferInput2(TransferInputBase):
+    receiver_bank_name : str
+    receiver_account_number : str
+    receiver_account_name : str
 
 class InFiatTransfer(BaseModel):
     tx_id: str = Field(default_factory=get_uuid4)
     amount: float
-    type: TxType = TxType.DEBIT
+    txtype: TxType = TxType.DEBIT
     sender: EmailStr
     receiver: EmailStr
     status: TxStatus = TxStatus.PENDING
     created: str = Field(default_factory=get_utc_timestamp)
     updated: str = Field(default_factory=get_utc_timestamp)
     description: Union[str, None] = "Internal Transfer"
+    scope : str = "IN"
+
 
     class Config:
         allow_population_by_field_name = True
@@ -96,6 +111,7 @@ class OutFiatTransfer(BaseModel):
     created: str = Field(default_factory=get_utc_timestamp)
     updated: str = Field(default_factory=get_utc_timestamp)
     description: Union[str, None] = "Internal Transfer"
+    scope : str = "OUT"
 
     class Config:
         allow_population_by_field_name = True

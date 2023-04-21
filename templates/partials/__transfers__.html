@@ -3,11 +3,34 @@
 
   <div
     class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-8 xl:space-y-0 mt-8"
+    x-data="{
+      eTx :  false,
+
+      toggleETx : function () {
+        this.eTx = !this.eTx;
+      },
+
+    }"
   >
     <div class="w-full mx-auto">
-      <h1 class="text-3xl font-bold text-sky-500 px-4 pb-8">Transfer Money</h1>
+      <h1 class="text-3xl font-bold text-sky-500 px-4">Transfer Money</h1>
 
-      <form class="max-w-md w-[90%] mx-auto">
+      <p @click="toggleETx" class="py-2 px-4 mb-6">
+        <span
+          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-200 text-sky-800"
+        >
+          <span x-show="!eTx" class="inline-flex px-2"
+            >Send to an external bank account</span
+          >
+          <span x-show="eTx" class="inline-flex px-2"
+            >Send to an internal bank account</span
+          >
+
+          <i class="bi-box-arrow-up-right"></i>
+        </span>
+      </p>
+
+      <form x-show="!eTx" class="max-w-md w-[90%] mx-auto">
         <div>
           <label
             for="amount"
@@ -42,6 +65,126 @@
             />
           </div>
         </div>
+        <!-- <div class="mt-4">
+          <label
+            for="bank"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Bank Name
+          </label>
+          <div class="mt-1">
+            <input
+              id="bank"
+              name="bank"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="MyBank"
+            />
+          </div>
+        </div> -->
+        <div class="mt-4">
+          <label
+            for="description"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Description
+          </label>
+          <div class="mt-1">
+            <textarea
+              id="description"
+              name="description"
+              rows="3"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="Enter any additional details here."
+            ></textarea>
+          </div>
+        </div>
+        <!-- Submit button  -->
+        <div class="flex justify-center items-center mt-8">
+          <button
+            type="submit"
+            class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
+          >
+            Send Money
+          </button>
+        </div>
+      </form>
+
+      <!-- External Bank Transfer  -->
+
+      <form x-show="eTx" class="max-w-md w-[90%] mx-auto">
+        <div>
+          <label
+            for="amount"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Amount
+          </label>
+          <div class="mt-1">
+            <input
+              id="amount"
+              name="amount"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="$100.00"
+            />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label
+            for="bankname"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Bank to transfer to
+          </label>
+          <div class="mt-1">
+            <input
+              id="bankname"
+              name="bankname"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="ABC Bank"
+            />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label
+            for="accountnumber"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Account Number to transfer to
+          </label>
+          <div class="mt-1">
+            <input
+              id="accountnumber"
+              name="accountnumber"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="123456789"
+            />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label
+            for="accountname"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Account Name
+          </label>
+          <div class="mt-1">
+            <input
+              id="accountname"
+              name="accountname"
+              type="text"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              placeholder="jane.smith@example.com"
+            />
+          </div>
+        </div>
+
         <div class="mt-4">
           <label
             for="bank"
@@ -61,15 +204,15 @@
         </div>
         <div class="mt-4">
           <label
-            for="details"
+            for="description"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
-            Other Details
+            Description
           </label>
           <div class="mt-1">
             <textarea
-              id="details"
-              name="details"
+              id="description"
+              name="description"
               rows="3"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="Enter any additional details here."

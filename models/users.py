@@ -31,6 +31,11 @@ class PasswordResetChannels(str, Enum):
     SMS = "SMS"
 
 
+class TxType(str, Enum):
+    DEBIT = "DEBIT"
+    CREDIT = "CREDIT"
+
+
 class ActionIdentifiers(str, Enum):
     RESET_PASSWORD_VIA_EMAIL = "RESET_PASSWORD_VIA_EMAIL"
     RESET_PASSWORD_VIA_SMS = "RESET_PASSWORD_VIA_SMS"
@@ -53,9 +58,47 @@ class QueueStatus(str, Enum):
     FAILED = "FAILED"
 
 
+class TxStatus(str, Enum):
+    PENDING = "PENDING"
+    SUCCESS = "SUCCESS"
+    FAILED = "FAILED"
+
+
 class RequestEmailOrSMSVerificationInput(BaseModel):
     uid: str = Field(min_length=32)
     channel: PasswordResetChannels
+
+
+class InFiatTransfer(BaseModel):
+    tx_id: str = Field(default_factory=get_uuid4)
+    amount: float
+    type: TxType = TxType.DEBIT
+    sender: EmailStr
+    receiver: EmailStr
+    status: TxStatus = TxStatus.PENDING
+    created: str = Field(default_factory=get_utc_timestamp)
+    updated: str = Field(default_factory=get_utc_timestamp)
+    description: Union[str, None] = "Internal Transfer"
+
+    class Config:
+        allow_population_by_field_name = True
+
+
+class OutFiatTransfer(BaseModel):
+    tx_id: str = Field(default_factory=get_uuid4)
+    amount: float
+    type: TxType = TxType.DEBIT
+    sender: EmailStr
+    receiver_bank_name : str
+    receiver_account_number : str
+    receiver_account_name : str
+    status: TxStatus = TxStatus.PENDING
+    created: str = Field(default_factory=get_utc_timestamp)
+    updated: str = Field(default_factory=get_utc_timestamp)
+    description: Union[str, None] = "Internal Transfer"
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 class RequestEmailOrSMSVerificationOutput(BaseModel):
@@ -116,6 +159,20 @@ def create_cards():
         cards.append(ATMCard(card_type="DEBIT" if n % 2 == 0 else "CREDIT"))
 
     return cards
+
+
+class BankTransfer(BaseModel):
+
+    bank_name: str = Field(default="GTBank")
+    account_name: str = Field(default="John Doe")
+    account_number: str = Field(default="0123456789")
+    account_type: str = Field(default="SAVINGS")
+
+    sender:  Union[EmailStr, None] = Field(default=None)
+    type: str = Field(default="DEBIT")
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 class ChangePasswordInput(BaseModel):
@@ -205,6 +262,7 @@ class UserDBModel(UserBaseModel):
     last_updated: float = Field(
         default_factory=get_utc_timestamp, alias="lastUpdated")
     cards: list[ATMCard] = Field(default_factory=create_cards)
+    balance: float = Field(default=0.0)
 
     @validator('phone')
     def validate_phone(v, values):

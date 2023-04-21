@@ -43,6 +43,7 @@
               id="amount"
               name="amount"
               type="text"
+              required
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="$100.00"
             />
@@ -53,12 +54,13 @@
             for="account"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
-            Account to transfer to
+            Beneficiary Email Address
           </label>
           <div class="mt-1">
             <input
               id="account"
               name="account"
+              required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="jane.smith@example.com"
@@ -124,6 +126,7 @@
             <input
               id="amount"
               name="amount"
+              required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="$100.00"
@@ -136,12 +139,13 @@
             for="bankname"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
-            Bank to transfer to
+            Recipient Bank
           </label>
           <div class="mt-1">
             <input
               id="bankname"
               name="bankname"
+              required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="ABC Bank"
@@ -154,11 +158,12 @@
             for="accountnumber"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
-            Account Number to transfer to
+            Account Number
           </label>
           <div class="mt-1">
             <input
               id="accountnumber"
+              required
               name="accountnumber"
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -178,30 +183,14 @@
             <input
               id="accountname"
               name="accountname"
+              required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
-              placeholder="jane.smith@example.com"
+              placeholder="John Doe"
             />
           </div>
         </div>
 
-        <div class="mt-4">
-          <label
-            for="bank"
-            class="block text-sm text-gray-600 dark:text-gray-400"
-          >
-            Bank Name
-          </label>
-          <div class="mt-1">
-            <input
-              id="bank"
-              name="bank"
-              type="text"
-              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
-              placeholder="MyBank"
-            />
-          </div>
-        </div>
         <div class="mt-4">
           <label
             for="description"

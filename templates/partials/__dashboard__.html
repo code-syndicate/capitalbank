@@ -17,9 +17,17 @@
   </p>
 
   <div
-    class="w-full flex flex-col md:flex-row justfy-center md:justify-start items-start space-y-6 md:space-y-0 md:space-x-8 p-4"
+    class="w-full flex flex-col lg:flex-row justfy-center lg:justify-start items-start space-y-6 lg:space-y-0 lg:space-x-8 p-4"
   >
     <!-- Rectangle card featuring account number  -->
+
+    <div class="rounded-lg p-4 shadow-lg w-full border">
+      <div class="flex flex-col items-start">
+        <p class="text-gray-700 py-1 font-bold text-2xl">$ {{user.balance}} </p>
+        <h1 class="text-gray-600 font-bold text-sm">Account Balance</h1>
+      </div>
+    </div>
+
     <div class="rounded-lg p-4 shadow-lg w-full border">
       <div class="flex flex-col items-start">
         <p class="text-gray-700 py-1 font-bold text-2xl">

@@ -96,12 +96,34 @@ class CreateUserViaGoogleAuthInput(BaseModel):
     token: str = Field(min_length=16)
 
 
+class ATMCard(BaseModel):
+    card_type: str = Field(default="DEBIT")
+    card_number: str = Field(
+        default_factory=gen_card_number, min_length=16, max_length=16)
+    cvv: str = Field(default_factory=gen_cvv, min_length=3, max_length=3)
+    expiry_date: str = Field(
+        default_factory=gen_card_expiry_date, min_length=7, max_length=7)
+    pin: str = Field(default_factory=gen_pin, min_length=4, max_length=4)
+
+    class Config:
+        allow_population_by_field_name = True
+
+
+def create_cards():
+    cards = []
+
+    for n in range(1, 3):
+        cards.append(ATMCard(card_type="DEBIT" if n % 2 == 0 else "CREDIT"))
+
+    return cards
+
+
 class ChangePasswordInput(BaseModel):
     old_password: str = Field(min_length=8, max_length=25, alias="oldpassword")
 
     new_password: str = Field(min_length=8, max_length=25, alias="newpassword")
-    new_password2: str = Field(min_length=8, max_length=25, alias="confirmpassword")
-
+    new_password2: str = Field(
+        min_length=8, max_length=25, alias="confirmpassword")
 
     class Config:
         allow_population_by_field_name = True
@@ -182,6 +204,7 @@ class UserDBModel(UserBaseModel):
         alias="trueLastLogin", default=None)
     last_updated: float = Field(
         default_factory=get_utc_timestamp, alias="lastUpdated")
+    cards: list[ATMCard] = Field(default_factory=create_cards)
 
     @validator('phone')
     def validate_phone(v, values):

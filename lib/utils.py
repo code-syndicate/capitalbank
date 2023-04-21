@@ -2,9 +2,51 @@
 
 import phonenumbers
 from random import randint
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from uuid import uuid4
 from cryptography.hazmat.primitives import hashes
+
+
+def gen_card_number():
+    nums = ""
+
+    for n in range(16):
+        if n < 6:
+            nums += str(randint(0, 3))
+
+        else:
+            nums += str(randint(0, 9))
+
+        k = ("".join(nums.split(" "))).strip()
+        if len(k) % 4 == 0 and len(k) != 16 and len(k) != 0:
+            nums += "   "
+
+    return nums
+
+
+def gen_cvv():
+    nums = ""
+
+    for n in range(3):
+        nums += str(randint(0, 9))
+
+    return nums
+
+
+def gen_pin():
+    nums = ""
+
+    for n in range(4):
+        nums += str(randint(0, 9))
+
+    return nums
+
+
+def gen_card_expiry_date():
+    now = datetime.now()
+    new_date = now + timedelta(days=(365*3))
+
+    return new_date.strftime("%m / %y")
 
 
 def gen_acct_number():

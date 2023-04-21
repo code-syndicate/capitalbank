@@ -46,6 +46,8 @@
     <div
       class="w-full flex flex-col md:flex-row justify-center md:justify-start items-start md:space-x-8 space-y-8 md:space-y-0 p-4"
     >
+      {% for card in user.cards %} {% if card.card_type == "DEBIT" %}
+
       <!-- Rectangle card featuring account number  -->
       <div
         class="rounded-lg aspect-[16/9] bg-gradient-to-br from-red-100 via-red-400 to-red-100 p-4 w-full min-h-[190px] shadow border border-red-100"
@@ -63,7 +65,7 @@
               style="font-family: Orbitron"
               class="text-gray-700 font-bold text-xl"
             >
-              1234 5678 8765 4321
+              {{card.card_number}}
             </p>
           </div>
 
@@ -73,13 +75,18 @@
             </p>
           </div>
           <div class="flex w-full flex-row justify-between items-center">
-            <p class="text-gray-700 font-bold text-sm px-1">Expiry 05/24</p>
-            <p class="text-gray-700 font-bold text-sm">CVV 267</p>
+            <p class="text-gray-700 font-bold text-sm px-1">
+              Expiry {{card.expiry_date}}
+            </p>
+            <p class="text-gray-700 font-bold text-sm">CVV {{card.cvv}}</p>
           </div>
         </div>
 
         <!-- End : Inside of the debit card  -->
       </div>
+
+      <!-- End : Rectangle card featuring account number  -->
+      {% elif card.card_type == "CREDIT" %}
 
       <!-- Rectangle card featuring account type  -->
       <div
@@ -98,7 +105,7 @@
               style="font-family: Orbitron"
               class="text-gray-700 font-bold text-xl"
             >
-              1234 5678 8765 4321
+              {{card.card_number}}
             </p>
           </div>
 
@@ -108,13 +115,17 @@
             </p>
           </div>
           <div class="flex w-full flex-row justify-between items-center">
-            <p class="text-gray-700 font-bold text-sm px-1">Expiry 05/24</p>
-            <p class="text-gray-700 font-bold text-sm">CVV 267</p>
+            <p class="text-gray-700 font-bold text-sm px-1">
+              Expiry {{card.expiry_date}}
+            </p>
+            <p class="text-gray-700 font-bold text-sm">CVV {{ card.cvv}}</p>
           </div>
         </div>
 
         <!-- End : Inside of the debit card  -->
       </div>
+
+      {% endif %} {% endfor %}
     </div>
   </div>
 

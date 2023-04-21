@@ -96,11 +96,12 @@ class CreateUserViaGoogleAuthInput(BaseModel):
     token: str = Field(min_length=16)
 
 
-class ConfirmPasswordResetInput(BaseModel):
-    channel: PasswordResetChannels
-    email: EmailStr
-    token: str = Field(min_length=6, max_length=12)
-    new_password: str = Field(min_length=8, max_length=25, alias="newPassword")
+class ChangePasswordInput(BaseModel):
+    old_password: str = Field(min_length=8, max_length=25, alias="oldpassword")
+
+    new_password: str = Field(min_length=8, max_length=25, alias="newpassword")
+    new_password2: str = Field(min_length=8, max_length=25, alias="confirmpassword")
+
 
     class Config:
         allow_population_by_field_name = True

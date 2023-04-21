@@ -3,10 +3,144 @@
 
   <div
     class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-8 xl:space-y-0 mt-8"
+    x-data="{
+            
+            reqError : false,
+            reqErrorMsg : 'Error',
+            reqSuccess : false,
+            reqSuccessMsg : 'Success',                  
+            reqLoading : false,
+            reqLoadingText : 'Loading',
+            actionText : 'Loading',
+
+            submitting : false,
+            showOverlay :  false,
+            actionText : 'Updating data...',
+            success :  false,
+            passwordsMatch :  true,
+
+            
+        }"
   >
-    <div class="w-full flex flex-col justify-center items-center">
+    {% include "partials/__widgets__.html" %}
+
+    <div
+      class="w-full flex flex-col justify-center items-center"
+      x-data="{
+
+
+
+        submitForm1 : async (e)=>{
+
+
+            let formData = new FormData(e.target);
+                        
+                        let object = {};
+                        
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+
+                        submitting = true;
+
+
+                        actionText = 'Updating data...';
+                        reqLoading = true;
+                        showOverlay = true;
+
+                        try{
+                        
+                        
+                        const res = await fetch('/update-data', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(object)
+                        });
+                        
+                        if(!res.ok){
+                        
+                        if(res.status === 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                            console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                        }
+                        
+                        
+                        } else{
+                        
+                        
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Update successful.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.href = '/apps/dashboard?tab=dash'
+
+                        }, 1000);
+
+
+                        
+
+                      
+                        
+                        }
+                        
+                        
+                        }
+                        
+                        catch(err){
+                        
+                        console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                        
+                        }
+
+                        submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+
+
+
+
+        },
+
+
+
+      
+
+    }"
+    >
       <h1 class="text-3xl font-bold text-sky-500">Edit Profile</h1>
       <form
+        x-on:submit.prevent="submitForm1($event)"
         class="flex flex-col justify-center items-center space-y-6 mt-8"
         action=""
         method="POST"
@@ -20,6 +154,7 @@
           <input
             type="text"
             id="firstname"
+            required
             name="firstname"
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
             value="{{user.firstname}}"
@@ -36,6 +171,7 @@
             type="text"
             id="lastname"
             name="lastname"
+            required
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
             value="{{user.lastname}}"
           />
@@ -51,6 +187,7 @@
             type="email"
             id="email"
             name="email"
+            required
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
             value="{{user.email}}"
           />
@@ -66,6 +203,7 @@
             type="text"
             id="phone"
             name="phone"
+            required
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
             value="{{user.phone}}"
           />
@@ -75,28 +213,15 @@
           <label
             class="block text-sm text-gray-600 dark:text-gray-400"
             for="dob"
-            >Date of Birth</label
-          >
+            >Date of Birth
+          </label>
           <input
+            required
             type="date"
             id="dob"
-            name="dob"
+            name="dateOfBirth"
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
-            value="{{user.dateOfBirth}}"
-          />
-        </div>
-
-        <div class="flex flex-col w-full space-y-2">
-          <label
-            class="block text-sm text-gray-600 dark:text-gray-400"
-            for="password"
-            >Password</label
-          >
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            value="{{user.date_of_birth}}"
           />
         </div>
 
@@ -113,12 +238,126 @@
     </div>
 
     <!-- Change Password Form  -->
-    <div class="w-full flex flex-col justify-center items-center">
+    <div
+      class="w-full flex flex-col justify-center items-center"
+      x-data="{
+
+    submitForm2 : async (e)=>{
+
+
+            let formData = new FormData(e.target);
+                        
+                        let object = {};
+                        
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+
+                        if(object.newpassword !== object.confirmpassword){
+
+                            passwordsMatch = false;
+                            return;
+                        }
+
+                        passwordsMatch = true;
+
+
+                        submitting = true;
+
+
+                        actionText = 'Changing password...';
+                        reqLoading = true;
+                        showOverlay = true;
+
+                        try{
+                        
+                        
+                        const res = await fetch('/change-password', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(object)
+                        });
+                        
+                        if(!res.ok){
+                        
+                        if(res.status === 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                            console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                        }
+                        
+                        
+                        } else{
+                        
+                        
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Password change successful. Proceeding to login page...';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.href = '/apps/dashboard?tab=dash'
+
+                        }, 1000);
+
+
+                        
+
+                      
+                        
+                        }
+                        
+                        
+                        }
+                        
+                        catch(err){
+                        
+                        console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                        
+                        }
+
+                        submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+
+
+
+
+        }
+    }"
+    >
       <h1 class="text-3xl font-bold text-sky-500">Change Password</h1>
       <form
+        x-on:submit.prevent="submitForm2($event)"
         class="flex flex-col justify-center items-center space-y-6 mt-8"
-        action=""
-        method="POST"
       >
         <div class="flex flex-col w-full space-y-2">
           <label
@@ -130,6 +369,8 @@
             type="password"
             id="oldpassword"
             name="oldpassword"
+            minlength="8"
+            required
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
           />
         </div>
@@ -141,9 +382,11 @@
             >New Password</label
           >
           <input
+            minlength="8"
             type="password"
             id="newpassword"
             name="newpassword"
+            required
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
           />
         </div>
@@ -157,9 +400,18 @@
           <input
             type="password"
             id="confirmpassword"
+            minlength="8"
+            required
             name="confirmpassword"
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
           />
+
+          <p
+            x-show.important="!passwordsMatch"
+            class="text-sm py-2 text-red-500"
+          >
+            Passwords do not match.
+          </p>
         </div>
 
         <!-- Submit button  -->

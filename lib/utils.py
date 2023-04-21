@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives import hashes
 def gen_acct_number():
     nums = ""
 
-    for n in range(11):
+    for n in range(12):
         if n < 2:
             nums += str(randint(0, 3))
 

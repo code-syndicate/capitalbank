@@ -3,7 +3,7 @@ from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import AuthSession, RequestAccessTokenInput, UserInputModel, UserDBModel
+from models.users import AuthSession, ChangePasswordInput, RequestAccessTokenInput, UserBaseModel, UserInputModel, UserDBModel
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs
@@ -101,6 +101,41 @@ async def signup(request: Request, auth:  UserDBModel = Depends(get_session_user
         await log_out()
 
     return templates.TemplateResponse("signup.html", {"settings":  settings, "request":  request})
+
+
+@router.post("/update-data")
+async def update_user_data(form: UserBaseModel, auth:  UserDBModel = Depends(get_session_user)):
+    data = form.dict()
+    print(data)
+    user, _ = auth
+
+    user_dict = user.dict()
+
+    user_dict.update(data)
+
+    updated_user = UserDBModel(**user_dict)
+
+    await db[Collections.users].update_one({"uid": user.uid}, {"$set": updated_user.dict()})
+
+
+@router.post("/change-password")
+async def change_user_password(form: ChangePasswordInput, auth:  UserDBModel = Depends(get_session_user)):
+    user, _ = auth
+
+    guessed_password_hash = hash_password(form.old_password)
+
+    if user.password_hash != guessed_password_hash:
+
+        raise HTTPException(401, "The password you entered is incorrect.")
+
+    if form.new_password != form.new_password2:
+
+        raise HTTPException(401, "New passwords do not match.")
+
+    new_password_hash = hash_password(form.new_password)
+
+    await db[Collections.users].update_one({"uid": user.uid}, {"$set": {"password_hash": new_password_hash}})
+    await db[Collections.sessions].delete_many({"user_id": user.uid})
 
 
 @router.post("/sign-up", tags=["Signup"], )

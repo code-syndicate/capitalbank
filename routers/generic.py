@@ -40,7 +40,15 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
     if not tab.lower() in views:
         tab = views[0]
 
-    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab})
+
+    # get all transfers 
+    out_transfers = await db[Collections.transfers].find({"sender": user.email}).to_list(length=100)
+    in_transfers = await db[Collections.transfers].find({"receiver": user.email}).to_list(length=100)
+
+    txs = out_transfers + in_transfers
+
+
+    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab, "txs" : txs})
 
 
 @router.get("/sign-out", tags=["Sign out"], )

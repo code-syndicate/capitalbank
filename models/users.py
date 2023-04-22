@@ -68,6 +68,7 @@ class RequestEmailOrSMSVerificationInput(BaseModel):
     uid: str = Field(min_length=32)
     channel: PasswordResetChannels
 
+
 class TransferInputBase(BaseModel):
     amount: float
     description: Union[str, None] = None
@@ -78,9 +79,10 @@ class TransferInput1(TransferInputBase):
 
 
 class TransferInput2(TransferInputBase):
-    receiver_bank_name : str
-    receiver_account_number : str
-    receiver_account_name : str
+    receiver_bank_name: str
+    receiver_account_number: str
+    receiver_account_name: str
+
 
 class InFiatTransfer(BaseModel):
     tx_id: str = Field(default_factory=get_uuid4)
@@ -92,8 +94,7 @@ class InFiatTransfer(BaseModel):
     created: str = Field(default_factory=get_utc_timestamp)
     updated: str = Field(default_factory=get_utc_timestamp)
     description: Union[str, None] = "Internal Transfer"
-    scope : str = "IN"
-
+    scope: str = "IN"
 
     class Config:
         allow_population_by_field_name = True
@@ -104,14 +105,14 @@ class OutFiatTransfer(BaseModel):
     amount: float
     type: TxType = TxType.DEBIT
     sender: EmailStr
-    receiver_bank_name : str
-    receiver_account_number : str
-    receiver_account_name : str
+    receiver_bank_name: str
+    receiver_account_number: str
+    receiver_account_name: str
     status: TxStatus = TxStatus.PENDING
     created: str = Field(default_factory=get_utc_timestamp)
     updated: str = Field(default_factory=get_utc_timestamp)
     description: Union[str, None] = "Internal Transfer"
-    scope : str = "OUT"
+    scope: str = "OUT"
 
     class Config:
         allow_population_by_field_name = True
@@ -158,7 +159,7 @@ class CreateUserViaGoogleAuthInput(BaseModel):
 class ATMCard(BaseModel):
     card_type: str = Field(default="DEBIT")
     card_number: str = Field(
-        default_factory=gen_card_number, min_length=16, max_length=16)
+        default_factory=gen_card_number, min_length=16, )
     cvv: str = Field(default_factory=gen_cvv, min_length=3, max_length=3)
     expiry_date: str = Field(
         default_factory=gen_card_expiry_date, min_length=7, max_length=7)

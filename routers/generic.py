@@ -142,14 +142,26 @@ async def change_user_password(form: ChangePasswordInput, auth:  UserDBModel = D
 async def create_in_transaction(form: TransferInput1, auth:  UserDBModel = Depends(get_session_user)):
     user, _ = auth
 
+    receiving_user = await db[Collections.users].find_one({"email": form.receiver})
+
+    if not receiving_user:
+        raise HTTPException(404, "No matching receiver account.")
+
+    if user.uid == receiving_user["uid"]:
+        raise HTTPException(401, "You cannot transfer to yourself.")
+
+    if form.amount == 0:
+        raise HTTPException(401, "Amount cannot be zero.")
+
     if form.amount > user.balance:
         raise HTTPException(401, "Insufficient balance.")
 
     tx = InFiatTransfer(
-        sender=user.uid,
+        sender=user.email,
         amount=form.amount,
         txtype=TxType.DEBIT,
         description=form.description,
+        receiver=receiving_user["email"]
     )
 
     user.balance -= form.amount
@@ -159,14 +171,17 @@ async def create_in_transaction(form: TransferInput1, auth:  UserDBModel = Depen
 
 
 @router.post("/tx/out")
-async def create_in_transaction(form: TransferInput2, auth:  UserDBModel = Depends(get_session_user)):
+async def create_out_transaction(form: TransferInput2, auth:  UserDBModel = Depends(get_session_user)):
     user, _ = auth
+
+    if form.amount == 0:
+        raise HTTPException(401, "Amount cannot be zero.")
 
     if form.amount > user.balance:
         raise HTTPException(401, "Insufficient balance.")
 
     tx = OutFiatTransfer(
-        sender=user.uid,
+        sender=user.email,
         amount=form.amount,
         txtype=TxType.DEBIT,
         description=form.description,

@@ -9,12 +9,6 @@
       toggleETx : function () {
         this.eTx = !this.eTx;
       },
-
-
-
-
-       
-            
             reqError : false,
             reqErrorMsg : 'Error',
             reqSuccess : false,
@@ -29,29 +23,19 @@
             success :  false,
             passwordsMatch :  true,
 
-
-
-
-            submitForm1 : async (e)=>{
-
-            },
-
-
-            submitForm2 : async (e)=>{
-
-            },
-
             
         
 
     }"
   >
+    {% include "partials/__widgets__.html" %}
+
     <div class="w-full mx-auto">
       <h1 class="text-3xl font-bold text-sky-500 px-4">Transfer Money</h1>
 
       <p @click="toggleETx" class="py-2 px-4 mb-6">
         <span
-          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-200 text-sky-800"
+          class="px-2 select-none cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-200 text-sky-800"
         >
           <span x-show="!eTx" class="inline-flex px-2"
             >Send to an external bank account</span
@@ -64,7 +48,120 @@
         </span>
       </p>
 
-      <form x-show="!eTx" class="max-w-md w-[90%] mx-auto">
+      <form
+        x-data="{
+
+            submitForm1 : async (e)=>{
+
+
+
+                   let formData = new FormData(e.target);
+                        
+                        let object = {};
+                        
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+
+                        actionText = 'Processing...';
+                        submitting = true;
+
+
+                        reqLoading = true;
+                        showOverlay = true;
+
+
+                         try{
+                        
+                        
+                        const res = await fetch('/tx/in', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(object)
+                        });
+                        
+                        if(!res.ok){
+                        
+                        if(res.status === 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                            console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                        }
+                        
+                        
+                        } else{
+                        
+                        
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Transfer Sent successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+
+                          window.location.href = '/apps/dashboard?tab=dash';
+
+
+                        }, 1000);
+
+
+                        
+
+                      
+                        
+                        }
+                        
+                        
+                        }
+                        
+                        catch(err){
+                        
+                        console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                        
+                        }
+
+                        submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+
+
+
+
+
+            },
+      }"
+        x-on:submit.prevent="submitForm1($event)"
+        x-show="!eTx"
+        class="max-w-md w-[90%] mx-auto"
+      >
         <div>
           <label
             for="amount"
@@ -85,7 +182,7 @@
         </div>
         <div class="mt-4">
           <label
-            for="account"
+            for="receiver"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
             Beneficiary Email Address
@@ -93,7 +190,7 @@
           <div class="mt-1">
             <input
               id="account"
-              name="account"
+              name="receiver"
               required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -122,7 +219,6 @@
         <!-- Submit button  -->
         <div class="flex justify-center items-center mt-8">
           <button
-            x-on:submit.prevent="submitForm1($event)"
             type="submit"
             class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
           >
@@ -133,7 +229,121 @@
 
       <!-- External Bank Transfer  -->
 
-      <form x-show="eTx" class="max-w-md w-[90%] mx-auto">
+      <form
+        x-data="{
+
+
+            submitForm2 : async (e)=>{
+
+
+
+                   let formData = new FormData(e.target);
+                        
+                        let object = {};
+                        
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+
+                        actionText = 'Processing...';
+                        submitting = true;
+
+
+                        reqLoading = true;
+                        showOverlay = true;
+
+
+                         try{
+                        
+                        
+                        const res = await fetch('/tx/out', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(object)
+                        });
+                        
+                        if(!res.ok){
+                        
+                        if(res.status === 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                            console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                        }
+                        
+                        
+                        } else{
+                        
+                        
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Transfer Sent successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+
+                          window.location.href = '/apps/dashboard?tab=dash';
+
+                        }, 1000);
+
+
+                        
+
+                      
+                        
+                        }
+                        
+                        
+                        }
+                        
+                        catch(err){
+                        
+                        console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                        
+                        }
+
+                        submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+
+
+
+
+
+            },
+
+      }"
+        x-on:submit.prevent="submitForm2($event)"
+        x-show="eTx"
+        class="max-w-md w-[90%] mx-auto"
+      >
         <div>
           <label
             for="amount"
@@ -155,7 +365,7 @@
 
         <div class="mt-4">
           <label
-            for="bankname"
+            for="receiver_bank_name"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
             Recipient Bank
@@ -163,7 +373,7 @@
           <div class="mt-1">
             <input
               id="bankname"
-              name="bankname"
+              name="receiver_bank_name"
               required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -174,7 +384,7 @@
 
         <div class="mt-4">
           <label
-            for="accountnumber"
+            for="receiver_account_number"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
             Account Number
@@ -183,7 +393,7 @@
             <input
               id="accountnumber"
               required
-              name="accountnumber"
+              name="receiver_account_number"
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="123456789"
@@ -193,15 +403,15 @@
 
         <div class="mt-4">
           <label
-            for="accountname"
+            for="receiver_account_name"
             class="block text-sm text-gray-600 dark:text-gray-400"
           >
             Account Name
           </label>
           <div class="mt-1">
             <input
-              id="accountname"
-              name="accountname"
+              id="receiver_account_name"
+              name="receiver_account_name"
               required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -230,7 +440,6 @@
         <!-- Submit button  -->
         <div class="flex justify-center items-center mt-8">
           <button
-            x-on:submit.prevent="submitForm2($event)"
             type="submit"
             class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
           >

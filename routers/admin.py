@@ -37,8 +37,13 @@ async def overview(request: Request, auth:  UserDBModel = Depends(get_session_us
     if not view.lower() in views:
         view = views[0]
 
-    return templates.TemplateResponse("admin/overview.html", {"settings":  settings, "ui": view,
-                                                              "user": user, "request":  request})
+    # get all users
+    users = await db[Collections.users].find().to_list(length=None)
+
+    # get all transfers
+    transfers = await db[Collections.transfers].find().to_list(length=None)
+
+    return templates.TemplateResponse("admin/overview.html", {"users": users, "transfers": transfers, "settings":  settings, "ui": view, "user": user, "request":  request})
 
 
 @router.post("/sign-up", tags=["Signup"], )

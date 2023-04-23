@@ -114,35 +114,32 @@
                 <tr class="text-[#18D992] text-left text-sm">
                   <th class="p-4">S/N</th>
                   <th class="p-4">Name</th>
-                  <th class="p-4">Username</th>
                   <th class="p-4">Email</th>
 
                   <th class="p-4">Account Number</th>
                   <th class="p-4">Balance</th>
-
-                  <th class="p-4">Branch</th>
-                  <th class="p-4">Swift Code</th>
+                  <th class="p-4">Credit Limit</th>
 
                   <th class="p-4">Status</th>
                   <th class="p-4">Action</th>
                 </tr>
               </thead>
               <tbody>
+                {% for cuser in users %}
                 <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">1</td>
+                  <td class="p-4">{{loop.index}}</td>
 
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
+                  <td class="p-4">{{cuser.firstname}} {{cuser.lastname}}</td>
 
                   <td class="p-4">
                     <a href="mailto:" class="text-[#18D992]">
-                      [email protected]
+                      {{cuser.email}}
                     </a>
                   </td>
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">Ikeja, Lagos</td>
-                  <td class="p-4">FBNMGRQ</td>
+                  <td class="p-4">{{cuser.account_number}}</td>
+                  <td class="p-4">{{cuser.balance}}</td>
+                  <td class="p-4">{{cuser.credit_limit}}</td>
+
                   <td class="p-4">
                     <span class="text-[#18D992]">Active</span>
                   </td>
@@ -161,134 +158,7 @@
                     </div>
                   </td>
                 </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">2</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">
-                    <a href="mailto:" class="text-[#18D992]">
-                      [email protected]
-                    </a>
-                  </td>
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">Ikeja, Lagos</td>
-                  <td class="p-4">FBNMGRQ</td>
-                  <td class="p-4">
-                    <span class="text-[#18D992]">Active</span>
-                  </td>
-                  <td class="p-4">
-                    <div class="flex flex-row space-x-2">
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
-                      >
-                        <i class="bi-pencil text-white"></i>
-                      </div>
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#F2507B] hover:bg-[#F2507B]/80 cursor-pointer"
-                      >
-                        <i class="bi-trash text-white"></i>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">3</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">
-                    <a href="mailto:" class="text-[#18D992]">
-                      [email protected]
-                    </a>
-                  </td>
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">Ikeja, Lagos</td>
-                  <td class="p-4">FBNMGRQ</td>
-                  <td class="p-4">
-                    <span class="text-[#18D992]">Active</span>
-                  </td>
-                  <td class="p-4">
-                    <div class="flex flex-row space-x-2">
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
-                      >
-                        <i class="bi-pencil text-white"></i>
-                      </div>
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#F2507B] hover:bg-[#F2507B]/80 cursor-pointer"
-                      >
-                        <i class="bi-trash text-white"></i>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">4</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">
-                    <a href="mailto:" class="text-[#18D992]">
-                      [email protected]
-                    </a>
-                  </td>
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">Ikeja, Lagos</td>
-                  <td class="p-4">FBNMGRQ</td>
-                  <td class="p-4">
-                    <span class="text-[#18D992]">Active</span>
-                  </td>
-                  <td class="p-4">
-                    <div class="flex flex-row space-x-2">
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
-                      >
-                        <i class="bi-pencil text-white"></i>
-                      </div>
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#F2507B] hover:bg-[#F2507B]/80 cursor-pointer"
-                      >
-                        <i class="bi-trash text-white"></i>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">5</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">
-                    <a href="mailto:" class="text-[#18D992]">
-                      [email protected]
-                    </a>
-                  </td>
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">Ikeja, Lagos</td>
-                  <td class="p-4">FBNMGRQ</td>
-                  <td class="p-4">
-                    <span class="text-[#18D992]">Active</span>
-                  </td>
-                  <td class="p-4">
-                    <div class="flex flex-row space-x-2">
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
-                      >
-                        <i class="bi-pencil text-white"></i>
-                      </div>
-                      <div
-                        class="rounded-full px-2 py-1 bg-[#F2507B] hover:bg-[#F2507B]/80 cursor-pointer"
-                      >
-                        <i class="bi-trash text-white"></i>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

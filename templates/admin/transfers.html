@@ -111,103 +111,61 @@
               <thead>
                 <tr class="text-[#18D992] text-left text-sm">
                   <th class="p-4">S/N</th>
-                  <th class="p-4">Name</th>
-                  <th class="p-4">Username</th>
+                  <th class="p-4">Created</th>
 
-                  <th class="p-4">Account Number</th>
-                  <th class="p-4">Balance</th>
-                  <th class="p-4">Request Amount</th>
+                  <th class="p-4">Sender</th>
+                  <th class="p-4">Receiver</th>
+
+                  <th class="p-4">Amount</th>
+                  <th class="p-4">Type</th>
 
                   <th class="p-4">Status</th>
                 </tr>
               </thead>
               <tbody>
+                {% for tx in transfers %}
                 <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">1</td>
-
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">10,920</td>
-
-                  <td class="p-4">
-                    <span class="text-[#F2507B] #F2507B">Pending</span>
+                  <td class="p-4">{{loop.index}}</td>
+                  <td
+                    x-data
+                    class="p-4"
+                    x-text="new Date({{tx.created}}).toLocaleString()"
+                  >
+                    {{tx.created}}
                   </td>
 
+                  <td class="p-4">{{tx.sender}}</td>
                   <td class="p-4">
-                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
+                    {% if tx.receiver %} {{tx.receiver}} {% else %}
+                    {{tx.receiver_account_name}} {% endif %}
                   </td>
+
+                  <td class="p-4">${{tx.amount}}</td>
+                  <td class="p-4">
+                    {% if tx.scope == "IN" %} INTERNAL {% elif tx.scope == "OUT"
+                    %} EXTERNAL {% endif %}
+                  </td>
+
+                  {% if (tx.status == "PENDING" or tx.status == "FAILED") %}
+
+                  <td class="p-4">
+                    <span class="text-[#F2507B] #F2507B">
+                      {{ tx.status }}
+                    </span>
+                  </td>
+
+                  {% else %}
+
+                  <td class="p-4">
+                    <span class="text-[#18D992] #F2507B">
+                      {{ tx.status }}
+                    </span>
+                  </td>
+
+                  {% endif %}
                 </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">2</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
 
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">10,920</td>
-
-                  <td class="p-4">
-                    <span class="text-[#F2507B] #F2507B">Pending</span>
-                  </td>
-
-                  <td class="p-4">
-                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
-                  </td>
-                </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">3</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">10,920</td>
-
-                  <td class="p-4">
-                    <span class="text-[#F2507B] #F2507B">Pending</span>
-                  </td>
-
-                  <td class="p-4">
-                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
-                  </td>
-                </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">4</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">10,920</td>
-
-                  <td class="p-4">
-                    <span class="text-[#F2507B] #F2507B">Pending</span>
-                  </td>
-
-                  <td class="p-4">
-                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
-                  </td>
-                </tr>
-                <tr class="text-sm text-gray-500/70">
-                  <td class="p-4">5</td>
-                  <td class="p-4">John Doe</td>
-                  <td class="p-4">johndoey</td>
-
-                  <td class="p-4">817245617156</td>
-                  <td class="p-4">102,382.20</td>
-                  <td class="p-4">10,920</td>
-
-                  <td class="p-4">
-                    <span class="text-[#F2507B] #F2507B">Pending</span>
-                  </td>
-
-                  <td class="p-4">
-                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

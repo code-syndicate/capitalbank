@@ -1,7 +1,7 @@
 <!-- Info/Error Notify  -->
 <div
   x-show="reqError"
-  class="fixed inset-0 bg-black/70 flex flex-col justify-center items-center"
+  class="fixed inset-0 z-40 bg-black/70 flex flex-col justify-center items-center"
 >
   <h2
     x-text="reqErrorMsg"
@@ -21,7 +21,7 @@
 <!-- overlay  -->
 <div
   x-show="showOverlay || submitting"
-  class="fixed inset-0 bg-black/50 flex flex-col justify-center items-center"
+  class="fixed inset-0 bg-black/50 z-40 flex flex-col justify-center items-center"
 >
   <div
     class="animate-spin rounded-full h-16 w-16 border-t-2 border-r-2 border-black"

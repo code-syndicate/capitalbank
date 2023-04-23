@@ -19,12 +19,19 @@
             success :  false,
             passwordsMatch :  true,
 
+              eTx :  false,
+
+      toggleETx : function () {
+        this.eTx = !this.eTx;
+      },
+
             
         }"
   >
     {% include "partials/__widgets__.html" %}
 
     <div
+    x-show = "eTx"
       class="w-full flex flex-col justify-center items-center"
       x-data="{
 
@@ -139,6 +146,17 @@
     }"
     >
       <h1 class="text-3xl font-bold text-sky-500">Update your data</h1>
+
+      <p @click="toggleETx" class="py-2 px-4 mb-6">
+        <span
+          class="px-2 select-none cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-200 text-sky-800"
+        >
+        <i class="bi-shield-check"></i>
+          <span  class="inline-flex px-2"
+            > Click to change your password </span>
+
+         
+      </p>
       <form
         x-on:submit.prevent="submitForm1($event)"
         class="flex flex-col justify-center items-center space-y-6 mt-8 max-w-md w-[90%] mx-auto"
@@ -239,6 +257,8 @@
 
     <!-- Change Password Form  -->
     <div
+    x-show = "!eTx"
+
       class="w-full flex flex-col justify-center items-center pt-12 xl:pt-0"
       x-data="{
 
@@ -355,6 +375,17 @@
     }"
     >
       <h1 class="text-3xl font-bold text-sky-500">Change Password</h1>
+
+       <p @click="toggleETx" class="py-2 px-4 mb-6">
+        <span
+          class="px-2 select-none cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-200 text-sky-800"
+        >
+        <i class="bi-pencil-square"></i>
+          <span  class="inline-flex px-2"
+            > Click to update your data  </span>
+
+         
+      </p>
       <form
         x-on:submit.prevent="submitForm2($event)"
         class="flex flex-col justify-center items-center space-y-6 mt-8 max-w-md w-[90%] mx-auto"

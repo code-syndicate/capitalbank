@@ -4,6 +4,9 @@
   <div
     class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-6 xl:pt-6 xl:space-y-0"
     x-data="{
+          oldpassword : '',
+          newpassword : '',
+          confirmpassword : '',
             otp : '',
             showOTP : false,
             reqError : false,
@@ -26,18 +29,7 @@
         this.eTx = !this.eTx;
       },
 
-      submitPasswordForm  : async (e)=>{
-
-        if(this.submitting){
-          return;
-        }
-
-        if (!(this.otp && this.otp.length >= 4)){
-        alert('Please enter a valid OTP: ' + otp);
-        return;
-      }
-
-      }
+     
 
             
         }"
@@ -283,115 +275,34 @@
     <!-- otp popup  -->
     <div
       x-show="showOTP"
-      class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
-    >
-      <div
-        class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
-      >
-          <!-- close button  -->
-          <div class="flex justify-end">
-            <button
-              @click="showOTP = false"
-              class="text-gray-500 hover:text-gray-700"
-            >
-              <svg
-                class="h-6 w-6 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.12 5.7a1 1 0 0 0-1.42 1.42l4.89 4.89-4.9 4.9a1 1 0 0 0 1.42 1.42l4.88-4.89 4.89 4.89a1 1 0 0 0 1.42-1.42l-4.9-4.9 4.89-4.89a1 1 0 0 0 0-1.42z"
-                />
-              </svg>
-            </button>
-          </div>
+      x-data = "{
 
+           submitPasswordForm  : async (e)=>{
 
-        <div class="flex flex-col justify-center items-center">
-          <p class="text-2xl font-bold text-gray-800">Enter OTP</p>
-          <p class="text-sm text-gray-500">
-            Type in the OTP sent to your email address
-          </p>
-        </div>
+        if(submitting){
+          return;
+        }
 
-        <div class="flex flex-col justify-center items-center mt-8">
-          <div class="w-full">
-            <label for="otp" class="text-sm text-gray-500">OTP</label>
-            <input
-            x-model = "otp"
-            style="font-family: Orbitron"
-              type="text"
-              inputmode="numeric"
-              required
-              pattern="[0-9]*"
-              minlength="4"
-              maxlength="12"
-              name="otp"
-              id="otp"
-              class="w-full tracking-widest text-center border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-blue-500"
-            />
-            
-          </div>
-        </div>
-
-        <div class="flex flex-col justify-center items-center mt-8">
-          <button
-          @click = "submitPasswordForm"
-            class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Change Password Form  -->
-    <div
-    x-show = "!eTx"
-
-      class="w-full flex flex-col justify-center items-center pt-12 xl:pt-0"
-      x-data="{
-
-    submitForm2 : async (e)=>{
-
-      if(!showOTP){
-        showOTP = true;
+        if (!(otp && otp.length >= 4)){
+        alert('Please enter a valid OTP: ' + otp);
         return;
       }
 
+      showOTP = false;
 
       
-
-
-
-
-
-            let formData = new FormData(e.target);
-                        
-                        let object = {};
-                        
-                        for (let [key, value] of formData.entries()) {
-                        if (!object.hasOwnProperty(key)) {
-                        object[key] = value;
-                        } else if (Array.isArray(object[key])) {
-                        object[key].push(value);
-                        } else {
-                        object[key] = [object[key], value];
-                        }
-                        }
-
-
-                        if(object.newpassword !== object.confirmpassword){
-
-                            passwordsMatch = false;
-                            return;
-                        }
 
                         passwordsMatch = true;
 
 
                         submitting = true;
+
+                        const object = {
+                        otp: otp,
+                        oldpassword: oldpassword,
+                        newpassword: newpassword,
+                        confirmpassword: confirmpassword
+                        };
 
 
                         actionText = 'Changing password...';
@@ -469,6 +380,114 @@
 
                         reqLoading = false;
                         showOverlay = false;
+      
+
+        
+
+
+      }
+        }"
+      class="fixed top-0 z-40 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
+    >
+      <div
+        class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
+      >
+          <!-- close button  -->
+          <div class="flex justify-end">
+            <button
+              @click="showOTP = false"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <svg
+                class="h-6 w-6 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.12 5.7a1 1 0 0 0-1.42 1.42l4.89 4.89-4.9 4.9a1 1 0 0 0 1.42 1.42l4.88-4.89 4.89 4.89a1 1 0 0 0 1.42-1.42l-4.9-4.9 4.89-4.89a1 1 0 0 0 0-1.42z"
+                />
+              </svg>
+            </button>
+          </div>
+
+
+        <div class="flex flex-col justify-center items-center">
+          <p class="text-2xl font-bold text-gray-800">Enter OTP</p>
+          <p class="text-sm text-gray-500">
+            Type in the OTP sent to your email address
+          </p>
+        </div>
+
+        <form method="post" x-on:submit.prevent="submitPasswordForm($event)" >
+        <div  class="flex flex-col justify-center items-center mt-8">
+          <div class="w-full">
+            <label for="otp" class="text-sm text-gray-500">OTP</label>
+            <input
+            x-model = "otp"
+            style="font-family: Orbitron"
+              type="text"
+              required
+              minlength="4"
+              maxlength="8"
+              name="otp"
+              id="otp"
+              class="w-full tracking-wide text-center border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+            />
+            
+          </div>
+
+
+          <div class="flex flex-col justify-center items-center mt-8">
+            <button
+            type = "submit"
+              class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+        </form>
+
+      </div>
+    </div>
+
+
+    <!-- Change Password Form  -->
+    <div
+    x-show = "!eTx"
+
+      class="w-full flex flex-col justify-center items-center pt-12 xl:pt-0"
+      x-data="{
+
+    submitForm2 : async (e)=>{
+
+
+            let formData = new FormData(e.target);
+                        
+                        let object = {};
+                        
+                        for (let [key, value] of formData.entries()) {
+                        if (!object.hasOwnProperty(key)) {
+                        object[key] = value;
+                        } else if (Array.isArray(object[key])) {
+                        object[key].push(value);
+                        } else {
+                        object[key] = [object[key], value];
+                        }
+                        }
+
+
+                        if(object.newpassword !== object.confirmpassword){
+
+                            passwordsMatch = false;
+                            return;
+                        }
+
+                           if(!showOTP || !otp || otp.length < 4 ){
+                          showOTP = true;
+                          return;
+                        }
+
 
         }
     }"
@@ -486,6 +505,7 @@
          
       </p>
       <form
+      x-ref = "passwordformref"
         x-on:submit.prevent="submitForm2($event)"
         class="flex flex-col justify-center items-center space-y-6 mt-8 max-w-md w-[90%] mx-auto"
       >
@@ -497,6 +517,7 @@
           >
           <input
             type="password"
+            x-model = "oldpassword"
             id="oldpassword"
             name="oldpassword"
             minlength="8"
@@ -515,6 +536,7 @@
             minlength="8"
             type="password"
             id="newpassword"
+            x-model = "newpassword"
             name="newpassword"
             required
             class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -530,6 +552,7 @@
           <input
             type="password"
             id="confirmpassword"
+            x-model = "confirmpassword"
             minlength="8"
             required
             name="confirmpassword"

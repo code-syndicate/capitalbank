@@ -4,7 +4,7 @@
   <div
     class="flex flex-col xl:flex-row justify-center items-start xl:justify-around space-y-6 xl:pt-6 xl:space-y-0"
     x-data="{
-            
+            otp : '',
             showOTP : false,
             reqError : false,
             reqErrorMsg : 'Error',
@@ -26,70 +26,25 @@
         this.eTx = !this.eTx;
       },
 
+      submitPasswordForm  : async (e)=>{
+
+        if(this.submitting){
+          return;
+        }
+
+        if (!(this.otp && this.otp.length >= 4)){
+        alert('Please enter a valid OTP: ' + otp);
+        return;
+      }
+
+      }
+
             
         }"
   >
     {% include "partials/__widgets__.html" %}
 
 
-
-    <!-- otp popup  -->
-    <div
-      x-show="showOTP"
-      class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
-    >
-      <div
-        class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
-      >
-          <!-- close button  -->
-          <div class="flex justify-end">
-            <button
-              @click="showOTP = false"
-              class="text-gray-500 hover:text-gray-700"
-            >
-              <svg
-                class="h-6 w-6 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.12 5.7a1 1 0 0 0-1.42 1.42l4.89 4.89-4.9 4.9a1 1 0 0 0 1.42 1.42l4.88-4.89 4.89 4.89a1 1 0 0 0 1.42-1.42l-4.9-4.9 4.89-4.89a1 1 0 0 0 0-1.42z"
-                />
-              </svg>
-            </button>
-          </div>
-
-
-        <div class="flex flex-col justify-center items-center">
-          <p class="text-2xl font-bold text-gray-800">Enter OTP</p>
-          <p class="text-sm text-gray-500">
-            Type in the OTP sent to your email address
-          </p>
-        </div>
-
-        <div class="flex flex-col justify-center items-center mt-8">
-          <div class="w-full">
-            <label for="otp" class="text-sm text-gray-500">OTP</label>
-            <input
-            style="font-family: Orbitron"
-              type="text"
-              inputmode="numeric"
-              name="otp"
-              id="otp"
-              class="w-full tracking-widest text-center border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-        </div>
-
-        <div class="flex flex-col justify-center items-center mt-8">
-          <button
-            class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
 
 
 
@@ -322,6 +277,75 @@
       </form>
     </div>
 
+
+
+
+    <!-- otp popup  -->
+    <div
+      x-show="showOTP"
+      class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
+    >
+      <div
+        class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
+      >
+          <!-- close button  -->
+          <div class="flex justify-end">
+            <button
+              @click="showOTP = false"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <svg
+                class="h-6 w-6 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.12 5.7a1 1 0 0 0-1.42 1.42l4.89 4.89-4.9 4.9a1 1 0 0 0 1.42 1.42l4.88-4.89 4.89 4.89a1 1 0 0 0 1.42-1.42l-4.9-4.9 4.89-4.89a1 1 0 0 0 0-1.42z"
+                />
+              </svg>
+            </button>
+          </div>
+
+
+        <div class="flex flex-col justify-center items-center">
+          <p class="text-2xl font-bold text-gray-800">Enter OTP</p>
+          <p class="text-sm text-gray-500">
+            Type in the OTP sent to your email address
+          </p>
+        </div>
+
+        <div class="flex flex-col justify-center items-center mt-8">
+          <div class="w-full">
+            <label for="otp" class="text-sm text-gray-500">OTP</label>
+            <input
+            x-model = "otp"
+            style="font-family: Orbitron"
+              type="text"
+              inputmode="numeric"
+              required
+              pattern="[0-9]*"
+              minlength="4"
+              maxlength="12"
+              name="otp"
+              id="otp"
+              class="w-full tracking-widest text-center border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:border-blue-500"
+            />
+            
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center items-center mt-8">
+          <button
+          @click = "submitPasswordForm"
+            class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Change Password Form  -->
     <div
     x-show = "!eTx"
@@ -335,6 +359,9 @@
         showOTP = true;
         return;
       }
+
+
+      
 
 
 

@@ -6,14 +6,15 @@ from models.settings import Settings
 from models.users import AuthSession, ChangePasswordInput, RequestAccessTokenInput, TransferInput1, TxType, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
 from lib.db import Collections, db
 from lib.utils import hash_password
-from lib.dependencies import get_session_user, propagate_info, get_msgs
+from lib.dependencies import get_session_user, propagate_info, get_msgs, enforce_is_admin
 
 settings = Settings()
 
 templates = Jinja2Templates(directory="templates",  autoescape=True,)
 
 router = APIRouter(
-    tags=["Admin endpoints"]
+    tags=["Admin endpoints"],
+    dependencies=[Depends(enforce_is_admin), ]
 )
 
 

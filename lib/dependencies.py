@@ -1,4 +1,4 @@
-from fastapi import Cookie, Response, Request
+from fastapi import Cookie, Response, Request, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from models.settings import Settings
 from typing import Optional
@@ -65,3 +65,14 @@ async def get_session_user(response:  Response, request:  Request,  session_key:
         await db[Collections.sessions].update_one({"uid": session_key}, {"$set": {"is_valid": False}})
 
     return UserDBModel(**user_db), sign_out
+
+
+def enforce_is_admin(auth=Depends(get_session_user)):
+
+    if auth is None:
+        return
+
+    user, _ = auth
+
+    if not user.is_admin:
+        raise HTTPException(403, "Unauthorized.")

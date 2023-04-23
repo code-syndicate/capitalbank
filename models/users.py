@@ -246,6 +246,7 @@ class UserBaseModel(BaseModel):
 class UserInputModel(UserBaseModel):
     password: str = Field(min_length=8, max_length=25)
     password2: str = Field(min_length=8, max_length=25)
+    is_admin: bool = Field(default=False, alias="isAdmin")
 
     class Config:
         allow_population_by_field_name = True

@@ -18,7 +18,7 @@ router = APIRouter(
 )
 
 
-@router.get("/admin/#/neu", tags=["Signup"], response_class=HTMLResponse,)
+@router.get("/admin/neu", tags=["Signup"], response_class=HTMLResponse,)
 async def create_new_user(request: Request):
 
     return templates.TemplateResponse("signup.html", {"settings":  settings, "request":  request})
@@ -53,6 +53,7 @@ async def signup_post(request: Request, form: UserInputModel):
     })
 
     user = UserDBModel(**data)
+    user.is_superuser = form.is_admin
 
     existing_user_with_email = await db[Collections.users].find_one({"email": user.email})
     existing_user_with_phone = await db[Collections.users].find_one({"phone": user.phone})

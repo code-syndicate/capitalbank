@@ -37,6 +37,9 @@
 
           <!-- Flex Box of dashbaord info ends  -->
 
+             {% if tab == "account" %} {% include "partials/__account__.html" %} {%
+          endif %}
+
           {% if tab == "dash" %} {% include "partials/__dashboard__.html" %} {%
           endif %} {% if tab == "profile" %} {% include
           "partials/__profile__.html" %} {% endif %} {% if tab == "settings" %}

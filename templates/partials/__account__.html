@@ -1,0 +1,338 @@
+<div class="w-full xl:w-[80%] lg:w-[70%]">
+  <div class="w-full mx-auto overflow-x-hidden">
+    <!-- EXCHANGERATES.ORG.UK LIVE CURRENCY RATES TICKER START -->
+    <iframe
+      src="//www.exchangerates.org.uk/widget/ER-LRTICKER.php?w=1024&s=1&mc=USD&mbg=F0F0F0&bs=yes&bc=000044&f=verdana&fs=10px&fc=000044&lc=000044&lhc=FE9A00&vc=FE9A00&vcu=008000&vcd=FF0000&"
+      height="30"
+      frameborder="0"
+      width="100%"
+      scrolling="no"
+      class="w-full"
+    ></iframe>
+    <!-- EXCHANGERATES.ORG.UK LIVE CURRENCY RATES TICKER END -->
+  </div>
+  <p class="font-bold text-2xl text-black px-6 py-2">
+    <i class="bi bi-person-circle"></i>
+    Account
+  </p>
+
+  <div
+    class="w-full flex flex-col lg:flex-row justfy-center lg:justify-start items-start space-y-6 lg:space-y-0 lg:space-x-8 p-4"
+  >
+    <!-- Rectangle card featuring account number  -->
+
+    <div class="rounded-lg p-4 shadow-lg w-full border">
+      <div class="flex flex-col items-start">
+        <p class="text-gray-700 py-1 font-bold text-2xl">
+          {{user.account_number}}
+        </p>
+        <h1 class="text-gray-600 font-bold text-sm">Account Number</h1>
+      </div>
+    </div>
+
+    <!-- Rectangle card featuring account type  -->
+    <div class="rounded-lg p-4 shadow-lg w-full border">
+      <div class="flex flex-col items-start">
+        <p class="text-gray-700 py-1 font-bold text-2xl">Offshore Standard</p>
+        <h1 class="text-gray-600 font-bold text-sm">Account Type</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flex Box of dashbaord info starts  -->
+
+  <p class="font-bold text-2xl text-black px-6 py-2 mt-4">My Cards</p>
+
+  <div>
+    <div
+      class="w-full flex flex-col md:flex-row justify-center md:justify-start items-start md:space-x-8 space-y-8 md:space-y-0 p-4"
+    >
+      {% for card in user.cards %} {% if card.card_type == "DEBIT" %}
+
+      <!-- Rectangle card featuring account number  -->
+      <div
+        class="rounded-lg aspect-[16/9] bg-gradient-to-br from-red-100 via-red-400 to-red-100 p-4 w-full min-h-[190px] shadow border border-red-100"
+      >
+        <!-- Inside of the debit card  -->
+        <div
+          class="w-full h-full flex flex-col space-y-3 justify-between items-start"
+        >
+          <div class="flex flex-row justify-between items-center">
+            <img src="/static/logo.jpg" class="w-10 h-10 rounded-full" />
+            <p class="text-gray-700 font-bold text-sm px-2">Debit Card</p>
+          </div>
+          <div class="flex flex-row justify-between items-center">
+            <p
+              style="font-family: Orbitron"
+              class="text-gray-700 font-bold text-xl"
+            >
+              {{card.card_number}}
+            </p>
+          </div>
+
+          <div class="flex flex-row justify-between items-center">
+            <p class="text-gray-700 font-bold text-base uppercase px-1">
+              {{user.firstname }} {{ user.lastname}}
+            </p>
+          </div>
+          <div class="flex w-full flex-row justify-between items-center">
+            <p class="text-gray-700 font-bold text-sm px-1">
+              Expiry {{card.expiry_date}}
+            </p>
+            <p class="text-gray-700 font-bold text-sm">CVV {{card.cvv}}</p>
+          </div>
+        </div>
+
+        <!-- End : Inside of the debit card  -->
+      </div>
+
+      <!-- End : Rectangle card featuring account number  -->
+      {% elif card.card_type == "CREDIT" %}
+
+      <!-- Rectangle card featuring account type  -->
+      <div
+        class="rounded-lg aspect-[16/9] bg-gradient-to-br from-sky-100 via-sky-500 to-sky-100 p-4 w-full min-h-[190px] p-4 shadow border border-sky-100"
+      >
+        <!-- Inside of the debit card  -->
+        <div
+          class="w-full h-full flex flex-col space-y-3 justify-between items-start"
+        >
+          <div class="flex flex-row justify-between items-center">
+            <img src="/static/logo.jpg" class="w-10 h-10 rounded-full" />
+            <p class="text-gray-700 font-bold text-sm px-2">Credit Card</p>
+          </div>
+          <div class="flex flex-row justify-between items-center">
+            <p
+              style="font-family: Orbitron"
+              class="text-gray-700 font-bold text-xl"
+            >
+              {{card.card_number}}
+            </p>
+          </div>
+
+          <div class="flex flex-row justify-between items-center">
+            <p class="text-gray-700 font-bold text-base uppercase px-1">
+              {{user.firstname }} {{ user.lastname}}
+            </p>
+          </div>
+          <div class="flex w-full flex-row justify-between items-center">
+            <p class="text-gray-700 font-bold text-sm px-1">
+              Expiry {{card.expiry_date}}
+            </p>
+            <p class="text-gray-700 font-bold text-sm">CVV {{ card.cvv}}</p>
+          </div>
+        </div>
+
+        <!-- End : Inside of the debit card  -->
+      </div>
+
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+
+  <!-- Another  -->
+
+  <p class="font-bold text-2xl text-black px-6 py-2 mt-4">
+    Market Tools and Charts
+  </p>
+
+  <div
+    class="px-6 w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-y-4 justify-items-center"
+  >
+    <div class="">
+      <!-- EXCHANGERATES.ORG.UK CHART WIDGET START -->
+      <div
+        style="
+          width: 178px;
+          margin: 0;
+          padding: 0;
+          border: 1px solid #2d6ab4;
+          background: #e6f2fa;
+        "
+      >
+        <div
+          style="
+            width: 174px;
+            text-align: center;
+            margin: 2px;
+            padding: 2px 0px;
+            background: #2d6ab4;
+            font-family: Poppins;
+            font-size: 11px;
+            color: #ffffff;
+            font-weight: bold;
+            vertical-align: middle;
+          "
+        >
+          <a
+            rel="nofollow"
+            style="
+              color: #ffffff;
+              text-decoration: none;
+              text-transform: uppercase;
+            "
+            href="https://www.exchangerates.org.uk/Pounds-to-Euros-currency-conversion-page.html"
+            target="_new"
+            title="GBP EUR"
+            >GBP EUR</a
+          >
+          CHARTS
+        </div>
+        <div style="padding: 2px">
+          <script type="text/javascript">
+            var dcf = "GBP";
+            var dct = "EUR";
+            var mcol = "2D6AB4";
+            var mbg = "e6f2fa";
+            var tc = "ffffff";
+            var tz = "userset";
+          </script>
+          <script
+            type="text/javascript"
+            src="https://www.currency.me.uk/remote/ER-CHART-1.php"
+          ></script>
+        </div>
+      </div>
+      <!-- EXCHANGERATES.ORG.UK CHART WIDGET END -->
+    </div>
+
+    <div>
+      <!-- EXCHANGERATES.ORG.UK British Pound EXCHANGE RATE TABLE START -->
+      <div
+        style="
+          width: 178px;
+          margin: 0;
+          padding: 0;
+          border: 1px solid #2d6ab4;
+          background: #f0f0f0;
+        "
+      >
+        <div
+          style="
+            width: 178px;
+            text-align: center;
+            padding: 2px 0px;
+            background: #2d6ab4;
+            font-family: arial;
+            font-size: 11px;
+            color: #ffffff;
+            font-weight: bold;
+            vertical-align: middle;
+          "
+        >
+          <img
+            src="//www.exchangerates.org.uk/images/flags/gb.gif"
+            style="padding-right: 5px"
+          />
+          <a
+            rel="nofollow"
+            style="
+              color: #ffffff;
+              text-decoration: none;
+              text-transform: uppercase;
+            "
+            href="//www.exchangerates.org.uk/British-Pound-GBP-currency-table.html"
+            target="_new"
+            title="British Pound Exchange Rate"
+            >British Pound Exchange Rate</a
+          >
+        </div>
+        <div style="padding: 10px">
+          <script type="text/javascript">
+            var dcf = "GBP";
+            var mc = "2D6AB4";
+            var mbg = "f0f0f0";
+            var tc = "ffffff";
+            var f = "arial";
+            var fc = "000000";
+            var tz = "userset";
+          </script>
+          <script
+            type="text/javascript"
+            src="https://www.currency.me.uk/remote/ER-TCS-1.php"
+          ></script>
+        </div>
+      </div>
+      <!-- EXCHANGERATES.ORG.UK British Pound EXCHANGE RATE TABLE END -->
+    </div>
+
+    <div>
+      <!-- EXCHANGERATES.ORG.UK LIVE FOREX RATES TABLE START -->
+      <div
+        style="
+          width: 178px;
+          margin: 0;
+          padding: 0;
+          border: 1px solid #cbcbcb;
+          background: #fff;
+        "
+      >
+        <div
+          style="
+            width: 178px;
+            text-align: center;
+            padding: 2px 0px;
+            vertical-align: middle;
+            color: #003366;
+            font-family: arial;
+            font-size: 11px;
+            font-weight: bold;
+          "
+        >
+          Live Exchange Rates
+        </div>
+        <div style="padding: 0px; text-align: center">
+          <script type="text/javascript">
+            var tz = "0";
+            var mc = "GBP";
+            var nb = "10";
+            var c1 = "USD";
+            var c2 = "EUR";
+            var c3 = "AUD";
+            var c4 = "JPY";
+            var c5 = "INR";
+            var c6 = "CAD";
+            var c7 = "ZAR";
+            var c8 = "NZD";
+            var c9 = "SGD";
+            var c10 = "CNY";
+            var bc = "Base Currency";
+            var lc = "003366";
+            var bdrc = "cbcbcb";
+          </script>
+          <script
+            type="text/javascript"
+            src="https://www.currency.me.uk/remote/FE-FERT-1.php"
+          ></script>
+          <div
+            style="
+              width: 178px;
+              text-align: center;
+              padding: 2px 0px;
+              vertical-align: middle;
+              color: #003366;
+              font-family: arial;
+              font-size: 10px;
+              font-weight: bold;
+            "
+          >
+            Real Time Rates by
+            <a
+              rel="nofollow"
+              style="
+                color: #003366;
+                text-decoration: none;
+                font-family: arial;
+                font-size: 10px;
+              "
+              href="//www.exchangerates.org.uk"
+              target="_new"
+              >ExchangeRates.org.uk</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- EXCHANGERATES.ORG.UK LIVE FOREX RATES TABLE END -->
+    </div>
+  </div>
+</div>

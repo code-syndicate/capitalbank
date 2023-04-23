@@ -126,17 +126,10 @@
 
                           window.location.href = '/apps/dashboard?tab=dash';
 
-
                         }, 1000);
 
-
-                        
-
-                      
-                        
                         }
-                        
-                        
+                                                
                         }
                         
                         catch(err){
@@ -144,6 +137,7 @@
                         console.log(err.message);
                         reqError = true;
                         reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                
                         
                         }
 
@@ -151,9 +145,6 @@
 
                         reqLoading = false;
                         showOverlay = false;
-
-
-
 
 
             },
@@ -176,7 +167,7 @@
               type="text"
               required
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
-              placeholder="$100.00"
+              placeholder="100.00"
             />
           </div>
         </div>
@@ -358,7 +349,7 @@
               required
               type="text"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
-              placeholder="$100.00"
+              placeholder="100.00"
             />
           </div>
         </div>

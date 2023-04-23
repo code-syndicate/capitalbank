@@ -34,7 +34,7 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
 
     user,  _ = auth
 
-    views = ["dash", "transfer", "transfers",
+    views = ["dash", "account", "transfers",
              "transactions", "profile", "settings"]
 
     if not tab.lower() in views:

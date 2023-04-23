@@ -34,6 +34,8 @@
       <p class="text-black/50">Quick Actions</p>
 
       <div
+        x-data
+        @click="window.location.href = '/apps/dashboard?tab=transfers'"
         class="bg-sky-100 cursor-pointer hover:bg-sky-200 flex flex-row rounded-lg p-2 my-4"
       >
         <i class="bi-send text-base text-sky-500"></i>
@@ -41,6 +43,8 @@
       </div>
 
       <div
+        x-data
+        @click="window.location.href = '/apps/dashboard?tab=settings'"
         class="bg-sky-100 cursor-pointer hover:bg-sky-200 flex flex-row rounded-lg p-2 my-4"
       >
         <i class="bi-pencil-square text-base text-sky-500"></i>
@@ -48,6 +52,8 @@
       </div>
 
       <div
+        x-data
+        @click="window.location.href = '/apps/dashboard?tab=settings'"
         class="bg-sky-100 cursor-pointer hover:bg-sky-200 flex flex-row rounded-lg p-2 my-4"
       >
         <i class="bi-shield-check text-base text-sky-500"></i>

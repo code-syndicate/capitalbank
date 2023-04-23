@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{settings.app_name}}| Admin</title>
+    {% include "partials/__includes__.html" %}
+
+    <script>
+      $(document).ready(() => {
+        $("#closeOverlayForm").click(() => {
+          $("#overlayForm").fadeOut("fast");
+        });
+      });
+    </script>
+  </head>
+
+  <body class="bg-white px-4 md:px-0">
+    <div class="flex flex-row min-h-screen">
+      [/- include('../admin/__nav__.ejs'); /]
+
+      <div class="w-full lg:w-[75%] xl:w-[80] 2xl:w-[85%] bg-[#F2F2F2] py-8">
+        <!-- User Info  -->
+
+        <div
+          class="px-4 flex flex-row justify-between items-center border-b pb-2"
+        >
+          <div>
+            <h1 class="text-[#18D992] text-lg lg:text-xl font-bold">
+              Withdrawal requests
+            </h1>
+            <p class="text-gray-500/70 py-2 text-xs">Manage withdrawals</p>
+          </div>
+
+          <div class="flex flex-row space-x-2">
+            <div class="rounded-full px-2 py-1 bg-white border">
+              <i class="bi-bell text-black"></i>
+            </div>
+
+            <img
+              src="https://i.pravatar.cc/150?img=3"
+              alt="Avatar"
+              width="35"
+              height="35"
+              class="rounded-full"
+            />
+          </div>
+        </div>
+
+        <!-- Table Body  -->
+        <div
+          class="flex flex-col justify-center items-center w-full px-4 py-8 bg-white my-8 lg:rounded-2xl lg:w-[90%] mx-auto"
+        >
+          <div class="flex flex-row justify-between items-center w-full px-4">
+            <div>
+              <h1 class="text-[#18D992] text-lg lg:text-xl font-bold">
+                Requests
+              </h1>
+            </div>
+
+            <div class="flex flex-row items-center space-x-2">
+              <div
+                class="flex flex-row border items-center p-1 rounded-[50px] space-x-2"
+              >
+                <i class="bi-search text-black/50"></i>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  placeholder="Search here..."
+                  class="bg-white border-none rounded-[50px] text-sm w-[90%] focus:outline-none"
+                />
+              </div>
+
+              <div class="flex flex-row items-center space-x-2">
+                <i class="bi-filter text-black/50"></i>
+                <select
+                  name=""
+                  id=""
+                  class="bg-[#F2F2F2] border-none focus:outline-none rounded-[50px] px-1"
+                >
+                  <option value="">All</option>
+                  <option value="">Active</option>
+                  <option value="">Inactive</option>
+                </select>
+              </div>
+
+              <div class="flex flex-row items-center space-x-2">
+                <i class="bi-sort-alpha-down text-black/50"></i>
+                <select
+                  name=""
+                  id=""
+                  class="bg-[#F2F2F2] border-none focus:outline-none rounded-[50px] px-1"
+                >
+                  <option value="">Sort by</option>
+                  <option value="">Name</option>
+                  <option value="">Date</option>
+                </select>
+              </div>
+
+              <div class="flex flex-row items-center space-x-2 hidden">
+                <i class="bi-sort-numeric-down text-black/50"></i>
+                <select
+                  name=""
+                  id=""
+                  class="bg-[#F2F2F2] border-none focus:outline-none rounded-[50px] px-1"
+                >
+                  <option value="">Order</option>
+                  <option value="">Ascending</option>
+                  <option value="">Descending</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-full mt-8 border rounded-2xl">
+            <table class="table-auto w-full oveflow-x-scroll max-w-full">
+              <thead>
+                <tr class="text-[#18D992] text-left text-sm">
+                  <th class="p-4">S/N</th>
+                  <th class="p-4">Name</th>
+                  <th class="p-4">Username</th>
+
+                  <th class="p-4">Account Number</th>
+                  <th class="p-4">Balance</th>
+                  <th class="p-4">Request Amount</th>
+
+                  <th class="p-4">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-sm text-gray-500/70">
+                  <td class="p-4">1</td>
+
+                  <td class="p-4">John Doe</td>
+                  <td class="p-4">johndoey</td>
+
+                  <td class="p-4">817245617156</td>
+                  <td class="p-4">102,382.20</td>
+                  <td class="p-4">10,920</td>
+
+                  <td class="p-4">
+                    <span class="text-[#F2507B] #F2507B">Pending</span>
+                  </td>
+
+                  <td class="p-4">
+                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
+                  </td>
+                </tr>
+                <tr class="text-sm text-gray-500/70">
+                  <td class="p-4">2</td>
+                  <td class="p-4">John Doe</td>
+                  <td class="p-4">johndoey</td>
+
+                  <td class="p-4">817245617156</td>
+                  <td class="p-4">102,382.20</td>
+                  <td class="p-4">10,920</td>
+
+                  <td class="p-4">
+                    <span class="text-[#F2507B] #F2507B">Pending</span>
+                  </td>
+
+                  <td class="p-4">
+                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
+                  </td>
+                </tr>
+                <tr class="text-sm text-gray-500/70">
+                  <td class="p-4">3</td>
+                  <td class="p-4">John Doe</td>
+                  <td class="p-4">johndoey</td>
+
+                  <td class="p-4">817245617156</td>
+                  <td class="p-4">102,382.20</td>
+                  <td class="p-4">10,920</td>
+
+                  <td class="p-4">
+                    <span class="text-[#F2507B] #F2507B">Pending</span>
+                  </td>
+
+                  <td class="p-4">
+                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
+                  </td>
+                </tr>
+                <tr class="text-sm text-gray-500/70">
+                  <td class="p-4">4</td>
+                  <td class="p-4">John Doe</td>
+                  <td class="p-4">johndoey</td>
+
+                  <td class="p-4">817245617156</td>
+                  <td class="p-4">102,382.20</td>
+                  <td class="p-4">10,920</td>
+
+                  <td class="p-4">
+                    <span class="text-[#F2507B] #F2507B">Pending</span>
+                  </td>
+
+                  <td class="p-4">
+                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
+                  </td>
+                </tr>
+                <tr class="text-sm text-gray-500/70">
+                  <td class="p-4">5</td>
+                  <td class="p-4">John Doe</td>
+                  <td class="p-4">johndoey</td>
+
+                  <td class="p-4">817245617156</td>
+                  <td class="p-4">102,382.20</td>
+                  <td class="p-4">10,920</td>
+
+                  <td class="p-4">
+                    <span class="text-[#F2507B] #F2507B">Pending</span>
+                  </td>
+
+                  <td class="p-4">
+                    <span class="text-[#18D992] #F2507B hidden">Approved</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Buttons  -->
+          <div class="flex flex-row items-center justify-center mt-8">
+            <div class="flex flex-row items-center justify-center space-x-4">
+              <button
+                class="rounded-lg text-sm py-2 px-3 text-white bg-[#F2507B]"
+              >
+                <i class="bi-arrow-left"></i>
+              </button>
+              <button
+                class="rounded-lg text-sm py-2 px-3 bg-[#18D992] text-black bg-gray-200"
+              >
+                1
+              </button>
+              <button
+                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
+              >
+                2
+              </button>
+              <button
+                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
+              >
+                3
+              </button>
+              <button
+                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
+              >
+                4
+              </button>
+              <button
+                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
+              >
+                5
+              </button>
+              <button
+                class="rounded-lg text-sm py-2 px-3 text-white bg-[#F2507B]"
+              >
+                <i class="bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

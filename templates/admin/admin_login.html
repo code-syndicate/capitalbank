@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{settings.app_name}} Admin | Admin</title>
+    {% include "partials/__includes__.html" %}
+  </head>
+
+  <body class="flex flex-col items-center justify-center bg-black">
+    <div
+      class="w-full md:w-4/12 md:max-w-2xl px-8 mx-auto flex-1 self-center mt-32"
+    >
+      <p class="p-8 text-center capitalize text-2xl text-white font-black">
+        {{settings.app_name}}Admin
+      </p>
+
+      [/ if (formErrors.length){ /]
+      <div class="p-4 pl-12 bg-white mx-auto my-2 w-10/12">
+        [/ formErrors.map( (e)=>{ /]
+        <li class="text-[#18D992] text-xs md:text-sm text-left font-bold">
+          [/= e.msg /]
+        </li>
+        [/ }) /]
+      </div>
+      [/ } /] [/ if (authError.length){ /]
+      <div class="p-4 bg-white mx-auto my-2 w-10/12">
+        <p class="text-[#18D992] text-xs md:text-sm text-left font-bold">
+          [/= authError /]
+        </p>
+      </div>
+      [/ } /]
+
+      <form class="bg-[#18D992] py-8 shadow-xl" method="post" action="/admin/">
+        <div class="mx-auto my-4 w-10/12">
+          <input
+            type="
+                     email"
+            required
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Email Address"
+            name="email"
+          />
+        </div>
+
+        <div class="mx-auto my-4 w-10/12">
+          <input
+            type="password"
+            required
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Password"
+            name="password"
+          />
+        </div>
+
+        <div class="mx-auto mt-16 w-10/12">
+          <button
+            class="w-full text-gray-600 text-xl mx-auto text-center p-4 rounded bg-gray-100 hover:bg-gray-200"
+            type="submit"
+            role="button"
+          >
+            Sign in
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

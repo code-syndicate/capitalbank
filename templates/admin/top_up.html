@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{settings.app_name}}| Admin</title>
+        {% include "partials/__includes__.html" %}
+
+
+    <script>
+      $(document).ready(() => {
+        $("#closeOverlayForm").click(() => {
+          $("#overlayForm").fadeOut("fast");
+        });
+      });
+    </script>
+  </head>
+
+  <body class="bg-white px-4 md:px-0">
+    <div class="flex flex-row min-h-screen">
+      [/- include('../admin/__nav__.ejs'); /]
+
+      <div class="w-full lg:w-[75%] xl:w-[80] 2xl:w-[85%] bg-[#F2F2F2] py-8">
+        <!-- User Info  -->
+
+        <div
+          class="px-4 flex flex-row justify-between items-center border-b pb-2"
+        >
+          <div>
+            <h1 class="text-[#18D992] text-lg lg:text-xl font-bold">
+              Top Up User
+            </h1>
+            <p class="text-gray-500/70 py-2 text-xs">
+              Credit your user balance
+            </p>
+          </div>
+
+          <div class="flex flex-row space-x-2">
+            <div class="rounded-full px-2 py-1 bg-white border">
+              <i class="bi-bell text-black"></i>
+            </div>
+
+            <img
+              src="https://i.pravatar.cc/150?img=3"
+              alt="Avatar"
+              width="35"
+              height="35"
+              class="rounded-full"
+            />
+          </div>
+        </div>
+
+        <!-- Form Body  -->
+        <div
+          class="flex flex-col justify-center items-center w-full px-4 py-8 bg-white my-8 lg:rounded-2xl lg:w-[90%] mx-auto"
+        >
+          <div class="flex flex-row justify-between items-center w-full px-4">
+            <div>
+              <h1 class="text-[#18D992] text-lg lg:text-xl font-bold">
+                Transfer
+              </h1>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col w-full mt-2 p-6 border lg:w-[70%] rounded-2xl"
+          >
+            <form class="w-full space-y-4">
+              <div class="space-y-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="username"
+                >
+                  Find Username or Account Number
+                </label>
+
+                <div class=" relative">
+                <input
+                  class=" appearance-none border rounded-xl w-full py-3 text-sm px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="username"
+                  type="text"
+                  placeholder="Username or Account Number"
+                />
+
+                <i class="bi bi-search text-base text-black/50 absolute right-4 top-2"></i>
+
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="amount"
+                >
+                  Amount
+                </label>
+
+                <div class="relative">
+                <input
+                  class=" appearance-none border rounded-xl w-full py-3 text-sm px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="amount"
+                  inputmode="numeric"
+                  type="text"
+                  placeholder="Amount"
+                />
+
+                <i class = "bi-currency-dollar text-base text-black/50 absolute right-4 top-2">  </i>
+
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="txDate"
+                >
+                  Transaction Date
+                </label>
+                <input
+                  class=" appearance-none border rounded-xl w-full py-3 text-sm px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="txDate"
+                  type="date"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="senderAccount"
+                >
+                  Sender Account Number
+                </label>
+                <input
+                  class=" appearance-none border rounded-xl w-full py-3 text-sm px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="senderAccount"
+                  type="text"
+                  placeholder="Sender Account"
+                />
+              </div>
+
+
+
+              <div class="flex flex-row justify-center items-center pt-4 ">
+                <button
+                  class="bg-[#F2A516] min-w-[150px] hover:bg-[#F2A516]/80  text-white font-bold py-3 px-6 rounded-xl"
+                  type="button"
+                >
+                  Top up
+                </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

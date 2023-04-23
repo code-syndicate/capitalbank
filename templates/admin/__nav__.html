@@ -1,0 +1,49 @@
+<nav
+  class="bg-white w-full lg:w-[25%] xl:w-[20%] 2xl:w-[25%] py-8 hidden lg:block"
+>
+  <div class="w-full mx-auto mb-4">
+    <img
+      class="block mx-auto"
+      src="/logo.png"
+      width="150"
+      height="150"
+      alt="{{settings.app_name}} Logo"
+    />
+  </div>
+
+  <ul
+    class="flex flex-col text-black/50 text-center justify-center items-start space-y-8 text-sm"
+  >
+    <a
+      class="px-8 hover:text-[#F2507B] [/ if (ui === 'main'){ /] text-[#F2507B] [/ } /]"
+      href="/admin/overview/?ui=main"
+      >&nbsp; <i class="bi-speedometer"></i> Dashboard
+    </a>
+    <a
+      class="px-8 hover:text-[#F2507B] [/ if (ui === 'users'){ /] text-[#F2507B] [/ } /]"
+      href="/admin/overview/?ui=users"
+      >&nbsp; <i class="bi-person"></i> Manage users
+    </a>
+    <a
+      class="px-8 hover:text-[#F2507B] [/ if (ui === 'withdrawals'){ /] text-[#F2507B] [/ } /]"
+      href="/admin/overview/?ui=withdrawals"
+      >&nbsp; <i class="bi-download"></i> Withdrawal requests
+    </a>
+    <a
+      class="px-8 hover:text-[#F2507B] [/ if (ui === 'topup'){ /] text-[#F2507B] [/ } /]"
+      href="/admin/overview/?ui=topup"
+      >&nbsp; <i class="bi-arrow-left-right"></i> Top-up user
+    </a>
+    <a
+      class="px-8 hover:text-[#F2507B] [/ if (ui === 'history'){ /] text-[#F2507B] [/ } /]"
+      href="/admin/overview/?ui=history"
+      >&nbsp; <i class="bi-file-bar-graph-fill"></i> History
+    </a>
+  </ul>
+
+  <a
+    class="px-8 text-[#18D992] relative top-[35vh] hover:text-red-500"
+    href="/banking/authentications/log-out/"
+    >&nbsp; <i class="bi-box-arrow-in-right"></i> Log out
+  </a>
+</nav>

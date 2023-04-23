@@ -40,15 +40,13 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
     if not tab.lower() in views:
         tab = views[0]
 
-
-    # get all transfers 
+    # get all transfers
     out_transfers = await db[Collections.transfers].find({"sender": user.email}).to_list(length=100)
     in_transfers = await db[Collections.transfers].find({"receiver": user.email}).to_list(length=100)
 
     txs = out_transfers + in_transfers
 
-
-    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab, "txs" : txs})
+    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab, "txs": txs})
 
 
 @router.get("/sign-out", tags=["Sign out"], )
@@ -98,17 +96,6 @@ async def signin_post(form:  RequestAccessTokenInput, response:  Response):
     response.set_cookie(settings.session_cookie_name, new_session.uid)
 
     return
-
-
-@router.get("/sign-up", tags=["Signup"], response_class=HTMLResponse,)
-async def signup(request: Request, auth:  UserDBModel = Depends(get_session_user)):
-
-    if auth:
-        _, log_out = auth
-
-        await log_out()
-
-    return templates.TemplateResponse("signup.html", {"settings":  settings, "request":  request})
 
 
 @router.post("/update-data")
@@ -202,32 +189,3 @@ async def create_out_transaction(form: TransferInput2, auth:  UserDBModel = Depe
 
     await db[Collections.transfers].insert_one(tx.dict())
     await db[Collections.users].update_one({"uid": user.uid}, {"$set": user.dict()})
-
-
-@router.post("/sign-up", tags=["Signup"], )
-async def signup_post(request: Request, form: UserInputModel):
-    data = form.dict()
-
-    if data["password"] != data["password2"]:
-        raise HTTPException(status_code=400, detail="Passwords do not match!")
-
-    data.update({
-        "password_hash":  hash_password(form.password2),
-    })
-
-    user = UserDBModel(**data)
-
-    existing_user_with_email = await db[Collections.users].find_one({"email": user.email})
-    existing_user_with_phone = await db[Collections.users].find_one({"phone": user.phone})
-
-    if existing_user_with_email:
-        raise HTTPException(
-            status_code=400, detail="Email address is registered to another account.")
-
-    if existing_user_with_phone:
-        raise HTTPException(
-            status_code=400, detail="Phone number is registered to another account.")
-
-    await db[Collections.users].insert_one(user.dict())
-
-    return

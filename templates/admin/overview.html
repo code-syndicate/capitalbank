@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{settings.app_name}}| Admin</title>
+    {% include "partials/__includes__.html" %}
+  </head>
+
+  [/ if (ui === 'main'){ /]
+
+  <body class="bg-white px-4 md:px-0">
+    <!-- Navigation bar  -->
+    <div class="flex flex-row min-h-screen">
+      [/- include('../admin/__nav__.ejs'); /]
+      <div class="w-full lg:w-[75%] xl:w-[80] 2xl:w-[85%] bg-[#F2F2F2] py-8">
+        <div
+          class="w-full mx-auto flex flex-col min-h-screen justify-center items-center"
+        >
+          <img
+            class="block mx-auto"
+            src="/logo.png"
+            width="350"
+            height="auto"
+            alt="{{settings.app_name}} Logo"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+
+  [/ } /]
+
+  <!-- Custom Pages start  -->
+
+  <!-- USer Lists  -->
+  [/ if (ui === 'users'){ /] [/- include('./user_list.ejs'); /] [/}/]
+
+  <!-- Deposits claims  -->
+  [/ if (ui === 'deposits'){ /] [/- include('./deposits.ejs'); /] [/}/]
+
+  <!-- Withdrawals  claims  -->
+  [/ if (ui === 'withdrawals'){ /] [/- include('./withdrawals.ejs'); /] [/}/]
+
+  <!-- Top up  -->
+  [/ if (ui === 'topup'){ /] [/- include('./top_up.ejs'); /] [/}/]
+
+  <!-- History  -->
+  [/ if (ui === 'history'){ /] [/- include('./history.ejs'); /] [/}/]
+
+  <!-- Custom pages ends  -->
+
+  <!-- Overlay form  -->
+  <div
+    id="overlayForm"
+    class="[/= formErrors.length? 'block' : 'hidden' /] overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
+  >
+    <div
+      class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"
+    >
+      <p class="p-8 text-center capitalize text-2xl text-white font-black">
+        {{settings.app_name}}Admin
+      </p>
+
+      <form
+        class="bg-sky-400 py-8 shadow-xl overflow-y-auto"
+        method="post"
+        action="/admin/edit-client/"
+      >
+        <legend class="text-center text-white font-bold text-base capitalize">
+          Edit client record
+          <br />
+          <span id="emailEdit"> [/=user.email/] </span>
+        </legend>
+
+        <div class="mx-auto my-4 w-10/12">
+          <input
+            type="hidden"
+            name="clientId"
+            id="clientId"
+            value="[/=user._id/]"
+          />
+
+          <label class="text-left py-3 text-white text-lg">
+            Wallet balance
+          </label>
+
+          <input
+            type="text"
+            required
+            id="clientWallet"
+            value="[/=user.wallet/]"
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Wallet balance"
+            name="wallet"
+          />
+        </div>
+
+        <div class="mx-auto my-4 w-10/12">
+          <label class="text-left py-3 text-white text-lg">
+            Bonus balance
+          </label>
+
+          <input
+            type="text"
+            required
+            id="clientBonus"
+            value="[/=user.bonus/]"
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Bonus balance"
+            name="bonus"
+          />
+        </div>
+        <div class="mx-auto my-4 w-10/12">
+          <label class="text-left py-3 text-white text-lg">
+            Total deposits
+          </label>
+          <input
+            type="text"
+            value="[/=user.deposits/]"
+            required
+            id="clientProfit"
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Profit balance"
+            name="deposits"
+          />
+        </div>
+
+        <div class="mx-auto my-4 w-10/12">
+          <label class="text-left py-3 text-white text-lg">
+            Total withdrawals
+          </label>
+          <input
+            type="text"
+            value="[/=user.withdrawals/]"
+            required
+            id="clientWithdrawal"
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Profit balance"
+            name="withdrawals"
+          />
+        </div>
+
+        <div class="mx-auto mt-16 w-10/12 space-y-4">
+          <button
+            class="w-full text-gray-600 text-xl mx-auto text-center p-4 rounded bg-gray-100 hover:bg-gray-200"
+            type="submit"
+            role="button"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+
+      <button
+        id="closeOverlayForm"
+        type="menu"
+        class="w-full text-white text-xl mx-auto text-center p-4 rounded-b bg-sky-600 hover:bg-sky-500"
+        role="button"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible"
+              content="IE=edge">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+        <title> {{settings.app_name}}| Admin </title>
+            {% include "partials/__includes__.html" %}
+
+
+        <script>
+            $(document).ready(() => {
+
+                $('#closeOverlayForm').click(() => {
+                    $('#overlayForm').fadeOut('fast');
+                })
+            })
+
+        </script>
+
+    </head>
+
+    <body class='bg-gray-300 bg-sky-500 px-4 md:px-0'>
+        <div class='bg-white p-4'>
+            <i class='bi-speedometer2 text-2xl text-sky-500'></i> &nbsp;
+            <p class='text-left text-sky-500 text-xl  inline-block'> Manage [/=siteName /]
+            </p>
+        </div>
+
+        [/ if (ui === 'main'){ /]
+
+        <div class='flex flex-col justify-center items-center space-y-8 mt-16'>
+
+            <div class='bg-white py-2 px-6 relative'>
+                <p class='font-bold text-left text-gray-700 text-lg'>
+                    <i class='bi-person-square text-2xl text-sky-500'></i> &nbsp; Clients
+
+                </p>
+
+                <br />
+                <p class='text-base pb-4'> Manage clients, edit their information and wallet
+                    balances
+                </p>
+
+                <br />
+
+                <a href='/admin/overview/?ui=users'>
+
+                    <i
+                       class='bi-arrow-right text-2xl absolute bottom-0 bg-gray-300 right-0 p-1 px-4'></i>
+                </a>
+
+            </div>
+
+
+            <div class='bg-white py-2 px-6 relative'>
+                <p class='font-bold text-left text-gray-700 text-lg'>
+                    <i class='bi-journal-album text-2xl text-sky-500'></i> &nbsp; Deposits
+
+                </p>
+                <br />
+
+                <p class='text-base pb-4'> Manage deposits, view deposit claims made by users.
+                </p>
+
+                <br />
+
+                <a href='/admin/overview/?ui=deposits'>
+
+
+                    <i
+                       class='bi-arrow-right text-2xl absolute bottom-0 bg-gray-300 right-0 p-1 px-4'></i>
+
+                </a>
+
+            </div>
+
+            <div class='bg-white py-2 px-6 relative'>
+                <p class='font-bold text-left text-gray-700 text-lg'>
+                    <i class='bi-download text-2xl text-sky-500'></i> &nbsp; Withdrawal requests
+
+                </p>
+                <br />
+
+                <p class='text-base pb-4'> Manage Withdrawal requests, view Withdrawal requests made
+                    by users.
+                </p>
+
+                <br />
+
+                <a href='/admin/overview/?ui=withdrawals'>
+
+
+                    <i
+                       class='bi-arrow-right text-2xl absolute bottom-0 bg-gray-300 right-0 p-1 px-4'></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        [/}/]
+
+
+        [/ if (ui === 'users'){ /]
+
+
+        <div class='w-12/12 overflow-x-auto bg-white mt-16 max-w-6xl mx-auto mb-8'>
+
+            <p class='font-bold text-xl p-6 text-center text-black'> Clients</p>
+
+
+            <table class='w'>
+                <tr class='text-center text-sm text-gray-600  font-bold'>
+                    <th class='px-3 py-4'> Edit client </th>
+
+                    <th class='px-3 py-4'> Firstname </th>
+                    <th class='px-3 py-4'> Lastname </th>
+                    <th class='px-3 py-4'> Email </th>
+                    <th class='px-3 py-4'>
+                        Wallet Balance
+                    </th>
+                    <th class='px-3 py-4'> Bonus Balance </th>
+                    <th class='px-3 py-4'> Total Deposits </th>
+                    <th class='px-3 py-4'> Total Withdrawals </th>
+                    <th class='px-3 py-4'> Date joined </th>
+                    <th class='px-3 py-4'> Delete client </th>
+
+
+                    [/ clients.map((c)=>{ /]
+
+                <tr
+                    class='text-center  hover:bg-gray-200 cursor-pointer text-base text-black bg-gray-100'>
+                    <td class="py-4 px-2">
+                        <i id="edit-[/=c._id/]"
+                           title="Edit client [/=c.email/]"
+                           class='bi-pencil-square text-2xl '></i>
+                    </td>
+
+                    <script>
+                        $('#edit-[/=c._id/]').click(() => {
+                            $('#clientId').val('[/=c._id/]');
+                            $('#clientWallet').val('[/=c.wallet/]');
+                            $('#clientBonus').val('[/=c.bonus/]');
+                            $('#clientProfit').val('[/=c.deposits/]');
+
+                            $('#clientProfit').val('[/=c.withdrawals/]');
+
+                            $('#emailEdit').text('[/=c.email/]')
+                            $('#overlayForm').fadeIn('fast');
+                        })
+                    </script>
+
+                    <td class="py-4 px-2"> [/= c.firstname /] </td>
+                    <td class='px-2 '> [/=c.lastname/] </td>
+                    <td class='px-2'> [/=c.email/] </td>
+                    <td class='px-2'> $[/=c.wallet/] </td>
+                    <td class='px-2'> $[/=c.bonus/] </td>
+                    <td class='px-2'> $[/=c.deposits/] </td>
+                    <td class='px-2'> $[/=c.withdrawals/] </td>
+                    <td class='px-2'> [/=c.dateJoined.toLocaleString()/] </td>
+                    <td class='px-2'> <a title='Delete [/= c.email /]'
+                           href='/admin/delete-user/[/=c._id/]/'> <i
+                               class='bi-trash text-sky-500'></i></a> </td>
+
+
+
+
+
+
+                </tr>
+
+                [/ }) /]
+
+
+
+
+
+
+
+                </tr>
+            </table>
+
+
+        </div>
+
+        [/}/]
+
+
+
+        [/ if (ui === 'deposits'){ /]
+
+        <!-- Deposits claims  -->
+        <div class='w-12/12 overflow-x-auto bg-white mt-16 max-w-5xl mx-auto mb-8'>
+
+            <p class='font-bold text-xl p-6 text-center text-black'> Deposits</p>
+
+
+            <table class='w'>
+                <tr class='text-center text-sm text-gray-600  font-bold'>
+                    <!-- <th class='px-3 py-4'> Edit Deposit1 </th> -->
+
+                    <th class='px-3 py-4'> Client </th>
+                    <th class='px-3 py-4'> Date submitted </th>
+                    <!-- <th class='px-3 py-4'> Approved </th> -->
+                    <th class='px-3 py-4'> Wallet Type </th>
+                    <th class='px-3 py-4'> Wallet Address </th>
+                    <th class='px-3 py-4'> Amount </th>
+
+
+                    <th class='px-3 py-4'> Description </th>
+
+
+                    [/ deposits.map((c)=>{ /]
+
+                <tr
+                    class='text-center  hover:bg-gray-200 cursor-pointer text-base text-black bg-gray-100'>
+                    <!-- <td class="py-4 px-2">
+                        <i class='bi-pencil-square text-2xl '></i>
+                    </td> -->
+
+                    <td class="py-4 px-2"> [/= c.client.email /] </td>
+                    <td class='px-2'> [/=c.date.toLocaleString()/] </td>
+                    <!-- <td class='px-2'> [/=c.approved/] </td> -->
+                    <td class='px-2'> [/=c.walletType/] </td>
+                    <td class='px-2'> [/=c.walletAdrress/] </td>
+                    <td class='px-2 '> [/=c.amount/] </td>
+                    <td class='px-2'> [/=c.description/] </td>
+
+
+
+
+
+
+                </tr>
+
+                [/ }) /]
+
+
+
+
+
+
+
+                </tr>
+            </table>
+
+
+        </div>
+
+        [/}/]
+
+
+        [/ if (ui === 'withdrawals'){ /]
+
+        <!-- Deposits claims  -->
+        <div class='w-12/12 overflow-x-auto bg-white mt-16 max-w-5xl mx-auto mb-8'>
+
+
+            <p class='font-bold text-xl p-6 text-center text-black'> Withdrawals</p>
+
+            <table class='w'>
+                <tr class='text-center text-sm text-gray-600  font-bold'>
+                    <!-- <th class='px-3 py-4'> Edit Deposit1 </th> -->
+
+                    <th class='px-3 py-4'> Client </th>
+                    <th class='px-3 py-4'> Date submitted </th>
+                    <!-- <th class='px-3 py-4'> Approved </th> -->
+                    <th class='px-3 py-4'> Wallet Type </th>
+                    <th class='px-3 py-4'> Payment Channel </th>
+                    <th class='px-3 py-4'> Amount </th>
+                    <th class='px-3 py-4'> Activation code</th>
+
+                    <th class='px-3 py-4'> Description </th>
+
+
+                    [/ withdrawals.map((c)=>{ /]
+
+                <tr
+                    class='text-center  hover:bg-gray-200 cursor-pointer text-base text-black bg-gray-100'>
+                    <!-- <td class="py-4 px-2">
+                                <i class='bi-pencil-square text-2xl '></i>
+                            </td> -->
+
+                    <td class="py-4 px-2"> [/=c.client.email /] </td>
+                    <td class='px-2'> [/=c.date.toLocaleString()/] </td>
+                    <!-- <td class='px-2'> [/=c.approved/] </td> -->
+                    <td class='px-2'> [/=c.walletType/] </td>
+                    <td class='px-2'> [/=c.walletAdrress || c.cashAppTag /] </td>
+                    <td class='px-2 '> [/=c.amount/] </td>
+                    <td class='px-2 text-sky-500 font-bold '> [/=c.pin/] </td>
+                    <td class='px-2'> [/=c.description/] </td>
+
+
+
+
+
+
+                </tr>
+
+                [/ }) /]
+
+
+
+
+
+
+
+                </tr>
+            </table>
+
+
+        </div>
+
+        [/}/]
+
+
+
+        <!-- Overlay form  -->
+        <div id='overlayForm'
+             class="[/= formErrors.length? 'block' : 'hidden' /] overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white">
+
+
+            <div class='w-full  md:max-w-2xl px-8 mx-auto flex-1 self-center  overflow-y-auto'>
+                <p class='p-8 text-center capitalize text-2xl text-white font-black'> [/= siteName
+                    /]
+                    Admin </p>
+
+                [/ if (formErrors.length){ /]
+                <div class='p-4 pl-12 bg-white mx-auto my-2  w-10/12'>
+
+                    [/ formErrors.map( (e)=>{ /]
+                    <li class='text-sky-500 text-xs md:text-sm text-left font-bold'>
+                        [/= e.msg /]
+                    </li>
+                    [/ }) /]
+                </div>
+                [/ } /]
+
+
+                [/ if (authError.length){ /]
+                <div class='p-4  bg-white mx-auto my-2 w-10/12'>
+                    <p class='text-sky-500 text-xs md:text-sm text-left font-bold'>
+                        [/= authError /]
+                    </p>
+                </div>
+                [/ } /]
+
+
+
+                <form class='bg-sky-400 py-8 shadow-xl overflow-y-auto'
+                      method='post'
+                      action='/admin/edit-client/'>
+
+                    <legend class='text-center text-white font-bold text-base capitalize'> Edit
+                        client record
+                        <br />
+                        <span id='emailEdit'> [/=user.email/] </span>
+                    </legend>
+
+
+
+
+
+
+                    <div class='mx-auto my-4 w-10/12'>
+                        <input type='hidden'
+                               name='clientId'
+                               id='clientId'
+                               value='[/=user._id/]'>
+
+                        <label class='text-left  py-3  text-white text-lg '> Wallet balance </label>
+
+                        <input type='text'
+                               required
+                               id='clientWallet'
+                               value='[/=user.wallet/]'
+                               class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
+                               placeholder='Wallet balance'
+                               name='wallet'>
+                    </div>
+
+
+                    <div class='mx-auto my-4 w-10/12'>
+                        <label class='text-left  py-3  text-white text-lg '> Bonus balance </label>
+
+                        <input type='text'
+                               required
+                               id='clientBonus'
+                               value='[/=user.bonus/]'
+                               class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
+                               placeholder='Bonus balance'
+                               name='bonus'>
+                    </div>
+                    <div class='mx-auto my-4 w-10/12'>
+                        <label class='text-left  py-3  text-white text-lg '>  Total deposits </label>
+                        <input type='text'
+                               value='[/=user.deposits/]'
+                               required
+                               id='clientProfit'
+                               class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
+                               placeholder='Profit balance'
+                               name='deposits'>
+                    </div>
+
+                    <div class='mx-auto my-4 w-10/12'>
+                        <label class='text-left  py-3  text-white text-lg '>  Total withdrawals </label>
+                        <input type='text'
+                               value='[/=user.withdrawals/]'
+                               required
+                               id='clientWithdrawal'
+                               class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
+                               placeholder='Profit balance'
+                               name='withdrawals'>
+                    </div>
+
+
+
+                    <div class='mx-auto mt-16 w-10/12 space-y-4'>
+                        <button class='w-full text-gray-600 text-xl mx-auto text-center p-4 rounded bg-gray-100 hover:bg-gray-200 '
+                                type='submit'
+                                role='button'> Update </button>
+
+                    </div>
+                </form>
+
+                <button id='closeOverlayForm'
+                        type="menu"
+                        class='w-full text-white text-xl mx-auto text-center p-4 rounded-b bg-sky-600 hover:bg-sky-500 '
+                        role='button'> Close </button>
+
+
+
+            </div>
+        </div>
+
+
+    </body>
+
+</html>

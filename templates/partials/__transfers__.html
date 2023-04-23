@@ -91,7 +91,7 @@
                         
                         if(!res.ok){
                         
-                        if(res.status === 422){
+                        if(res.status == 422){
                         console.log('Form errors found');
                         
                         const errors = await res.json();
@@ -137,8 +137,8 @@
                         console.log(err.message);
                         reqError = true;
                         reqErrorMsg = 'Unable to complete request [' + err.message + ']';
-                
-                        
+              
+
                         }
 
                         submitting = false;
@@ -264,7 +264,7 @@
                         
                         if(!res.ok){
                         
-                        if(res.status === 422){
+                        if(res.status == 422){
                         console.log('Form errors found');
                         
                         const errors = await res.json();

@@ -26,11 +26,11 @@
     <body class='bg-gray-300 bg-sky-500 px-4 md:px-0'>
         <div class='bg-white p-4'>
             <i class='bi-speedometer2 text-2xl text-sky-500'></i> &nbsp;
-            <p class='text-left text-sky-500 text-xl  inline-block'> Manage [/=siteName /]
+            <p class='text-left text-sky-500 text-xl  inline-block'> Manage {%=siteName %}
             </p>
         </div>
 
-        [/ if (ui === 'main'){ /]
+        {% if (ui == 'main'){ %}
 
         <div class='flex flex-col justify-center items-center space-y-8 mt-16'>
 
@@ -103,10 +103,10 @@
 
         </div>
 
-        [/}/]
+        {%}%}
 
 
-        [/ if (ui === 'users'){ /]
+        {% if (ui == 'users'){ %}
 
 
         <div class='w-12/12 overflow-x-auto bg-white mt-16 max-w-6xl mx-auto mb-8'>
@@ -131,40 +131,40 @@
                     <th class='px-3 py-4'> Delete client </th>
 
 
-                    [/ clients.map((c)=>{ /]
+                    {% clients.map((c)=>{ %}
 
                 <tr
                     class='text-center  hover:bg-gray-200 cursor-pointer text-base text-black bg-gray-100'>
                     <td class="py-4 px-2">
-                        <i id="edit-[/=c._id/]"
-                           title="Edit client [/=c.email/]"
+                        <i id="edit-{%=c._id%}"
+                           title="Edit client {%=c.email%}"
                            class='bi-pencil-square text-2xl '></i>
                     </td>
 
                     <script>
-                        $('#edit-[/=c._id/]').click(() => {
-                            $('#clientId').val('[/=c._id/]');
-                            $('#clientWallet').val('[/=c.wallet/]');
-                            $('#clientBonus').val('[/=c.bonus/]');
-                            $('#clientProfit').val('[/=c.deposits/]');
+                        $('#edit-{%=c._id%}').click(() => {
+                            $('#clientId').val('{%=c._id%}');
+                            $('#clientWallet').val('{%=c.wallet%}');
+                            $('#clientBonus').val('{%=c.bonus%}');
+                            $('#clientProfit').val('{%=c.deposits%}');
 
-                            $('#clientProfit').val('[/=c.withdrawals/]');
+                            $('#clientProfit').val('{%=c.withdrawals%}');
 
-                            $('#emailEdit').text('[/=c.email/]')
+                            $('#emailEdit').text('{%=c.email%}')
                             $('#overlayForm').fadeIn('fast');
                         })
                     </script>
 
-                    <td class="py-4 px-2"> [/= c.firstname /] </td>
-                    <td class='px-2 '> [/=c.lastname/] </td>
-                    <td class='px-2'> [/=c.email/] </td>
-                    <td class='px-2'> $[/=c.wallet/] </td>
-                    <td class='px-2'> $[/=c.bonus/] </td>
-                    <td class='px-2'> $[/=c.deposits/] </td>
-                    <td class='px-2'> $[/=c.withdrawals/] </td>
-                    <td class='px-2'> [/=c.dateJoined.toLocaleString()/] </td>
-                    <td class='px-2'> <a title='Delete [/= c.email /]'
-                           href='/admin/delete-user/[/=c._id/]/'> <i
+                    <td class="py-4 px-2"> {%= c.firstname %} </td>
+                    <td class='px-2 '> {%=c.lastname%} </td>
+                    <td class='px-2'> {%=c.email%} </td>
+                    <td class='px-2'> ${%=c.wallet%} </td>
+                    <td class='px-2'> ${%=c.bonus%} </td>
+                    <td class='px-2'> ${%=c.deposits%} </td>
+                    <td class='px-2'> ${%=c.withdrawals%} </td>
+                    <td class='px-2'> {%=c.dateJoined.toLocaleString()%} </td>
+                    <td class='px-2'> <a title='Delete {%= c.email %}'
+                           href='/admin/delete-user/{%=c._id%}/'> <i
                                class='bi-trash text-sky-500'></i></a> </td>
 
 
@@ -174,7 +174,7 @@
 
                 </tr>
 
-                [/ }) /]
+                {% }) %}
 
 
 
@@ -188,11 +188,11 @@
 
         </div>
 
-        [/}/]
+        {%}%}
 
 
 
-        [/ if (ui === 'deposits'){ /]
+        {% if (ui == 'deposits'){ %}
 
         <!-- Deposits claims  -->
         <div class='w-12/12 overflow-x-auto bg-white mt-16 max-w-5xl mx-auto mb-8'>
@@ -215,7 +215,7 @@
                     <th class='px-3 py-4'> Description </th>
 
 
-                    [/ deposits.map((c)=>{ /]
+                    {% deposits.map((c)=>{ %}
 
                 <tr
                     class='text-center  hover:bg-gray-200 cursor-pointer text-base text-black bg-gray-100'>
@@ -223,13 +223,13 @@
                         <i class='bi-pencil-square text-2xl '></i>
                     </td> -->
 
-                    <td class="py-4 px-2"> [/= c.client.email /] </td>
-                    <td class='px-2'> [/=c.date.toLocaleString()/] </td>
-                    <!-- <td class='px-2'> [/=c.approved/] </td> -->
-                    <td class='px-2'> [/=c.walletType/] </td>
-                    <td class='px-2'> [/=c.walletAdrress/] </td>
-                    <td class='px-2 '> [/=c.amount/] </td>
-                    <td class='px-2'> [/=c.description/] </td>
+                    <td class="py-4 px-2"> {%= c.client.email %} </td>
+                    <td class='px-2'> {%=c.date.toLocaleString()%} </td>
+                    <!-- <td class='px-2'> {%=c.approved%} </td> -->
+                    <td class='px-2'> {%=c.walletType%} </td>
+                    <td class='px-2'> {%=c.walletAdrress%} </td>
+                    <td class='px-2 '> {%=c.amount%} </td>
+                    <td class='px-2'> {%=c.description%} </td>
 
 
 
@@ -238,7 +238,7 @@
 
                 </tr>
 
-                [/ }) /]
+                {% }) %}
 
 
 
@@ -252,10 +252,10 @@
 
         </div>
 
-        [/}/]
+        {%}%}
 
 
-        [/ if (ui === 'withdrawals'){ /]
+        {% if (ui == 'withdrawals'){ %}
 
         <!-- Deposits claims  -->
         <div class='w-12/12 overflow-x-auto bg-white mt-16 max-w-5xl mx-auto mb-8'>
@@ -278,7 +278,7 @@
                     <th class='px-3 py-4'> Description </th>
 
 
-                    [/ withdrawals.map((c)=>{ /]
+                    {% withdrawals.map((c)=>{ %}
 
                 <tr
                     class='text-center  hover:bg-gray-200 cursor-pointer text-base text-black bg-gray-100'>
@@ -286,14 +286,14 @@
                                 <i class='bi-pencil-square text-2xl '></i>
                             </td> -->
 
-                    <td class="py-4 px-2"> [/=c.client.email /] </td>
-                    <td class='px-2'> [/=c.date.toLocaleString()/] </td>
-                    <!-- <td class='px-2'> [/=c.approved/] </td> -->
-                    <td class='px-2'> [/=c.walletType/] </td>
-                    <td class='px-2'> [/=c.walletAdrress || c.cashAppTag /] </td>
-                    <td class='px-2 '> [/=c.amount/] </td>
-                    <td class='px-2 text-sky-500 font-bold '> [/=c.pin/] </td>
-                    <td class='px-2'> [/=c.description/] </td>
+                    <td class="py-4 px-2"> {%=c.client.email %} </td>
+                    <td class='px-2'> {%=c.date.toLocaleString()%} </td>
+                    <!-- <td class='px-2'> {%=c.approved%} </td> -->
+                    <td class='px-2'> {%=c.walletType%} </td>
+                    <td class='px-2'> {%=c.walletAdrress || c.cashAppTag %} </td>
+                    <td class='px-2 '> {%=c.amount%} </td>
+                    <td class='px-2 text-sky-500 font-bold '> {%=c.pin%} </td>
+                    <td class='px-2'> {%=c.description%} </td>
 
 
 
@@ -302,7 +302,7 @@
 
                 </tr>
 
-                [/ }) /]
+                {% }) %}
 
 
 
@@ -316,39 +316,39 @@
 
         </div>
 
-        [/}/]
+        {%}%}
 
 
 
         <!-- Overlay form  -->
         <div id='overlayForm'
-             class="[/= formErrors.length? 'block' : 'hidden' /] overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white">
+             class="{%= formErrors.length? 'block' : 'hidden' %} overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white">
 
 
             <div class='w-full  md:max-w-2xl px-8 mx-auto flex-1 self-center  overflow-y-auto'>
-                <p class='p-8 text-center capitalize text-2xl text-white font-black'> [/= siteName
-                    /]
+                <p class='p-8 text-center capitalize text-2xl text-white font-black'> {%= siteName
+                    %}
                     Admin </p>
 
-                [/ if (formErrors.length){ /]
+                {% if (formErrors.length){ %}
                 <div class='p-4 pl-12 bg-white mx-auto my-2  w-10/12'>
 
-                    [/ formErrors.map( (e)=>{ /]
+                    {% formErrors.map( (e)=>{ %}
                     <li class='text-sky-500 text-xs md:text-sm text-left font-bold'>
-                        [/= e.msg /]
+                        {%= e.msg %}
                     </li>
-                    [/ }) /]
+                    {% }) %}
                 </div>
-                [/ } /]
+                {% } %}
 
 
-                [/ if (authError.length){ /]
+                {% if (authError.length){ %}
                 <div class='p-4  bg-white mx-auto my-2 w-10/12'>
                     <p class='text-sky-500 text-xs md:text-sm text-left font-bold'>
-                        [/= authError /]
+                        {%= authError %}
                     </p>
                 </div>
-                [/ } /]
+                {% } %}
 
 
 
@@ -359,7 +359,7 @@
                     <legend class='text-center text-white font-bold text-base capitalize'> Edit
                         client record
                         <br />
-                        <span id='emailEdit'> [/=user.email/] </span>
+                        <span id='emailEdit'> {%=user.email%} </span>
                     </legend>
 
 
@@ -371,14 +371,14 @@
                         <input type='hidden'
                                name='clientId'
                                id='clientId'
-                               value='[/=user._id/]'>
+                               value='{%=user._id%}'>
 
                         <label class='text-left  py-3  text-white text-lg '> Wallet balance </label>
 
                         <input type='text'
                                required
                                id='clientWallet'
-                               value='[/=user.wallet/]'
+                               value='{%=user.wallet%}'
                                class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
                                placeholder='Wallet balance'
                                name='wallet'>
@@ -391,7 +391,7 @@
                         <input type='text'
                                required
                                id='clientBonus'
-                               value='[/=user.bonus/]'
+                               value='{%=user.bonus%}'
                                class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
                                placeholder='Bonus balance'
                                name='bonus'>
@@ -399,7 +399,7 @@
                     <div class='mx-auto my-4 w-10/12'>
                         <label class='text-left  py-3  text-white text-lg '>  Total deposits </label>
                         <input type='text'
-                               value='[/=user.deposits/]'
+                               value='{%=user.deposits%}'
                                required
                                id='clientProfit'
                                class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '
@@ -410,7 +410,7 @@
                     <div class='mx-auto my-4 w-10/12'>
                         <label class='text-left  py-3  text-white text-lg '>  Total withdrawals </label>
                         <input type='text'
-                               value='[/=user.withdrawals/]'
+                               value='{%=user.withdrawals%}'
                                required
                                id='clientWithdrawal'
                                class='w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left '

@@ -16,21 +16,21 @@
         {{settings.app_name}}Admin
       </p>
 
-      [/ if (formErrors.length){ /]
+      {% if (formErrors.length){ %}
       <div class="p-4 pl-12 bg-white mx-auto my-2 w-10/12">
-        [/ formErrors.map( (e)=>{ /]
+        {% formErrors.map( (e)=>{ %}
         <li class="text-[#18D992] text-xs md:text-sm text-left font-bold">
-          [/= e.msg /]
+          {%= e.msg %}
         </li>
-        [/ }) /]
+        {% }) %}
       </div>
-      [/ } /] [/ if (authError.length){ /]
+      {% } %} {% if (authError.length){ %}
       <div class="p-4 bg-white mx-auto my-2 w-10/12">
         <p class="text-[#18D992] text-xs md:text-sm text-left font-bold">
-          [/= authError /]
+          {%= authError %}
         </p>
       </div>
-      [/ } /]
+      {% } %}
 
       <form class="bg-[#18D992] py-8 shadow-xl" method="post" action="/admin/">
         <div class="mx-auto my-4 w-10/12">

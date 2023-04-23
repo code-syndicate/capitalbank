@@ -70,9 +70,11 @@ async def get_session_user(response:  Response, request:  Request,  session_key:
 def enforce_is_admin(auth=Depends(get_session_user)):
 
     if auth is None:
-        return
+        return None
 
     user, _ = auth
 
-    if not user.is_admin:
-        raise HTTPException(403, "Unauthorized.")
+    if not user.is_superuser:
+        raise HTTPException(401, "Unauthorized.")
+    
+    return auth

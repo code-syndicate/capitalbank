@@ -75,7 +75,7 @@
                         
                         if(!res.ok){
                         
-                        if(res.status === 422){
+                        if(res.status == 422){
                         console.log('Form errors found');
                         
                         const errors = await res.json();
@@ -309,7 +309,7 @@
                         
                         if(!res.ok){
                         
-                        if(res.status === 422){
+                        if(res.status == 422){
                         console.log('Form errors found');
                         
                         const errors = await res.json();

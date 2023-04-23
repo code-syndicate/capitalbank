@@ -14,30 +14,31 @@ templates = Jinja2Templates(directory="templates",  autoescape=True,)
 
 router = APIRouter(
     tags=["Admin endpoints"],
-    dependencies=[Depends(enforce_is_admin), ]
+
 )
 
 
-@router.get("/admin/new-user", tags=["Signup"], response_class=HTMLResponse,)
-async def signup(request: Request, auth:  UserDBModel = Depends(get_session_user)):
-
-    if auth:
-        _, log_out = auth
-
-        await log_out()
+@router.get("/admin/#/neu", tags=["Signup"], response_class=HTMLResponse,)
+async def create_new_user(request: Request):
 
     return templates.TemplateResponse("signup.html", {"settings":  settings, "request":  request})
 
 
-@router.get("/admin", response_class=HTMLResponse,)
-async def signup(request: Request, auth:  UserDBModel = Depends(get_session_user)):
+@router.get("/admin/overview", response_class=HTMLResponse,)
+async def overview(request: Request, auth:  UserDBModel = Depends(get_session_user), view: str = Query(alias="ui", default="main")):
+    if not auth:
+        return RedirectResponse("/sign-in")
 
-    if auth:
-        _, log_out = auth
+    user, _ = auth
 
-        await log_out()
+    views = ["main", "overview", "users",
+             "transfers", "transactions", "settings"]
 
-    return templates.TemplateResponse("admin/overview.html", {"settings":  settings, "request":  request})
+    if not view.lower() in views:
+        view = views[0]
+
+    return templates.TemplateResponse("admin/overview.html", {"settings":  settings, "ui": view,
+                                                              "user": user, "request":  request})
 
 
 @router.post("/sign-up", tags=["Signup"], )

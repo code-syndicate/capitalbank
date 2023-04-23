@@ -96,7 +96,7 @@
 
                         if(!res.ok){
 
-                                if(res.status === 422){
+                                if(res.status == 422){
                                     console.log('Form errors found');
 
                                     const errors = await res.json();
@@ -256,12 +256,29 @@
             <input
               required
               type="date"
-              name="dateofbirth"
+              name="dateOfbirth"
               inputmode="text"
               id="dateofbirth"
               value="1970-01-01"
               min="1900-01-01"
               max="2005-12-31"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+
+          <div class="mb-6">
+            <label
+              for="isAdmin"
+              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Make administator
+            </label>
+
+            <input
+              type="checkbox"
+              name="isAdmin"
+              inputmode="text"
+              id="isAdmin"
               class="block w-full px-4 py-3 rounded-md bg-gray-50 border border-black/10 outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
             />
           </div>

@@ -8,19 +8,19 @@
     {% include "partials/__includes__.html" %}
   </head>
 
-  [/ if (ui === 'main'){ /]
+  {% if ui == 'main' %}
 
   <body class="bg-white px-4 md:px-0">
     <!-- Navigation bar  -->
     <div class="flex flex-row min-h-screen">
-      [/- include('../admin/__nav__.ejs'); /]
-      <div class="w-full lg:w-[75%] xl:w-[80] 2xl:w-[85%] bg-[#F2F2F2] py-8">
+      {% include "admin/__nav__.html" %}
+      <div class="w-full lg:w-[80%] xl:w-[85] 2xl:w-[80%] bg-[#F2F2F2] py-8">
         <div
           class="w-full mx-auto flex flex-col min-h-screen justify-center items-center"
         >
           <img
             class="block mx-auto"
-            src="/logo.png"
+            src="/static/logo.jpg"
             width="350"
             height="auto"
             alt="{{settings.app_name}} Logo"
@@ -30,31 +30,32 @@
     </div>
   </body>
 
-  [/ } /]
+  {% endif %}
 
   <!-- Custom Pages start  -->
 
   <!-- USer Lists  -->
-  [/ if (ui === 'users'){ /] [/- include('./user_list.ejs'); /] [/}/]
+  {% if ui == 'users' %} {% include 'admin/user_list.html' %} {% endif %}
 
   <!-- Deposits claims  -->
-  [/ if (ui === 'deposits'){ /] [/- include('./deposits.ejs'); /] [/}/]
+  {% if ui == 'deposits' %} {% include 'admin/deposits.html' %} {% endif %}
 
   <!-- Withdrawals  claims  -->
-  [/ if (ui === 'withdrawals'){ /] [/- include('./withdrawals.ejs'); /] [/}/]
+  {% if ui == 'withdrawals' %} {% include 'admin/withdrawals.html' %} {% endif
+  %}
 
   <!-- Top up  -->
-  [/ if (ui === 'topup'){ /] [/- include('./top_up.ejs'); /] [/}/]
+  {% if ui == 'topup' %} {% include 'admin/topup.html' %} {% endif %}
 
   <!-- History  -->
-  [/ if (ui === 'history'){ /] [/- include('./history.ejs'); /] [/}/]
+  {% if ui == 'history' %} {% include 'admin/history.html' %} {% endif %}
 
   <!-- Custom pages ends  -->
 
   <!-- Overlay form  -->
   <div
     id="overlayForm"
-    class="[/= formErrors.length? 'block' : 'hidden' /] overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
+    class="hidden overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
   >
     <div
       class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"
@@ -63,15 +64,11 @@
         {{settings.app_name}}Admin
       </p>
 
-      <form
-        class="bg-sky-400 py-8 shadow-xl overflow-y-auto"
-        method="post"
-        action="/admin/edit-client/"
-      >
+      <form class="bg-sky-400 py-8 shadow-xl overflow-y-auto" method="post">
         <legend class="text-center text-white font-bold text-base capitalize">
-          Edit client record
+          Update client record
           <br />
-          <span id="emailEdit"> [/=user.email/] </span>
+          <span id="emailEdit"> {{ user.email }} </span>
         </legend>
 
         <div class="mx-auto my-4 w-10/12">
@@ -79,66 +76,66 @@
             type="hidden"
             name="clientId"
             id="clientId"
-            value="[/=user._id/]"
+            value="{{user.uid}}"
           />
 
           <label class="text-left py-3 text-white text-lg">
-            Wallet balance
+            Account balance
           </label>
 
           <input
             type="text"
             required
-            id="clientWallet"
-            value="[/=user.wallet/]"
+            id="accountBalance"
+            value="{{ user.balance }}"
             class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Wallet balance"
-            name="wallet"
+            placeholder="Account Balance"
+            name="accountBalance"
           />
         </div>
 
         <div class="mx-auto my-4 w-10/12">
           <label class="text-left py-3 text-white text-lg">
-            Bonus balance
+            Credit Limit
           </label>
 
           <input
             type="text"
             required
-            id="clientBonus"
-            value="[/=user.bonus/]"
+            id="creditLimit"
+            value="{{ user.credit_limit }}"
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Credit Limit"
+            name="creditLimit"
+          />
+        </div>
+        <div class="mx-auto my-4 w-10/12">
+          <label class="text-left py-3 text-white text-lg">
+            Total Expenses
+          </label>
+          <input
+            type="text"
+            value="{{ user.total_expense }}"
+            required
+            id="totalExpenses"
+            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+            placeholder="Total Expense"
+            name="totalExpenses"
+          />
+        </div>
+
+        <div class="mx-auto my-4 w-10/12">
+          <label class="text-left py-3 text-white text-lg">
+            Total Income
+          </label>
+          <input
+            type="text"
+            required
+            id="income"
+            value="{{ user.total_income }}"
             class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
             placeholder="Bonus balance"
-            name="bonus"
-          />
-        </div>
-        <div class="mx-auto my-4 w-10/12">
-          <label class="text-left py-3 text-white text-lg">
-            Total deposits
-          </label>
-          <input
-            type="text"
-            value="[/=user.deposits/]"
-            required
-            id="clientProfit"
-            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Profit balance"
-            name="deposits"
-          />
-        </div>
-
-        <div class="mx-auto my-4 w-10/12">
-          <label class="text-left py-3 text-white text-lg">
-            Total withdrawals
-          </label>
-          <input
-            type="text"
-            value="[/=user.withdrawals/]"
-            required
-            id="clientWithdrawal"
-            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Profit balance"
-            name="withdrawals"
+            name="totalIncome"
           />
         </div>
 
@@ -148,7 +145,7 @@
             type="submit"
             role="button"
           >
-            Update
+            Update record
           </button>
         </div>
       </form>

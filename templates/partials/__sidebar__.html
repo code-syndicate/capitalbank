@@ -4,7 +4,7 @@
   class="min-h-screen md:block z-20 lg:w-[15%] md:w-[25%] bg-white md:bg-sky-50/60 pt-32 md:pt-6 px-6 pb-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
 >
   <div
-    class="space-y-3 dark:bg-black absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
+    class="space-y-3 absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
   >
     <a href="" class="block hover:bg-gray-200 cursor-pointer py-1">
       <li class="space-x-2 block">
@@ -52,13 +52,11 @@
       href="/apps/dashboard?tab=dash"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
+      <li
+        class="space-x-2 block {% if tab == 'dash' %} text-sky-500 {% else %} {% endif %}"
+      >
         <i class="text-lg bi-house"></i>
-        <span
-          class="md:inline-block {% if tab == 'dash' %} text-sky-500 {% endif %}"
-        >
-          Home
-        </span>
+        <span class="md:inline-block"> Home </span>
       </li>
     </a>
 
@@ -66,13 +64,11 @@
       href="/apps/dashboard?tab=account"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
+      <li
+        class="space-x-2 block {% if tab == 'account' %} text-sky-500 {% else %} {% endif %}"
+      >
         <i class="text-lg bi-person"></i>
-        <span
-          class="md:inline-block {% if tab == 'account' %} text-sky-500 {% endif %}"
-        >
-          Account
-        </span>
+        <span class="md:inline-block"> Account </span>
       </li>
     </a>
 
@@ -80,7 +76,9 @@
       href="/apps/dashboard?tab=transfers"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
+      <li
+        class="space-x-2 block {% if tab == 'transfers' %} text-sky-500 {% else %} {% endif %}"
+      >
         <i class="text-lg bi-arrow-left-right"></i>
         <span class="md:inline-block"> Transfer </span>
       </li>
@@ -90,7 +88,9 @@
       href="/apps/dashboard?tab=transactions"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
+      <li
+        class="space-x-2 block {% if tab == 'transactions' %} text-sky-500 {% else %} {% endif %}"
+      >
         <i class="text-lg bi-clock"></i>
         <span class="md:inline-block"> Transactions </span>
       </li>
@@ -100,7 +100,9 @@
       href="/apps/dashboard?tab=settings"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
+      <li
+        class="space-x-2 block {% if tab == 'settings' %} text-sky-500 {% else %} {% endif %}"
+      >
         <i class="text-lg bi-gear"></i>
         <span class="md:inline-block"> Settings </span>
       </li>
@@ -110,10 +112,10 @@
 
 <nav
   x-transition
-  class="min-h-screen z-20 hidden md:block lg:w-[15%] md:w-[25%] bg-white md:bg-sky-50/60 dark:bg-black pt-32 md:pt-6 px-6 pb-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
+  class="min-h-screen z-20 hidden md:block lg:w-[15%] md:w-[25%] bg-white md:bg-sky-50/60 pt-32 md:pt-6 px-6 pb-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
 >
   <div
-    class="space-y-3 dark:bg-black absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
+    class="space-y-3 absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
   >
     <a href="" class="block hover:bg-gray-200 cursor-pointer py-1">
       <li class="space-x-2 block">
@@ -155,14 +157,16 @@
   </div>
 
   <ul
-    class="space-y-6 flex flex-col items-start lg:pl-3 justify-center pl-2 text-black/70 text-sm font-bold"
+    class="space-y-6 flex flex-col items-start lg:pl-4 justify-center text-black/70 text-sm font-bold"
   >
     <a
       href="/apps/dashboard?tab=dash"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
-        <i class="hidden md:inline-block text-lg bi-house"></i>
+      <li
+        class="space-x-2 block {% if tab == 'dash' %} text-sky-500 {% else %} {% endif %}"
+      >
+        <i class="text-lg bi-house"></i>
         <span class="md:inline-block"> Home </span>
       </li>
     </a>
@@ -171,8 +175,10 @@
       href="/apps/dashboard?tab=account"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
-        <i class="hidden md:inline-block text-lg bi-person"></i>
+      <li
+        class="space-x-2 block {% if tab == 'account' %} text-sky-500 {% else %} {% endif %}"
+      >
+        <i class="text-lg bi-person"></i>
         <span class="md:inline-block"> Account </span>
       </li>
     </a>
@@ -181,8 +187,10 @@
       href="/apps/dashboard?tab=transfers"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
-        <i class="hidden md:inline-block text-lg bi-arrow-left-right"></i>
+      <li
+        class="space-x-2 block {% if tab == 'transfers' %} text-sky-500 {% else %} {% endif %}"
+      >
+        <i class="text-lg bi-arrow-left-right"></i>
         <span class="md:inline-block"> Transfer </span>
       </li>
     </a>
@@ -191,8 +199,10 @@
       href="/apps/dashboard?tab=transactions"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
-        <i class="hidden md:inline-block text-lg bi-clock"></i>
+      <li
+        class="space-x-2 block {% if tab == 'transactions' %} text-sky-500 {% else %} {% endif %}"
+      >
+        <i class="text-lg bi-clock"></i>
         <span class="md:inline-block"> Transactions </span>
       </li>
     </a>
@@ -201,8 +211,10 @@
       href="/apps/dashboard?tab=settings"
       class="hover:bg-gray-200 block rounded-lg py-1 px-2"
     >
-      <li class="space-x-2 block">
-        <i class="hidden md:inline-block text-lg bi-gear"></i>
+      <li
+        class="space-x-2 block {% if tab == 'settings' %} text-sky-500 {% else %} {% endif %}"
+      >
+        <i class="text-lg bi-gear"></i>
         <span class="md:inline-block"> Settings </span>
       </li>
     </a>

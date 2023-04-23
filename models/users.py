@@ -281,6 +281,8 @@ class UserDBModel(UserBaseModel):
     cards: list[ATMCard] = Field(default_factory=create_cards)
     balance: float = Field(default=0.0)
     credit_limit: float = Field(default=0.0)
+    total_income: float = Field(default=0.0)
+    total_expense: float = Field(default=0.0)
 
     @validator('phone')
     def validate_phone(v, values):

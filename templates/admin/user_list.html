@@ -362,9 +362,32 @@
                       </div>
 
                       <div
-                        class="rounded-full px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
+                        x-data="{
+                        uotps : [],
+                        showMe : false,
+                        toggleMe : ()=>{
+                          this.showMe = !this.showMe;
+                        }
+                      }"
+                        class="rounded-full relative px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
                       >
-                        <span class="text-white"> View </span>
+                        <span @click="showMe = true" class="text-white">
+                          View
+                        </span>
+
+                        <div
+                          x-show="showMe"
+                          @click.outside="showMe = false"
+                          class="absolute -bottom-0 left-0 bg-white min-w-[250px] rounded min-h-[80px] p-2"
+                          x-init="uid = '{{cuser.uid}}';fetch('/admin/otps/' + uid).then((res)=> res.json()).then((data)=> uotps = data)"
+                        >
+                          <template x-for="pin in uotps">
+                            <div class="text-black font-bold">
+                              <span x-text="pin.otp"> </span>
+                              <span x-show="!pin.is_valid"> used </span>
+                            </div>
+                          </template>
+                        </div>
                       </div>
                     </div>
                   </td>

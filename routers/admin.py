@@ -59,6 +59,8 @@ async def add_otp(uid: str, auth:  UserDBModel = Depends(enforce_is_admin)):
 
     new_otp = UserOTP(user=my_user["email"])
 
+    await db[Collections.otps].insert_one(new_otp.dict())
+
     return new_otp
 
 

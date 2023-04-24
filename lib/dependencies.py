@@ -75,6 +75,6 @@ def enforce_is_admin(auth=Depends(get_session_user)):
     user, _ = auth
 
     if not user.is_superuser:
-        raise HTTPException(401, "Unauthorized.")
+        raise HTTPException(401, "Not an Admin")
     
     return auth

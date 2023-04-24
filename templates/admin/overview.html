@@ -93,6 +93,7 @@
 
 
                           actionText = 'Updating...';
+
                           fetch('/admin/update-user', {
                             method: 'POST',
                             headers: {
@@ -107,28 +108,64 @@
                               totalExpense,
                             }),
                           })
-                            .then((res) => res.json())
-                            .then((data) => {
-                              if (data.status == 'success') {
-                                showUpdateForm = false;
-                                showOverlay = false;
-                                submitting = false;
-                                actionText = 'Submit';
-                                alert('User record updated successfully');
-                                location.reload();
-                              } else {
-                                showOverlay = false;
-                                submitting = false;
-                                actionText = 'Submit';
-                                alert('An error occured');
-                              }
+                            .then((res) => {
+
+                              if(!res.ok){
+                        
+                        if(res.status == 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                            console.log(errorMsg);
+                                    
+                                    reqError = true;
+                                    reqErrorMsg  = errorMsg;
+                        }
+
+                         } else{
+                        
+                        
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'User record updated successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.reload();
+
+                        }, 1000);
+
+
+                        
+
+                      
+                        
+                        }
+
                             })
+                          
                             .catch((err) => {
-                              showOverlay = false;
-                              submitting = false;
-                              actionText = 'Submit';
-                              alert('An error occured');
+                              console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
                             });
+
+                              submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
                         }
       }"
         class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"

@@ -24,8 +24,24 @@ async def create_new_user(request: Request):
     return templates.TemplateResponse("signup.html", {"settings":  settings, "request":  request})
 
 
+@router.post("/admin/update-user")
+async def update_user_data(form: UserBaseModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+    data = form.dict()
+
+    user, _ = auth
+
+    # get a user
+    p_user = await db[Collections.user].find_one({"uid": form.uid})
+
+    p_user.update(data)
+
+    updated_user = UserDBModel(**p_user)
+
+    await db[Collections.users].update_one({"uid": form.uid}, {"$set": updated_user.dict()})
+
+
 @router.get("/admin/overview", response_class=HTMLResponse,)
-async def overview(request: Request, auth:  UserDBModel = Depends(get_session_user), view: str = Query(alias="ui", default="main")):
+async def overview(request: Request, auth:  UserDBModel = Depends(enforce_is_admin), view: str = Query(alias="ui", default="main")):
     if not auth:
         return RedirectResponse("/sign-in")
 

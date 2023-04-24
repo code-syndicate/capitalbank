@@ -95,6 +95,7 @@ class InFiatTransfer(BaseModel):
     updated: str = Field(default_factory=get_utc_timestamp)
     description: Union[str, None] = "Internal Transfer"
     scope: str = "IN"
+    approved: bool = False
 
     class Config:
         allow_population_by_field_name = True
@@ -113,6 +114,7 @@ class OutFiatTransfer(BaseModel):
     updated: str = Field(default_factory=get_utc_timestamp)
     description: Union[str, None] = "Internal Transfer"
     scope: str = "OUT"
+    approved: bool = False
 
     class Config:
         allow_population_by_field_name = True
@@ -251,8 +253,31 @@ class UserInputModel(UserBaseModel):
     class Config:
         allow_population_by_field_name = True
 
+
 class DeleteUserModel(BaseModel):
     email: EmailStr
+
+
+class TickTxModel(BaseModel):
+    tx_id : str = Field( alias = "txId")
+
+
+    class Config:
+        allow_population_by_field_name = True
+
+class UpdateTxModel(BaseModel):
+    tx_id : str = Field( alias = "txId")
+    sender :  str
+    receiver : str
+    amount :  float
+    scope : str
+    status : TxStatus
+
+    
+
+    class Config:
+        allow_population_by_field_name = True
+
 
 class UpdateUserModel(BaseModel):
     uid: str

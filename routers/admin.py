@@ -3,7 +3,7 @@ from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import AuthSession, ChangePasswordInput, DeleteUserModel, RequestAccessTokenInput, TransferInput1, TxType, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
+from models.users import AuthSession, ChangePasswordInput, DeleteUserModel, RequestAccessTokenInput, TickTxModel, TransferInput1, TxType, UpdateTxModel, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs, enforce_is_admin
@@ -47,6 +47,34 @@ async def delete_user(form: DeleteUserModel, auth:  UserDBModel = Depends(enforc
 
     # delete user
     await db[Collections.users].delete_one({"email": form.email})
+
+
+@router.post("/admin/tick-tx")
+async def tick_tx(form: TickTxModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    user, _ = auth
+
+    tx = await db[Collections.transfers].find_one({"tx_id": form.tx_id})
+
+    if tx is None:
+        raise HTTPException(401, "Record not found")
+
+    await db[Collections.transfers].update_one({"tx_id": form.tx_id}, {"$set":  {"approved": True, "status": "SUCCESS"}})
+
+
+@router.post("/admin/update-tx")
+async def update_tx(form: UpdateTxModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    user, _ = auth
+
+    tx = await db[Collections.transfers].find_one({"tx_id": form.tx_id})
+
+    tx.update(form.dict())
+
+    if tx is None:
+        raise HTTPException(401, "Record not found")
+
+    await db[Collections.transfers].update_one({"tx_id": form.tx_id}, {"$set": tx})
 
 
 @router.get("/admin/overview", response_class=HTMLResponse,)

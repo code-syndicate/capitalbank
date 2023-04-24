@@ -9,8 +9,235 @@
   </head>
 
   <body class="bg-white px-4 md:px-0">
-    <div class="flex flex-row min-h-screen">
+    <div
+      x-data="{
+
+      showForm : false,
+
+      toggleForm : ()=>{
+        this.showForm = !this.showForm;
+      },
+
+
+      sender : '',
+      receiver : '',
+      amount : '',
+      status : '',
+      txtype : '',
+      txId : '',
+
+    }"
+      class="flex flex-row min-h-screen"
+    >
       {% include 'admin/__nav__.html' %}
+
+      <!-- Popup update transfer record form  -->
+
+      <div
+        x-show="showForm"
+        x-data="{
+
+          sendUpdate :  ()=>{
+          
+                          submitting = true;
+                          showOverlay = true;
+
+
+                          actionText = 'Updating...';
+
+                          fetch('/admin/update-tx', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              txId,
+                              sender,
+                              receiver,
+                              amount,
+                              scope : txtype,
+                              status
+                            }),
+                          })
+                            .then( async (res) => {
+
+                              if(!res.ok){
+                        
+                        if(res.status == 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                          console.log(errorMsg);
+                                    
+                              reqError = true;
+                              reqErrorMsg  = errorMsg;
+                        }
+
+                         } else{
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Transfer record updated successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.reload();
+
+                        }, 1000);
+
+                        
+                        }
+
+                            })
+                          
+                            .catch((err) => {
+                              console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                            });
+
+                              submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+                        },
+
+
+
+        }"
+        class="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
+      >
+        <div
+          class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
+        >
+          <!-- close button  -->
+          <div class="flex justify-end">
+            <button
+              @click="showForm = false"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <svg
+                class="h-6 w-6 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.12 5.7a1 1 0 0 0-1.42 1.42l4.89 4.89-4.9 4.9a1 1 0 0 0 1.42 1.42l4.88-4.89 4.89 4.89a1 1 0 0 0 1.42-1.42l-4.9-4.9 4.89-4.89a1 1 0 0 0 0-1.42z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex flex-col justify-center items-center">
+            <p class="text-2xl font-bold text-gray-800">Update transfer</p>
+            <p class="text-sm text-gray-500">
+              Make changes to record
+              <span class="font-semibold" x-text="txId"> </span>.
+            </p>
+          </div>
+
+          <form
+            x-on:submit.prevent="sendUpdate"
+            method="post"
+            x-on:submit.prevent=""
+          >
+            <div
+              class="flex flex-col justify-center items-center mt-8 space-y-4"
+            >
+              <input type="hidden" x-model="txId" name="txId" />
+
+              <div class="w-full">
+                <label for="sender" class="text-sm text-gray-500">Sender</label>
+                <input
+                  type="text"
+                  x-model="sender"
+                  required
+                  name="sender"
+                  id="sender"
+                  class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div class="w-full">
+                <label for="receiver" class="text-sm text-gray-500"
+                  >Receiver</label
+                >
+                <input
+                  type="text"
+                  required
+                  x-model="receiver"
+                  name="receiver"
+                  id="receiver"
+                  class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div class="w-full">
+                <label for="amount" class="text-sm text-gray-500">Amount</label>
+                <input
+                  type="text"
+                  required
+                  inputmode="numeric"
+                  x-model="amount"
+                  name="amount"
+                  id="amount"
+                  class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div class="w-full">
+                <label for="txtype" class="text-sm text-gray-500"> Type </label>
+                <select
+                  name="txtype"
+                  x-model="txtype"
+                  class="w-full tracking-wide text-left border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="IN">Internal</option>
+                  <option value="OUT">External</option>
+                </select>
+              </div>
+
+              <div class="w-full">
+                <label for="status" class="text-sm text-gray-500">
+                  Status
+                </label>
+                <select
+                  name="status"
+                  x-model="status"
+                  class="w-full tracking-wide text-left border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="SUCCESS">Success</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="FAILED">Failed</option>
+                </select>
+              </div>
+
+              <div
+                class="flex flex-col w-full justify-center items-center mt-8"
+              >
+                <button
+                  type="submit"
+                  class="bg-sky-500 block w-full hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- End of popup form  -->
 
       <div class="w-full lg:w-[75%] xl:w-[80] 2xl:w-[85%] bg-[#F2F2F2] py-8">
         <!-- User Info  -->
@@ -165,18 +392,139 @@
 
                   {% endif %}
 
-                  <td class="p-4">
+                  <td
+                    x-data="{
+
+
+
+                    handleUpdate : ()=>{
+
+                        sender = '{{tx.sender}}';
+
+                        {% if tx.receiver %}
+                        receiver = '{{tx.receiver}}';
+                        {% else %}
+                        receiver = '{{tx.receiver_account_name}}';
+                        {% endif %}
+
+                        txId = '{{tx.tx_id}}';
+                        amount = {{tx.amount}};
+                        txtype = '{{tx.scope}}';
+                        status = '{{tx.status}}';
+
+
+
+                        showForm = true;
+
+                    },
+
+                    approveTx : ()=>{
+
+                        txId = '{{tx.tx_id}}';
+
+                   
+          
+                          submitting = true;
+                          showOverlay = true;
+
+
+                          actionText = 'Approving...';
+
+                          fetch('/admin/tick-tx', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              txId,
+                              
+                            }),
+                          })
+                            .then( async (res) => {
+
+                              if(!res.ok){
+                        
+                        if(res.status == 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                          console.log(errorMsg);
+                                    
+                              reqError = true;
+                              reqErrorMsg  = errorMsg;
+                        }
+
+                         } else{
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Transfer approved successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.reload();
+
+                        }, 1000);
+
+                        
+                        }
+
+                            })
+                          
+                            .catch((err) => {
+                              console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                            });
+
+                              submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+                        
+                      
+                    }
+
+                  }"
+                    class="p-4"
+                  >
                     <div class="flex flex-row space-x-2">
                       <div
                         class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
                       >
-                        <i class="bi-pencil text-white"></i>
+                        <i
+                          @click="handleUpdate"
+                          class="bi-pencil text-white"
+                        ></i>
                       </div>
+                      {% if tx.approved %}
+
                       <div
+                        class="rounded-full text-white px-2 py-1 bg-gray-400"
+                      >
+                        <span> Approved </span>
+                      </div>
+
+                      {% else %}
+
+                      <div
+                        @click="approveTx"
                         class="rounded-full text-white px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
                       >
                         <span> Approve </span>
                       </div>
+
+                      {% endif %}
                     </div>
                   </td>
                 </tr>

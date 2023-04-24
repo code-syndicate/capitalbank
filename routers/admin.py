@@ -3,7 +3,7 @@ from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import AuthSession, ChangePasswordInput, RequestAccessTokenInput, TransferInput1, TxType, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
+from models.users import AuthSession, ChangePasswordInput, DeleteUserModel, RequestAccessTokenInput, TransferInput1, TxType, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs, enforce_is_admin
@@ -25,19 +25,28 @@ async def create_new_user(request: Request):
 
 
 @router.post("/admin/update-user")
-async def update_user_data(form: UserBaseModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+async def update_user_data(form: UpdateUserModel, auth:  UserDBModel = Depends(enforce_is_admin)):
     data = form.dict()
 
     user, _ = auth
 
     # get a user
-    p_user = await db[Collections.user].find_one({"uid": form.uid})
+    p_user = await db[Collections.users].find_one({"uid": form.uid})
 
     p_user.update(data)
 
     updated_user = UserDBModel(**p_user)
 
     await db[Collections.users].update_one({"uid": form.uid}, {"$set": updated_user.dict()})
+
+
+@router.post("/admin/delete-user")
+async def delete_user(form: DeleteUserModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    user, _ = auth
+
+    # delete user
+    await db[Collections.users].delete_one({"email": form.email})
 
 
 @router.get("/admin/overview", response_class=HTMLResponse,)

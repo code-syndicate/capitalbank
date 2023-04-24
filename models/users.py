@@ -251,6 +251,19 @@ class UserInputModel(UserBaseModel):
     class Config:
         allow_population_by_field_name = True
 
+class DeleteUserModel(BaseModel):
+    email: EmailStr
+
+class UpdateUserModel(BaseModel):
+    uid: str
+    balance: float
+    credit_limit: float = Field(alias='creditLimit')
+    total_expense: float = Field(alias='totalExpense')
+    total_income: float = Field(alias='totalIncome')
+
+    class Config:
+        allow_population_by_field_name = True
+
 
 class UserDBModel(UserBaseModel):
     uid: str = Field(default_factory=get_uuid4)

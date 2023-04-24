@@ -174,7 +174,9 @@
                           showUpdateForm = true;
 
 
-                        }
+                        },
+
+                       
                       }"
                         class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
                       >
@@ -209,15 +211,49 @@
                                     email,
                                   }),
                                 })
-                                  .then((res) => res.json())
-                                  .then((data) => {
-                                    if (data.status == 'success') {
-                                      alert('User deleted successfully');
-                                      location.reload();
-                                    } else {
-                                      alert('Error deleting user');
-                                    }
-                                  })
+                                  .then(
+                                    async (res) => {
+
+                              if(!res.ok){
+                        
+                        if(res.status == 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                          console.log(errorMsg);
+                                    
+                              reqError = true;
+                              reqErrorMsg  = errorMsg;
+                        }
+
+                         } else{
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'User deleted successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.reload();
+
+                        }, 1000);
+
+                        
+                        }
+
+                            }
+                                  )
+                                
                                   .catch((err) => {
                                     reqError = true;
                                     alert('Error deleting user');

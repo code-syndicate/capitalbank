@@ -85,9 +85,8 @@
     >
       <div
         x-data="{
-         updateUser : ()=>{
-
-
+         updateUser :  ()=>{
+          
                           submitting = true;
                           showOverlay = true;
 
@@ -108,7 +107,7 @@
                               totalExpense,
                             }),
                           })
-                            .then((res) => {
+                            .then( async (res) => {
 
                               if(!res.ok){
                         
@@ -118,7 +117,6 @@
                         const errors = await res.json();
                         console.log(errors);
                         
-                        
                         reqError = true;
                         reqErrorMsg = JSON.stringify(errors);
                         
@@ -127,15 +125,13 @@
                         else{
                         
                         const errorMsg = (await res.json()).detail;
-                            console.log(errorMsg);
+                          console.log(errorMsg);
                                     
-                                    reqError = true;
-                                    reqErrorMsg  = errorMsg;
+                              reqError = true;
+                              reqErrorMsg  = errorMsg;
                         }
 
                          } else{
-                        
-                        
                         
                         console.log('Form submitted successfully');
                         reqError = true;
@@ -147,10 +143,6 @@
 
                         }, 1000);
 
-
-                        
-
-                      
                         
                         }
 

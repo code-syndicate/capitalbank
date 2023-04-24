@@ -21,11 +21,24 @@
       totalIncome : 0,
       totalExpense : 0,
     
+      submitting : false,
+      actionText : '',
+      reqError : false,
+      reqErrorText : '',
+      reqErrorMsg : '',
+      reqSuccess : false,
+      reqSuccessText : '',
+      showOverlay : false,
+      success : false,
+
+
+
+
 
   }"
     class="bg-white px-4 md:px-0"
   >
-    {% if ui == 'main' %}
+    {% include "partials/__widgets__.html" %} {% if ui == 'main' %}
 
     <!-- Navigation bar  -->
     <div class="flex flex-row min-h-screen">
@@ -71,13 +84,67 @@
       class="overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
     >
       <div
+        x-data="{
+         updateUser : ()=>{
+
+
+                          submitting = true;
+                          showOverlay = true;
+
+
+                          actionText = 'Updating...';
+                          fetch('/admin/update-user', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              uid,
+                              email,
+                              balance,
+                              creditLimit,
+                              totalIncome,
+                              totalExpense,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((data) => {
+                              if (data.status == 'success') {
+                                showUpdateForm = false;
+                                showOverlay = false;
+                                submitting = false;
+                                actionText = 'Submit';
+                                alert('User record updated successfully');
+                                location.reload();
+                              } else {
+                                showOverlay = false;
+                                submitting = false;
+                                actionText = 'Submit';
+                                alert('An error occured');
+                              }
+                            })
+                            .catch((err) => {
+                              showOverlay = false;
+                              submitting = false;
+                              actionText = 'Submit';
+                              alert('An error occured');
+                            });
+                        }
+      }"
         class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"
       >
         <p class="p-8 text-center capitalize text-2xl text-white font-black">
           {{settings.app_name}}Admin
         </p>
 
-        <form class="bg-sky-400 py-8 shadow-xl overflow-y-auto" method="post">
+        <form
+          x-on:submit.prevent="updateUser"
+          x-data="{
+          
+        }"
+          class="bg-sky-400 py-8 shadow-xl overflow-y-auto"
+          method="post"
+        >
           <legend class="text-center text-white font-bold text-base capitalize">
             Update client record
             <br />

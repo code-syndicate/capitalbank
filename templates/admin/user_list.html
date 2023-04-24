@@ -378,11 +378,13 @@
                         <div
                           x-show="showMe"
                           @click.outside="showMe = false"
-                          class="absolute -bottom-0 left-0 bg-white min-w-[250px] rounded min-h-[80px] p-2"
+                          class="absolute bottom-[100%] left-0 bg-white rounded p-4 border shadow"
                           x-init="uid = '{{cuser.uid}}';fetch('/admin/otps/' + uid).then((res)=> res.json()).then((data)=> uotps = data)"
                         >
                           <template x-for="pin in uotps">
-                            <div class="text-black font-bold">
+                            <div
+                              class="text-black text-sm tracking-wide flex flex-col justify-center items-center"
+                            >
                               <span x-text="pin.otp"> </span>
                               <span x-show="!pin.is_valid"> used </span>
                             </div>

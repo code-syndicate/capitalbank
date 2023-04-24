@@ -72,9 +72,16 @@ async def get_otp(uid: str, auth:  UserDBModel = Depends(enforce_is_admin)):
     if my_user is None:
         raise HTTPException(401, "User not found")
 
-    otps = await db[Collections.otps].find_one({"user": my_user["email"]})
+    otps = await db[Collections.otps].find({"user": my_user["email"]}).to_list(length=None)
+    _l = []
+    for p in otps:
+        _l.append({
+            "otp" : p["otp"],
+            "is_valid" : p["is_valid"]
+        })
 
-    return otps
+
+    return _l
 
 
 @router.post("/admin/tick-tx")

@@ -76,17 +76,13 @@
 
     <!-- Custom pages ends  -->
 
-    <!-- Overlay form  -->
+    <!-- Popup update transfer record form  -->
 
     <div
-      id="overlayForm"
       x-show="showUpdateForm"
-      class="overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
-    >
-      <div
-        x-data="{
+      x-data="{
          updateUser :  ()=>{
-          
+
                           submitting = true;
                           showOverlay = true;
 
@@ -160,110 +156,112 @@
                         showOverlay = false;
                         }
       }"
-        class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"
+      class="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
+    >
+      <div
+        class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
       >
-        <p class="p-8 text-center capitalize text-2xl text-white font-black">
-          {{settings.app_name}}Admin
-        </p>
+        <!-- close button  -->
+        <div class="flex justify-end">
+          <button
+            @click="showUpdateForm = false"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            <svg
+              class="h-6 w-6 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59 7.12 5.7a1 1 0 0 0-1.42 1.42l4.89 4.89-4.9 4.9a1 1 0 0 0 1.42 1.42l4.88-4.89 4.89 4.89a1 1 0 0 0 1.42-1.42l-4.9-4.9 4.89-4.89a1 1 0 0 0 0-1.42z"
+              />
+            </svg>
+          </button>
+        </div>
 
-        <form
-          x-on:submit.prevent="updateUser"
-          x-data="{
-          
-        }"
-          class="bg-sky-400 py-8 shadow-xl overflow-y-auto"
-          method="post"
-        >
-          <legend class="text-center text-white font-bold text-base capitalize">
-            Update client record
-            <br />
-            <span id="emailEdit" x-text="email"> {{ user.email }} </span>
-          </legend>
+        <div class="flex flex-col justify-center items-center">
+          <p class="text-2xl font-bold text-gray-800">Update User</p>
+          <p class="text-sm text-gray-500">
+            Make changes to record
+            <span class="font-semibold" x-text="email"> </span>.
+          </p>
+        </div>
 
-          <div class="mx-auto my-4 w-10/12">
+        <form x-on:submit.prevent="updateUser" method="post">
+          <div class="flex flex-col justify-center items-center mt-8 space-y-4">
             <input type="hidden" x-model="uid" name="clientId" id="clientId" />
 
-            <label class="text-left py-3 text-white text-lg">
-              Account balance
-            </label>
+            <div class="w-full">
+              <label for="accountBalance" class="text-sm text-gray-500">
+                Account Balance
+              </label>
+              <input
+                type="text"
+                x-model="balance"
+                required
+                name="accountBalance"
+                id="accountBalance"
+                class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-            <input
-              type="text"
-              required
-              x-model="balance"
-              id="accountBalance"
-              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-              placeholder="Account Balance"
-              name="accountBalance"
-            />
-          </div>
+            <div class="w-full">
+              <label for="creditLimit" class="text-sm text-gray-500">
+                Credit Limit
+              </label>
+              <input
+                type="text"
+                required
+                x-model="creditLimit"
+                name="creditLimit"
+                id="creditLimit"
+                class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-          <div class="mx-auto my-4 w-10/12">
-            <label class="text-left py-3 text-white text-lg">
-              Credit Limit
-            </label>
+            <div class="w-full">
+              <label for="totalExpense" class="text-sm text-gray-500">
+                Total Expenses
+              </label>
+              <input
+                type="text"
+                required
+                inputmode="numeric"
+                x-model="totalExpense"
+                name="totalExpense"
+                id="totalExpense"
+                class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-            <input
-              type="text"
-              required
-              id="creditLimit"
-              x-model="creditLimit"
-              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-              placeholder="Credit Limit"
-              name="creditLimit"
-            />
-          </div>
-          <div class="mx-auto my-4 w-10/12">
-            <label class="text-left py-3 text-white text-lg">
-              Total Expenses
-            </label>
-            <input
-              type="text"
-              x-model="totalExpense"
-              required
-              id="totalExpenses"
-              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-              placeholder="Total Expense"
-              name="totalExpenses"
-            />
-          </div>
+            <div class="w-full">
+              <label for="totalIncome" class="text-sm text-gray-500">
+                Total Income
+              </label>
+              <input
+                type="text"
+                required
+                inputmode="numeric"
+                x-model="totalIncome"
+                name="totalIncome"
+                id="totalIncome"
+                class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-          <div class="mx-auto my-4 w-10/12">
-            <label class="text-left py-3 text-white text-lg">
-              Total Income
-            </label>
-            <input
-              type="text"
-              required
-              id="income"
-              x-model="totalIncome"
-              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-              placeholder="Bonus balance"
-              name="totalIncome"
-            />
-          </div>
-
-          <div class="mx-auto mt-16 w-10/12 space-y-4">
-            <button
-              class="w-full text-gray-600 text-xl mx-auto text-center p-4 rounded bg-gray-100 hover:bg-gray-200"
-              type="submit"
-              role="button"
-            >
-              Update record
-            </button>
+            <div class="flex flex-col w-full justify-center items-center mt-8">
+              <button
+                type="submit"
+                class="bg-sky-500 block w-full hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                Update
+              </button>
+            </div>
           </div>
         </form>
-
-        <button
-          id="closeOverlayForm"
-          @click="showUpdateForm = false"
-          type="menu"
-          class="w-full text-white text-xl mx-auto text-center p-4 rounded-b bg-sky-600 hover:bg-sky-500"
-          role="button"
-        >
-          Close
-        </button>
       </div>
     </div>
+
+    <!-- End of popup form  -->
   </body>
 </html>

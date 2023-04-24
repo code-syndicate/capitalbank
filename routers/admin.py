@@ -3,7 +3,7 @@ from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import AuthSession, ChangePasswordInput, DeleteUserModel, RequestAccessTokenInput, TickTxModel, TransferInput1, TxType, UpdateTxModel, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
+from models.users import DeleteUserModel, TickTxModel, TransferInput1, TxType, UpdateTxModel, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs, enforce_is_admin

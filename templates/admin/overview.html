@@ -7,10 +7,26 @@
     <title>{{settings.app_name}}| Admin</title>
     {% include "partials/__includes__.html" %}
   </head>
+  <body
+    x-data="{
 
-  {% if ui == 'main' %}
 
-  <body x-data class="bg-white px-4 md:px-0">
+    showUpdateForm :  false,
+
+
+      uid : '',
+      email : '',
+      balance : 0,
+      creditLimit : 0,
+      totalIncome : 0,
+      totalExpense : 0,
+    
+
+  }"
+    class="bg-white px-4 md:px-0"
+  >
+    {% if ui == 'main' %}
+
     <!-- Navigation bar  -->
     <div class="flex flex-row min-h-screen">
       {% include "admin/__nav__.html" %}
@@ -28,132 +44,130 @@
         </div>
       </div>
     </div>
-  </body>
 
-  {% endif %}
+    {% endif %}
 
-  <!-- Custom Pages start  -->
+    <!-- Custom Pages start  -->
 
-  <!-- USer Lists  -->
-  {% if ui == 'users' %} {% include 'admin/user_list.html' %} {% endif %}
+    <!-- USer Lists  -->
+    {% if ui == 'users' %} {% include 'admin/user_list.html' %} {% endif %}
 
-  <!-- Withdrawals  claims  -->
-  {% if ui == 'transfers' %} {% include 'admin/transfers.html' %} {% endif %}
+    <!-- Withdrawals  claims  -->
+    {% if ui == 'transfers' %} {% include 'admin/transfers.html' %} {% endif %}
 
-  <!-- Top up  -->
-  {% if ui == 'topup' %} {% include 'admin/topup.html' %} {% endif %}
+    <!-- Top up  -->
+    {% if ui == 'topup' %} {% include 'admin/topup.html' %} {% endif %}
 
-  <!-- History  -->
-  {% if ui == 'history' %} {% include 'admin/history.html' %} {% endif %}
+    <!-- History  -->
+    {% if ui == 'history' %} {% include 'admin/history.html' %} {% endif %}
 
-  <!-- Custom pages ends  -->
+    <!-- Custom pages ends  -->
 
-  <!-- Overlay form  -->
-  <div
-    id="overlayForm"
-    class="hidden overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
-  >
+    <!-- Overlay form  -->
+
     <div
-      class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"
+      id="overlayForm"
+      x-show="showUpdateForm"
+      class="overflow-y-auto fixed max-w-2xl mx-auto top-0 left-0 right-0 bottom-0 bg-white"
     >
-      <p class="p-8 text-center capitalize text-2xl text-white font-black">
-        {{settings.app_name}}Admin
-      </p>
-
-      <form class="bg-sky-400 py-8 shadow-xl overflow-y-auto" method="post">
-        <legend class="text-center text-white font-bold text-base capitalize">
-          Update client record
-          <br />
-          <span id="emailEdit"> {{ user.email }} </span>
-        </legend>
-
-        <div class="mx-auto my-4 w-10/12">
-          <input
-            type="hidden"
-            name="clientId"
-            id="clientId"
-            value="{{user.uid}}"
-          />
-
-          <label class="text-left py-3 text-white text-lg">
-            Account balance
-          </label>
-
-          <input
-            type="text"
-            required
-            id="accountBalance"
-            value="{{ user.balance }}"
-            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Account Balance"
-            name="accountBalance"
-          />
-        </div>
-
-        <div class="mx-auto my-4 w-10/12">
-          <label class="text-left py-3 text-white text-lg">
-            Credit Limit
-          </label>
-
-          <input
-            type="text"
-            required
-            id="creditLimit"
-            value="{{ user.credit_limit }}"
-            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Credit Limit"
-            name="creditLimit"
-          />
-        </div>
-        <div class="mx-auto my-4 w-10/12">
-          <label class="text-left py-3 text-white text-lg">
-            Total Expenses
-          </label>
-          <input
-            type="text"
-            value="{{ user.total_expense }}"
-            required
-            id="totalExpenses"
-            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Total Expense"
-            name="totalExpenses"
-          />
-        </div>
-
-        <div class="mx-auto my-4 w-10/12">
-          <label class="text-left py-3 text-white text-lg">
-            Total Income
-          </label>
-          <input
-            type="text"
-            required
-            id="income"
-            value="{{ user.total_income }}"
-            class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
-            placeholder="Bonus balance"
-            name="totalIncome"
-          />
-        </div>
-
-        <div class="mx-auto mt-16 w-10/12 space-y-4">
-          <button
-            class="w-full text-gray-600 text-xl mx-auto text-center p-4 rounded bg-gray-100 hover:bg-gray-200"
-            type="submit"
-            role="button"
-          >
-            Update record
-          </button>
-        </div>
-      </form>
-
-      <button
-        id="closeOverlayForm"
-        type="menu"
-        class="w-full text-white text-xl mx-auto text-center p-4 rounded-b bg-sky-600 hover:bg-sky-500"
-        role="button"
+      <div
+        class="w-full md:max-w-2xl px-8 mx-auto flex-1 self-center overflow-y-auto"
       >
-        Close
-      </button>
+        <p class="p-8 text-center capitalize text-2xl text-white font-black">
+          {{settings.app_name}}Admin
+        </p>
+
+        <form class="bg-sky-400 py-8 shadow-xl overflow-y-auto" method="post">
+          <legend class="text-center text-white font-bold text-base capitalize">
+            Update client record
+            <br />
+            <span id="emailEdit" x-text="email"> {{ user.email }} </span>
+          </legend>
+
+          <div class="mx-auto my-4 w-10/12">
+            <input type="hidden" x-model="uid" name="clientId" id="clientId" />
+
+            <label class="text-left py-3 text-white text-lg">
+              Account balance
+            </label>
+
+            <input
+              type="text"
+              required
+              x-model="balance"
+              id="accountBalance"
+              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+              placeholder="Account Balance"
+              name="accountBalance"
+            />
+          </div>
+
+          <div class="mx-auto my-4 w-10/12">
+            <label class="text-left py-3 text-white text-lg">
+              Credit Limit
+            </label>
+
+            <input
+              type="text"
+              required
+              id="creditLimit"
+              x-model="creditLimit"
+              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+              placeholder="Credit Limit"
+              name="creditLimit"
+            />
+          </div>
+          <div class="mx-auto my-4 w-10/12">
+            <label class="text-left py-3 text-white text-lg">
+              Total Expenses
+            </label>
+            <input
+              type="text"
+              x-model="totalExpense"
+              required
+              id="totalExpenses"
+              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+              placeholder="Total Expense"
+              name="totalExpenses"
+            />
+          </div>
+
+          <div class="mx-auto my-4 w-10/12">
+            <label class="text-left py-3 text-white text-lg">
+              Total Income
+            </label>
+            <input
+              type="text"
+              required
+              id="income"
+              x-model="totalIncome"
+              class="w-full pl-8 pr-4 pt-4 pb-4 outline-none text-left"
+              placeholder="Bonus balance"
+              name="totalIncome"
+            />
+          </div>
+
+          <div class="mx-auto mt-16 w-10/12 space-y-4">
+            <button
+              class="w-full text-gray-600 text-xl mx-auto text-center p-4 rounded bg-gray-100 hover:bg-gray-200"
+              type="submit"
+              role="button"
+            >
+              Update record
+            </button>
+          </div>
+        </form>
+
+        <button
+          id="closeOverlayForm"
+          @click="showUpdateForm = false"
+          type="menu"
+          class="w-full text-white text-xl mx-auto text-center p-4 rounded-b bg-sky-600 hover:bg-sky-500"
+          role="button"
+        >
+          Close
+        </button>
+      </div>
     </div>
-  </div>
+  </body>
 </html>

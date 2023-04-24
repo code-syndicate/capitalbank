@@ -120,6 +120,7 @@
                   <th class="p-4">Type</th>
 
                   <th class="p-4">Status</th>
+                  <th class="p-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -163,6 +164,21 @@
                   </td>
 
                   {% endif %}
+
+                  <td class="p-4">
+                    <div class="flex flex-row space-x-2">
+                      <div
+                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
+                      >
+                        <i class="bi-pencil text-white"></i>
+                      </div>
+                      <div
+                        class="rounded-full text-white px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
+                      >
+                        <span> Approve </span>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
 
                 {% endfor %}

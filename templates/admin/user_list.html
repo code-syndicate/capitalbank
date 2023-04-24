@@ -146,9 +146,40 @@
                   <td class="p-4">
                     <div class="flex flex-row space-x-2">
                       <div
+                        x-data="{
+                        showPopup{{loop.index}} : ()=>{
+                          uid = '{{cuser.uid}}';
+                          email = '{{cuser.email}}';
+
+                          {% if cuser.balance %}
+                          balance = {{cuser.balance}};
+
+                          {% endif %}
+
+                          {% if cuser.credit_limit %}
+                          creditLimit = {{cuser.credit_limit}};
+                          {% endif %}
+
+                          {% if cuser.total_income %}
+                          totalIncome = {{cuser.total_income}};
+                          {% endif %}
+
+                          {% if cuser.total_expenses %}
+                          totalExpense = {{cuser.total_expenses}};
+                          {% endif %}
+
+
+                          showUpdateForm = true;
+
+
+                        }
+                      }"
                         class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
                       >
-                        <i class="bi-pencil text-white"></i>
+                        <i
+                          @click="showPopup{{loop.index}}"
+                          class="bi-pencil text-white"
+                        ></i>
                       </div>
                       <div
                         class="rounded-full px-2 py-1 bg-[#F2507B] hover:bg-[#F2507B]/80 cursor-pointer"

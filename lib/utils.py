@@ -33,6 +33,15 @@ def gen_cvv():
     return nums
 
 
+def gen_otp():
+    nums = ""
+
+    for n in range(6):
+        nums += str(randint(0, 9))
+
+    return nums
+
+
 def gen_pin():
     nums = ""
 

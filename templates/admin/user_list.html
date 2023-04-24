@@ -267,11 +267,104 @@
 
                             }
 
-                        }
+                        },
+
+                       
                       }"
                         class="rounded-full px-2 py-1 bg-[#F2507B] hover:bg-[#F2507B]/80 cursor-pointer"
                       >
                         <i @click="deleteUser" class="bi-trash text-white"></i>
+                      </div>
+
+                      <div
+                        x-data="{
+                         addOTP : ()=>{
+
+
+                          uid = '{{cuser.uid}}';
+                              email = '{{cuser.email}}';
+                              
+
+
+                                submitting = true;
+                                showOverlay = true;
+
+                                actionText = 'Creating OTP...';
+                                fetch('/admin/otps/' + uid, {
+                                  method: 'POST',
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                  },
+                                  body: JSON.stringify({
+                                    uid,
+                                    email,
+                                  }),
+                                })
+                                  .then(
+                                    async (res) => {
+
+                              if(!res.ok){
+                        
+                        if(res.status == 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                          console.log(errorMsg);
+                                    
+                              reqError = true;
+                              reqErrorMsg  = errorMsg;
+                        }
+
+                         } else{
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'OTP created successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.reload();
+
+                        }, 1000);
+
+                        
+                        }
+
+                            }
+                                  )
+                                
+                                  .catch((err) => {
+                                    reqError = true;
+                                    alert('Error deleting user');
+                                  })
+                                  .finally(() => {
+                                    submitting = false;
+                                    showOverlay = false;
+                                  });
+
+
+                          
+                        }
+                      }"
+                        class="rounded-full px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
+                      >
+                        <i @click="addOTP" class="bi-plus text-white">OTP</i>
+                      </div>
+
+                      <div
+                        class="rounded-full px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
+                      >
+                        <span class="text-white"> View </span>
                       </div>
                     </div>
                   </td>

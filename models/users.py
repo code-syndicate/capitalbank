@@ -84,6 +84,12 @@ class TransferInput2(TransferInputBase):
     receiver_account_name: str
 
 
+class UserOTP(BaseModel):
+    user: EmailStr
+    otp: str = Field(default_factory=gen_otp)
+    is_valid :  bool = True
+
+
 class InFiatTransfer(BaseModel):
     tx_id: str = Field(default_factory=get_uuid4)
     amount: float
@@ -259,21 +265,19 @@ class DeleteUserModel(BaseModel):
 
 
 class TickTxModel(BaseModel):
-    tx_id : str = Field( alias = "txId")
-
+    tx_id: str = Field(alias="txId")
 
     class Config:
         allow_population_by_field_name = True
 
-class UpdateTxModel(BaseModel):
-    tx_id : str = Field( alias = "txId")
-    sender :  str
-    receiver : str
-    amount :  float
-    scope : str
-    status : TxStatus
 
-    
+class UpdateTxModel(BaseModel):
+    tx_id: str = Field(alias="txId")
+    sender:  str
+    receiver: str
+    amount:  float
+    scope: str
+    status: TxStatus
 
     class Config:
         allow_population_by_field_name = True

@@ -3,7 +3,7 @@ from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import DeleteUserModel, TickTxModel, TransferInput1, TxType, UpdateTxModel, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
+from models.users import DeleteUserModel, TickTxModel, TransferInput1, TxType, UpdateTxModel, UpdateUserModel, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2, UserOTP
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs, enforce_is_admin
@@ -47,6 +47,32 @@ async def delete_user(form: DeleteUserModel, auth:  UserDBModel = Depends(enforc
 
     # delete user
     await db[Collections.users].delete_one({"email": form.email})
+
+
+@router.post("/admin/otps/{uid}")
+async def add_otp(uid: str, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    my_user = await db[Collections.users].find_one({"uid": uid})
+
+    if my_user is None:
+        raise HTTPException(401, "User not found")
+
+    new_otp = UserOTP(user=my_user["email"])
+
+    return new_otp
+
+
+@router.get("/admin/otps/{uid}")
+async def get_otp(uid: str, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    my_user = await db[Collections.users].find_one({"uid": uid})
+
+    if my_user is None:
+        raise HTTPException(401, "User not found")
+
+    otps = await db[Collections.otps].find_one({"user": my_user["email"]})
+
+    return otps
 
 
 @router.post("/admin/tick-tx")

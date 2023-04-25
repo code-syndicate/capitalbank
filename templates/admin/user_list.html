@@ -378,9 +378,16 @@
                         <div
                           x-show="showMe"
                           @click.outside="showMe = false"
-                          class="absolute bottom-[100%] left-0 bg-white rounded p-4 border shadow flex flex-col justify-center items-center"
+                          class="absolute bottom-[100%] min-h-[200px] min-w-[120px] -left-[100%] bg-white rounded p-4 border shadow flex flex-col justify-center items-center"
                           x-init="uid = '{{cuser.uid}}';fetch('/admin/otps/' + uid).then((res)=> res.json()).then((data)=> uotps = data)"
                         >
+                          <p
+                            x-show="uotps.length === 0"
+                            class="text-sm px-3 py-4 text-center text-black/80"
+                          >
+                            No unused otps.
+                          </p>
+
                           <template x-for="pin in uotps">
                             <div
                               class="text-black text-sm tracking-wide flex flex-row -space-x-2"

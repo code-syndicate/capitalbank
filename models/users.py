@@ -72,7 +72,6 @@ class RequestEmailOrSMSVerificationInput(BaseModel):
 class TransferInputBase(BaseModel):
     amount: float
     description: Union[str, None] = None
-    otp : str = Field(min_length = 4, max_length = 12)
 
 
 class TransferInput1(TransferInputBase):
@@ -88,7 +87,7 @@ class TransferInput2(TransferInputBase):
 class UserOTP(BaseModel):
     user: EmailStr
     otp: str = Field(default_factory=gen_otp)
-    is_valid :  bool = True
+    is_valid:  bool = True
 
 
 class InFiatTransfer(BaseModel):
@@ -207,6 +206,7 @@ class ChangePasswordInput(BaseModel):
     new_password: str = Field(min_length=8, max_length=25, alias="newpassword")
     new_password2: str = Field(
         min_length=8, max_length=25, alias="confirmpassword")
+    otp: str = Field(default=None, min_length=4, max_length=12)
 
     class Config:
         allow_population_by_field_name = True

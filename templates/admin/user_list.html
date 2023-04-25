@@ -360,46 +360,48 @@
                       >
                         <i @click="addOTP" class="bi-plus text-white">OTP</i>
                       </div>
-
-                      <div
-                        x-data="{
+                    </div>
+                    <div
+                      x-data="{
                         uotps : [],
                         showMe : false,
                         toggleMe : ()=>{
                           this.showMe = !this.showMe;
                         }
                       }"
-                        class="rounded-full relative px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
+                      class="rounded-full mt-4 text-center relative px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
+                    >
+                      <span
+                        @click="showMe = true"
+                        class="text-white text-center inline-flex"
                       >
-                        <span @click="showMe = true" class="text-white">
-                          View
-                        </span>
+                        View OTPs
+                      </span>
 
-                        <div
-                          x-show="showMe"
-                          @click.outside="showMe = false"
-                          class="absolute bottom-[100%] min-h-[200px] min-w-[120px] -left-[100%] bg-white rounded p-4 border shadow flex flex-col justify-center items-center"
-                          x-init="uid = '{{cuser.uid}}';fetch('/admin/otps/' + uid).then((res)=> res.json()).then((data)=> uotps = data)"
+                      <div
+                        x-show="showMe"
+                        @click.outside="showMe = false"
+                        class="absolute bottom-[100%] min-h-[150px] min-w-[100px] -left-[100%] bg-white rounded p-4 border shadow flex flex-col justify-center items-center"
+                        x-init="uid = '{{cuser.uid}}';fetch('/admin/otps/' + uid).then((res)=> res.json()).then((data)=> uotps = data)"
+                      >
+                        <p
+                          x-show="uotps.length === 0"
+                          class="text-sm px-3 py-4 text-center text-black/80"
                         >
-                          <p
-                            x-show="uotps.length === 0"
-                            class="text-sm px-3 py-4 text-center text-black/80"
-                          >
-                            No unused otps.
-                          </p>
+                          No unused OTPs.
+                        </p>
 
-                          <template x-for="pin in uotps">
-                            <div
-                              class="text-black text-sm tracking-wide flex flex-row -space-x-2"
-                            >
-                              <span class="px-2 inline-flex" x-text="pin.otp">
-                              </span>
-                              <span class="text-red-500" x-show="!pin.is_valid">
-                                used
-                              </span>
-                            </div>
-                          </template>
-                        </div>
+                        <template x-for="pin in uotps">
+                          <div
+                            class="text-black text-sm tracking-wide flex flex-row -space-x-2"
+                          >
+                            <span class="px-2 inline-flex" x-text="pin.otp">
+                            </span>
+                            <span class="text-red-500" x-show="!pin.is_valid">
+                              used
+                            </span>
+                          </div>
+                        </template>
                       </div>
                     </div>
                   </td>

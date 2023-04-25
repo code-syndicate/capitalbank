@@ -9,7 +9,7 @@
 
     <title>{{ settings.app_name }}</title>
   </head>
-  <body   :class="$store.darkMode.on ? 'dark' : ''">
+  <body x-cloak  :class="$store.darkMode.on ? 'dark' : ''">
     <div
       class="min-h-screen w-full"
       x-data="{

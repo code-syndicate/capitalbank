@@ -335,9 +335,7 @@
                          setTimeout(()=>{
                             window.location.reload();
 
-                        }, 1000);
-
-                        
+                        }, 1000);                        
                         }
 
                             }
@@ -352,8 +350,6 @@
                                     showOverlay = false;
                                   });
 
-
-                          
                         }
                       }"
                         class="rounded-full px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
@@ -369,11 +365,11 @@
                           this.showMe = !this.showMe;
                         }
                       }"
-                      class="rounded-full mt-4 text-center relative px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
+                      class="rounded-full mt-2 text-center relative px-2 py-1 bg-sky-400 hover:bg-sky-400/80 cursor-pointer"
                     >
                       <span
                         @click="showMe = true"
-                        class="text-white text-center inline-flex"
+                        class="text-white text-xs text-center inline-flex"
                       >
                         View OTPs
                       </span>

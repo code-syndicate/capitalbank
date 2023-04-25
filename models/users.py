@@ -279,6 +279,7 @@ class UpdateTxModel(BaseModel):
     amount:  float
     scope: str
     status: TxStatus
+    created: Union[str, None] = Field(default=None, alias="created")
 
     class Config:
         allow_population_by_field_name = True

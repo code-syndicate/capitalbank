@@ -1,3 +1,4 @@
+import datetime
 from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends
 from typing import Union
 from fastapi.templating import Jinja2Templates
@@ -103,7 +104,18 @@ async def update_tx(form: UpdateTxModel, auth:  UserDBModel = Depends(enforce_is
 
     tx = await db[Collections.transfers].find_one({"tx_id": form.tx_id})
 
-    tx.update(form.dict())
+    update = form.dict(exclude_unset=True, exclude_none=True, )
+
+    if form.created:
+        ts = datetime.datetime.fromisoformat(
+            form.created).timestamp()
+
+        update.update({"created": ts})
+
+    else:
+        update = form.dict(exclude={"created",})
+
+    tx.update(update)
 
     if tx is None:
         raise HTTPException(401, "Record not found")

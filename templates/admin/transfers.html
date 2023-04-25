@@ -25,6 +25,7 @@
       status : '',
       txtype : '',
       txId : '',
+      created : '',
 
     }"
       class="flex flex-row min-h-screen"
@@ -56,7 +57,8 @@
                               receiver,
                               amount,
                               scope : txtype,
-                              status
+                              status,
+                              created
                             }),
                           })
                             .then( async (res) => {
@@ -118,7 +120,7 @@
         class="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
       >
         <div
-          class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
+          class="w-[95%] max-h-[90vh] overflow-y-auto mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
         >
           <!-- close button  -->
           <div class="flex justify-end">
@@ -150,11 +152,26 @@
             x-on:submit.prevent="sendUpdate"
             method="post"
             x-on:submit.prevent=""
+            class=""
           >
             <div
               class="flex flex-col justify-center items-center mt-8 space-y-4"
             >
               <input type="hidden" x-model="txId" name="txId" />
+
+              <div class="w-full">
+                <label for="created" class="text-sm text-gray-500">
+                  Date created (optional)
+                </label>
+                <input
+                  type="datetime-local"
+                  name="created"
+                  @change="created = $el.value"
+                  x-ref="created"
+                  id="created"
+                  class="w-full tracking-wide border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
 
               <div class="w-full">
                 <label for="sender" class="text-sm text-gray-500">Sender</label>
@@ -357,7 +374,7 @@
                   <td
                     x-data
                     class="p-4"
-                    x-text="new Date({{tx.created}}).toLocaleString()"
+                    x-text="new Date({{tx.created}} * 1000 ).toLocaleString()"
                   >
                     {{tx.created}}
                   </td>
@@ -411,10 +428,9 @@
                         amount = {{tx.amount}};
                         txtype = '{{tx.scope}}';
                         status = '{{tx.status}}';
-
-
-
                         showForm = true;
+
+
 
                     },
 

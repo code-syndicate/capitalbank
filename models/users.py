@@ -72,6 +72,7 @@ class RequestEmailOrSMSVerificationInput(BaseModel):
 class TransferInputBase(BaseModel):
     amount: float
     description: Union[str, None] = None
+    otp : str = Field(min_length = 4, max_length = 12)
 
 
 class TransferInput1(TransferInputBase):

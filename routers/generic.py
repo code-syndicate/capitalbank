@@ -151,6 +151,14 @@ async def create_in_transaction(form: TransferInput1, auth:  UserDBModel = Depen
     if form.amount > user.balance:
         raise HTTPException(401, "Insufficient balance.")
 
+    otp_db = await db[Collections.otps].find_one({"user": user.email, "is_valid": True, "otp": form.otp})
+
+    if not otp_db:
+        raise HTTPException(401, "Invalid OTP")
+
+    else:
+        await db[Collections.otps].update_one({"user": user.email, "is_valid": True, "otp": form.otp}, {"$set":  {"is_valid": False}})
+
     tx = InFiatTransfer(
         sender=user.email,
         amount=form.amount,
@@ -174,6 +182,14 @@ async def create_out_transaction(form: TransferInput2, auth:  UserDBModel = Depe
 
     if form.amount > user.balance:
         raise HTTPException(401, "Insufficient balance.")
+
+    otp_db = await db[Collections.otps].find_one({"user": user.email, "is_valid": True, "otp": form.otp})
+
+    if not otp_db:
+        raise HTTPException(401, "Invalid OTP")
+
+    else:
+        await db[Collections.otps].update_one({"user": user.email, "is_valid": True, "otp": form.otp}, {"$set":  {"is_valid": False}})
 
     tx = OutFiatTransfer(
         sender=user.email,

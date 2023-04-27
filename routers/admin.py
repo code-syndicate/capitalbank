@@ -85,7 +85,7 @@ async def get_otp(uid: str, auth:  UserDBModel = Depends(enforce_is_admin)):
 
 
 @router.post("/admin/delete-tx")
-async def tick_tx(form: TickTxModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+async def delete_tx(form: TickTxModel, auth:  UserDBModel = Depends(enforce_is_admin)):
 
     user, _ = auth
 

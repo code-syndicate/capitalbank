@@ -15,7 +15,10 @@
       </p>
 
       <span class="font-bold text-black/70 text-xl">
-        + ${{user.total_income}}
+        +
+        <span x-text="new Intl.NumberFormat().format({{user.total_income}})">
+          ${{user.total_income}}
+        </span>
       </span>
     </div>
 
@@ -26,7 +29,10 @@
       </p>
 
       <span class="font-bold text-black/70 text-xl">
-        - ${{user.total_expense}}
+        -
+        <span x-text="new Intl.NumberFormat().format({{user.total_expense}})">
+          ${{user.total_expense}}
+        </span>
       </span>
     </div>
 

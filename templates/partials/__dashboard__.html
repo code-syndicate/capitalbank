@@ -26,7 +26,12 @@
 
     <div class="rounded-lg p-4 shadow-lg w-full border">
       <div class="flex flex-col items-start">
-        <p class="text-gray-700 py-1 font-bold text-2xl">$ {{user.balance}}</p>
+        <p class="text-gray-700 py-1 font-bold text-2xl">
+          $
+          <span x-text="new Intl.NumberFormat().format({{user.balance}})"
+            >{{user.balance}}</span
+          >
+        </p>
         <h1 class="text-gray-600 font-bold text-sm">Total Balance</h1>
       </div>
     </div>
@@ -34,7 +39,10 @@
     <div class="rounded-lg p-4 shadow-lg w-full border">
       <div class="flex flex-col items-start">
         <p class="text-gray-700 py-1 font-bold text-2xl">
-          $ {{user.credit_limit}}
+          $
+          <span x-text="new Intl.NumberFormat().format({{user.credit_limit}})">
+            {{user.credit_limit}}
+          </span>
         </p>
         <h1 class="text-gray-600 font-bold text-sm">Credit Limit</h1>
       </div>

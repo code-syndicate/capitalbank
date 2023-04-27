@@ -111,7 +111,7 @@ async def update_tx(form: UpdateTxModel, auth:  UserDBModel = Depends(enforce_is
     user, _ = auth
 
     tx = await db[Collections.transfers].find_one({"tx_id": form.tx_id})
-
+    print(form.dict())
     update = form.dict(exclude_unset=True, exclude_none=True, )
 
     if form.created:

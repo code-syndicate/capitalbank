@@ -26,6 +26,7 @@
       txtype : '',
       txId : '',
       created : '',
+      txcat : '',
 
     }"
       class="flex flex-row min-h-screen"
@@ -58,7 +59,8 @@
                               amount,
                               scope : txtype,
                               status,
-                              created
+                              created,
+                              txtype : txcat
                             }),
                           })
                             .then( async (res) => {
@@ -213,7 +215,9 @@
               </div>
 
               <div class="w-full">
-                <label for="txtype" class="text-sm text-gray-500"> Type </label>
+                <label for="txtype" class="text-sm text-gray-500">
+                  Transfer Type
+                </label>
                 <select
                   name="txtype"
                   x-model="txtype"
@@ -236,6 +240,20 @@
                   <option value="SUCCESS">Success</option>
                   <option value="PENDING">Pending</option>
                   <option value="FAILED">Failed</option>
+                </select>
+              </div>
+
+              <div class="w-full">
+                <label for="txcat" class="text-sm text-gray-500">
+                  Transfer Category
+                </label>
+                <select
+                  name="txcat"
+                  x-model="txcat"
+                  class="w-full tracking-wide text-left border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="DEBIT">Sent</option>
+                  <option value="CREDIT">Income</option>
                 </select>
               </div>
 
@@ -428,6 +446,9 @@
                         amount = {{tx.amount}};
                         txtype = '{{tx.scope}}';
                         status = '{{tx.status}}';
+                        txcat = '{{tx.txtype}}';
+                        
+
                         showForm = true;
 
 

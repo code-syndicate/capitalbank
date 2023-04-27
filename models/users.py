@@ -82,7 +82,7 @@ class TransferInput2(TransferInputBase):
     receiver_bank_name: str
     receiver_account_number: str
     receiver_account_name: str
-    scope : str
+    scope: str
 
 
 class UserOTP(BaseModel):
@@ -111,7 +111,7 @@ class InFiatTransfer(BaseModel):
 class OutFiatTransfer(BaseModel):
     tx_id: str = Field(default_factory=get_uuid4)
     amount: float
-    type: TxType = TxType.DEBIT
+    txtype: TxType = TxType.DEBIT
     sender: EmailStr
     receiver_bank_name: str
     receiver_account_number: str
@@ -119,7 +119,7 @@ class OutFiatTransfer(BaseModel):
     status: TxStatus = TxStatus.PENDING
     created: str = Field(default_factory=get_utc_timestamp)
     updated: str = Field(default_factory=get_utc_timestamp)
-    description: Union[str, None] = "Internal Transfer"
+    description: Union[str, None] = "External Transfer"
     scope: str = "OUT"
     approved: bool = False
 
@@ -280,6 +280,7 @@ class UpdateTxModel(BaseModel):
     amount:  float
     scope: str
     status: TxStatus
+    txtype: TxType
     created: Union[str, None] = Field(default=None, alias="created")
 
     class Config:

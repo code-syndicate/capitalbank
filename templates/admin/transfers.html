@@ -437,6 +437,10 @@
 
                     handleDelete : ()=>{
 
+                      let ch = confirm('Are you sure you want to delete this record?');
+
+                      if(!ch)return;
+
 
                          txId = '{{tx.tx_id}}';
           

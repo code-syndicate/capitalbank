@@ -1,4 +1,9 @@
-<div class="w-full xl:w-[80%] lg:w-[70%]">
+<div
+  x-data="{
+  scope : 'IN'
+}"
+  class="w-full xl:w-[80%] lg:w-[70%]"
+>
   <!-- Edit Profile Form  -->
 
   <div
@@ -8,6 +13,12 @@
 
       toggleETx : function () {
         this.eTx = !this.eTx;
+
+        if(scope == 'IN'){
+          scope = 'OUT';
+        }else{
+          scope = 'IN';
+        }
       },
             reqError : false,
             reqErrorMsg : 'Error',
@@ -38,10 +49,10 @@
           class="px-2 select-none cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-200 text-sky-800"
         >
           <span x-show="!eTx" class="inline-flex px-2"
-            >Send to an external bank account</span
+            >Transfer to an external bank account</span
           >
-          <span x-show="eTx" class="inline-flex px-2"
-            >Send to an internal bank account</span
+          <span x-show="eTx" class="inline-flex px-2">
+            Transfer to an internal bank account</span
           >
 
           <i class="bi-box-arrow-up-right"></i>
@@ -150,8 +161,8 @@
             },
       }"
         x-on:submit.prevent="submitForm1($event)"
-        x-show="!eTx"
-        class="max-w-md w-[90%] mx-auto"
+        x-show="false"
+        class="max-w-md w-[90%] mx-auto hidden"
       >
         <div>
           <label
@@ -242,6 +253,8 @@
                         }
                         }
 
+                        object = { ...object, scope};
+                        
 
                         actionText = 'Processing...';
                         submitting = true;
@@ -332,9 +345,23 @@
 
       }"
         x-on:submit.prevent="submitForm2($event)"
-        x-show="eTx"
         class="max-w-md w-[90%] mx-auto"
       >
+        <div class="mt-2 mb-8">
+          <p
+            class="px-2 select-none text-center inline-flex text-2xl leading-5 font-semibold text-sky-800"
+            x-show="eTx"
+          >
+            External Transfer
+          </p>
+
+          <p
+            class="px-2 select-none text-center inline-flex text-2xl leading-5 font-semibold text-sky-800"
+            x-show="!eTx"
+          >
+            Internal Transfer
+          </p>
+        </div>
         <div>
           <label
             for="amount"

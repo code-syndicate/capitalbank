@@ -41,10 +41,10 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
         tab = views[0]
 
     # get all transfers
-    out_transfers = await db[Collections.transfers].find({"sender": user.email}).to_list(length=100)
-    in_transfers = await db[Collections.transfers].find({"receiver": user.email}).to_list(length=100)
+    out_transfers = await db[Collections.transfers].find({"sender": user.email}).sort("created", -1).to_list(length=100)
+    # in_transfers = await db[Collections.transfers].find({"receiver": user.email}).sort("created", -1).to_list(length=100)
 
-    txs = out_transfers + in_transfers
+    txs = out_transfers[:10]
 
     return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab, "txs": txs})
 
@@ -191,6 +191,7 @@ async def create_out_transaction(form: TransferInput2, auth:  UserDBModel = Depe
         receiver_account_name=form.receiver_account_name,
         receiver_account_number=form.receiver_account_number,
         receiver_bank_name=form.receiver_bank_name,
+        scope=form.scope.upper(),
     )
 
     user.balance -= form.amount

@@ -84,6 +84,14 @@ async def get_otp(uid: str, auth:  UserDBModel = Depends(enforce_is_admin)):
     return _l
 
 
+@router.post("/admin/delete-tx")
+async def tick_tx(form: TickTxModel, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    user, _ = auth
+
+    await db[Collections.transfers].delete_one({"tx_id": form.tx_id})
+
+
 @router.post("/admin/tick-tx")
 async def tick_tx(form: TickTxModel, auth:  UserDBModel = Depends(enforce_is_admin)):
 
@@ -113,7 +121,7 @@ async def update_tx(form: UpdateTxModel, auth:  UserDBModel = Depends(enforce_is
         update.update({"created": ts})
 
     else:
-        update = form.dict(exclude={"created",})
+        update = form.dict(exclude={"created", })
 
     tx.update(update)
 
@@ -140,7 +148,9 @@ async def overview(request: Request, auth:  UserDBModel = Depends(enforce_is_adm
     users = await db[Collections.users].find().to_list(length=None)
 
     # get all transfers
-    transfers = await db[Collections.transfers].find().to_list(length=None)
+    transfers = await db[Collections.transfers].find().sort("created", -1).to_list(length=None)
+
+    transfers = transfers[:20]
 
     return templates.TemplateResponse("admin/overview.html", {"users": users, "transfers": transfers, "settings":  settings, "ui": view, "user": user, "request":  request})
 

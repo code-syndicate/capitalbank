@@ -82,6 +82,7 @@ class TransferInput2(TransferInputBase):
     receiver_bank_name: str
     receiver_account_number: str
     receiver_account_name: str
+    scope : str
 
 
 class UserOTP(BaseModel):

@@ -434,6 +434,85 @@
 
                     },
 
+
+                    handleDelete : ()=>{
+
+
+                         txId = '{{tx.tx_id}}';
+          
+                          submitting = true;
+                          showOverlay = true;
+
+
+                          actionText = 'Deleting...';
+
+                          fetch('/admin/delete-tx', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              txId,
+                              
+                            }),
+                          })
+                            .then( async (res) => {
+
+                              if(!res.ok){
+                        
+                        if(res.status == 422){
+                        console.log('Form errors found');
+                        
+                        const errors = await res.json();
+                        console.log(errors);
+                        
+                        reqError = true;
+                        reqErrorMsg = JSON.stringify(errors);
+                        
+                        
+                        }
+                        else{
+                        
+                        const errorMsg = (await res.json()).detail;
+                          console.log(errorMsg);
+                                    
+                              reqError = true;
+                              reqErrorMsg  = errorMsg;
+                        }
+
+                         } else{
+                        
+                        console.log('Form submitted successfully');
+                        reqError = true;
+                        reqErrorMsg = 'Transfer record deleted successfully.';
+                        success = true;
+
+                         setTimeout(()=>{
+                            window.location.reload();
+
+                        }, 1000);
+
+                        
+                        }
+
+                            })
+                          
+                            .catch((err) => {
+                              console.log(err.message);
+                        reqError = true;
+                        reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                            });
+
+                              submitting = false;
+
+                        reqLoading = false;
+                        showOverlay = false;
+
+
+                    },
+
+
+
                     approveTx : ()=>{
 
                         txId = '{{tx.tx_id}}';
@@ -521,6 +600,15 @@
                         <i
                           @click="handleUpdate"
                           class="bi-pencil text-white"
+                        ></i>
+                      </div>
+
+                      <div
+                        class="rounded-full px-2 py-1 bg-red-500 hover:bg-red-500/80 cursor-pointer"
+                      >
+                        <i
+                          @click="handleDelete"
+                          class="bi-trash text-white"
                         ></i>
                       </div>
                       {% if tx.approved %}

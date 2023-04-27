@@ -81,16 +81,14 @@
                     </div>
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                        {% if tx.sender == user.email %} {% if tx.scope == "IN"
-                        %} {{ tx.receiver }} {% else %}
-                        {{tx.receiver_account_name}} {% endif %} {% else %}
-                        {{tx.sender}} {% endif %}
+                        {% if tx.sender == user.email %} You {% elif
+                        tx.receiver_account_name %} {{tx.receiver_account_name}}
+                        {% else %} {{tx.sender}} {% endif %}
                       </div>
                       <div class="text-sm text-gray-500">
-                        {% if tx.sender == user.email %} {% if tx.scope == "IN"
-                        %} {{ tx.receiver }} {% else %}
-                        {{tx.receiver_account_name}} {% endif %} {% else %}
-                        {{tx.sender}} {% endif %}
+                        {% if tx.sender == user.email %} {{user.email}} {% elif
+                        tx.receiver_account_name %} {{tx.receiver_account_name}}
+                        {% else %} {{tx.sender}} {% endif %}
                       </div>
                     </div>
                   </div>

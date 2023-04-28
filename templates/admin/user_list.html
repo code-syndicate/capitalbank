@@ -422,7 +422,7 @@
 
               <a href="/admin/overview?ui=users&page={{loop.index}}">
                 <button
-                  class="rounded-lg text-sm py-2 px-3 bg-[#18D992] text-black bg-gray-200"
+                  class="rounded-lg text-sm py-2 px-3 {% if page == loop.index %} bg-gray-500 text-white {% else %} bg-gray-200 text-black {% endif %}"
                 >
                   {{loop.index}}
                 </button>

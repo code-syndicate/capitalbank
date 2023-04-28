@@ -1,4 +1,5 @@
 import datetime
+import math
 from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends
 from typing import Union
 from fastapi.templating import Jinja2Templates
@@ -132,7 +133,7 @@ async def update_tx(form: UpdateTxModel, auth:  UserDBModel = Depends(enforce_is
 
 
 @router.get("/admin/overview", response_class=HTMLResponse,)
-async def overview(request: Request, auth:  UserDBModel = Depends(enforce_is_admin), view: str = Query(alias="ui", default="main")):
+async def overview(request: Request, auth:  UserDBModel = Depends(enforce_is_admin), view: str = Query(alias="ui", default="main"), page:  Union[int, None] = Query(default=1)):
     if not auth:
         return RedirectResponse("/sign-in")
 
@@ -144,15 +145,31 @@ async def overview(request: Request, auth:  UserDBModel = Depends(enforce_is_adm
     if not view.lower() in views:
         view = views[0]
 
+    l_users = await db[Collections.users].count_documents({})
+    l_txs = await db[Collections.transfers].count_documents({})
+
+    max_users_pages = math.ceil(l_users / settings.per_page)
+    max_tx_pages = math.ceil(l_txs / settings.per_page)
+
+    start, stop = 0, 0
+
+    if view == "users":
+        page = min(max_users_pages, page)
+        start = (settings.per_page * page) - settings.per_page
+        stop = start + settings.per_page
+
+    if view == "transfers":
+        page = min(max_tx_pages, page)
+        start = (settings.per_page * page) - settings.per_page
+        stop = start + settings.per_page
+
     # get all users
-    users = await db[Collections.users].find().to_list(length=None)
+    users = await db[Collections.users].find({}).sort("email", -1).skip(start).to_list(length=settings.per_page)
 
     # get all transfers
-    transfers = await db[Collections.transfers].find().sort("created", -1).to_list(length=None)
+    transfers = await db[Collections.transfers].find({}).sort("created", -1).skip(start).to_list(length=settings.per_page)
 
-    transfers = transfers[:20]
-
-    return templates.TemplateResponse("admin/overview.html", {"users": users, "transfers": transfers, "settings":  settings, "ui": view, "user": user, "request":  request})
+    return templates.TemplateResponse("admin/overview.html", {"users": users, "transfers": transfers, "settings":  settings, "ui": view, "user": user, "request":  request, "up" : [ x for x in range(1, max_users_pages + 1)], "tp": [ x for x in range(1, max_tx_pages + 1) ], "page" : page, "lup" : max_users_pages, "ltp" : max_tx_pages } )
 
 
 @router.post("/sign-up", tags=["Signup"], )

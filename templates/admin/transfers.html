@@ -666,41 +666,34 @@
           <!-- Pagination Buttons  -->
           <div class="flex flex-row items-center justify-center mt-8">
             <div class="flex flex-row items-center justify-center space-x-4">
-              <button
-                class="rounded-lg text-sm py-2 px-3 text-white bg-[#F2507B]"
-              >
-                <i class="bi-arrow-left"></i>
-              </button>
-              <button
-                class="rounded-lg text-sm py-2 px-3 bg-[#18D992] text-black bg-gray-200"
-              >
-                1
-              </button>
-              <button
-                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
-              >
-                2
-              </button>
-              <button
-                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
-              >
-                3
-              </button>
-              <button
-                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
-              >
-                4
-              </button>
-              <button
-                class="rounded-lg text-sm py-2 px-3 text-black t-[#18D992] bg-gray-200"
-              >
-                5
-              </button>
-              <button
-                class="rounded-lg text-sm py-2 px-3 text-white bg-[#F2507B]"
-              >
-                <i class="bi-arrow-right"></i>
-              </button>
+              {% if page > 1 %}
+              <a href="/admin/overview?ui=transfers&page={{page - 1}}">
+                <button
+                  class="rounded-lg text-sm py-2 px-3 text-white bg-[#F2507B]"
+                >
+                  <i class="bi-arrow-left"></i>
+                </button>
+              </a>
+              {% endif %} {% for num in tp %}
+
+              <a href="/admin/overview?ui=transfers&page={{loop.index}}">
+                <button
+                  class="rounded-lg text-sm py-2 px-3 bg-[#18D992] text-black bg-gray-200"
+                >
+                  {{loop.index}}
+                </button>
+              </a>
+
+              {% endfor %} {% if page < ltp %}
+
+              <a href="/admin/overview?ui=transfers&page={{page + 1}}">
+                <button
+                  class="rounded-lg text-sm py-2 px-3 text-white bg-[#F2507B]"
+                >
+                  <i class="bi-arrow-right"></i>
+                </button>
+              </a>
+              {% endif %}
             </div>
           </div>
         </div>

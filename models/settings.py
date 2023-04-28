@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     sms_api_url: HttpUrl = "https://sms.com"
     jwt_secret_key: str = "jwtsecretkey"
     jwt_access_token_expiration_hours: int = 1
-    paginator_per_page: int = 2
+    per_page: int = 5
     session_cookie_name: str = "capital_security_session"
 
     class Config:

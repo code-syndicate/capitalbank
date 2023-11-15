@@ -3,9 +3,9 @@ from pydantic import BaseSettings, HttpUrl, AnyUrl
 
 class Settings(BaseSettings):
     debug:  bool = True
-    app_name:  str = "Capital Security Bank Limited"
-    app_id: str = "capital-security"
-    db_name = "capital-security"
+    app_name:  str = "Walton Express"
+    app_id: str = "walton-express"
+    db_name = "walton"
     allowed_origins: list[HttpUrl] = ["http://127.0.0.1:7004"]
     base_url: str = "http://localhost:8002"
     db_url: AnyUrl = "mongodb://localhost:4000"

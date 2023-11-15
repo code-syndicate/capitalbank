@@ -1,77 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     {% include "partials/__includes__.html" %}
 
-    <title> {{ settings.app_name  }} </title>
-</head>
-<body>
+    <title>{{ settings.app_name }}</title>
+  </head>
+  <body>
+    <main class="min-h-screen w-full">
+      <nav
+        class="min-h-screen sm:min-w-[15%] md:min-w-[15%] lg:min-w-[15%] max-w-[25%] bg-sky-50/60 dark:bg-black p-6 border-r-2 border-sky-200 fixed top-0 left-0 bottom-0"
+      >
+        <div
+          class="space-y-3 absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700"
+        >
+          <a href="" class="block hover:bg-gray-200 cursor-pointer py-1">
+            <li class="space-x-2 block">
+              <i class="bi-exclamation-circle text-xl"></i>
+              <span> Get Help </span>
+            </li>
+          </a>
 
+          <li class="space-x-2 block hover:bg-gray-200 cursor-pointer py-1">
+            <i class="bi-toggle2-off text-xl"></i> <span> Dark mode </span>
+          </li>
+        </div>
 
+        <div
+          class="w-full flex flex-col itens-center justify-center mt-4 mb-16"
+        >
+          <img
+            alt="logo"
+            src="/static/logo.png"
+            class="h-12 bg-blend-overlay rounded-full mx-auto"
+          />
+        </div>
 
-            <main class = "min-h-screen w-full">
+        <ul
+          class="space-y-6 flex flex-col items-start lg:pl-[2vw] justify-center pl-2 text-black/70 text-sm font-bold"
+        >
+          <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+            <li class="space-x-2 block">
+              <i class="text-lg bi-house"></i> <span> Home </span>
+            </li>
+          </a>
 
-                    <nav class = "min-h-screen sm:min-w-[15%] md:min-w-[15%] lg:min-w-[15%] max-w-[25%] bg-sky-50/60 dark:bg-black p-6 border-r-2 border-sky-200  fixed top-0 left-0 bottom-0">
+          <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+            <li class="space-x-2 block">
+              <i class="text-lg bi-person"></i> <span> Account </span>
+            </li>
+          </a>
 
-                        <div class = "space-y-3 absolute bottom-10 left-0 right-0 text-sm text-center text-gray-700  ">
+          <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+            <li class="space-x-2 block">
+              <i class="text-lg bi-arrow-left-right"></i>
+              <span> Transfer </span>
+            </li>
+          </a>
 
-                            <a href = "" class = " block hover:bg-gray-200 cursor-pointer py-1" >
-                                <li class="space-x-2 block"> <i class="bi-exclamation-circle text-xl"></i> <span> Get Help </span> </li>
-                            </a>
+          <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+            <li class="space-x-2 block">
+              <i class="text-lg bi-clock"></i> <span> Transactions </span>
+            </li>
+          </a>
 
-
-                                <li class="space-x-2 block hover:bg-gray-200 cursor-pointer py-1"> <i class="bi-toggle2-off text-xl"></i> <span> Dark mode </span> </li>
-
-
-                        </div>
-
-
-                        <div class="w-full flex flex-col itens-center justify-center mt-4 mb-16">
-
-                            <img alt = "logo" src = "/static/logo.jpg" class = "w-48 h-auto bg-blend-overlay  mx-auto"/>
-                        </div>
-                                
-
-                        <ul class = "space-y-6 flex flex-col items-start lg:pl-[2vw] justify-center pl-2 text-black/70 text-sm font-bold">
-
-                                    <a href= "" class=" hover:bg-gray-200 block rounded-lg py-1 px-3 ">
-                                        <li class = "space-x-2 block"> <i class= "text-lg  bi-house"></i> <span> Home </span> </li>
-                                    </a>
-
-
-
-                                    <a href= "" class=" hover:bg-gray-200 block rounded-lg py-1 px-3 ">
-                                        <li class="space-x-2 block"> <i class=" text-lg bi-person"></i> <span> Account </span> </li>
-                                    </a>
-
-
-                                    <a href= "" class=" hover:bg-gray-200 block rounded-lg py-1 px-3 ">
-                                        <li class="space-x-2 block"> <i class=" text-lg bi-arrow-left-right"></i> <span> Transfer </span> </li>
-                                    </a>
-
-                                    <a href= "" class=" hover:bg-gray-200 block rounded-lg py-1 px-3 ">
-                                        <li class="space-x-2 block"> <i class=" text-lg bi-clock"></i> <span> Transactions </span> </li>
-                                    </a>
-
-
-                                    <a href= "" class=" hover:bg-gray-200 block rounded-lg py-1 px-3 ">
-                                        <li class="space-x-2 block"> <i class=" text-lg bi-gear"></i> <span> Settings </span> </li>
-                                    </a>
-
-
-                        </ul>
-                    </nav>
-
-
-
-            </main>
-
-
-    
-</body>
+          <a href="" class="hover:bg-gray-200 block rounded-lg py-1 px-3">
+            <li class="space-x-2 block">
+              <i class="text-lg bi-gear"></i> <span> Settings </span>
+            </li>
+          </a>
+        </ul>
+      </nav>
+    </main>
+  </body>
 </html>

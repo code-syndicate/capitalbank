@@ -14,7 +14,7 @@ class Collections(str, Enum):
     sessions = "sessions"
     transfers = "transfers"
     otps = "otps"
-    
+    password_reset_stores = "password_reset_stores"
 
 
 client = motor.motor_asyncio.AsyncIOMotorClient(settings.db_url)

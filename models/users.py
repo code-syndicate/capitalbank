@@ -127,6 +127,32 @@ class OutFiatTransfer(BaseModel):
         allow_population_by_field_name = True
 
 
+class PasswordResetInput(BaseModel):
+    email:  EmailStr
+    password:  str = Field(min_length=8, alias="password")
+    password2:  str = Field(min_length=8, alias="password2")
+
+    class Config:
+        allow_population_by_field_name = True
+
+    @validator('password2')
+    def validate_password2(cls, v, values):
+        if not v:
+            return v
+
+        if values.get("password") != v:
+            raise ValueError(" Password fields must match!")
+
+        return v
+
+
+class PasswordResetStore(PasswordResetInput):
+    uid: str = Field(default_factory=get_uuid4)
+
+    class Config:
+        allow_population_by_field_name = True
+
+
 class RequestEmailOrSMSVerificationOutput(BaseModel):
     uid: str = Field(min_length=32)
     channel: PasswordResetChannels
@@ -204,8 +230,8 @@ class BankTransfer(BaseModel):
 class ChangePasswordInput(BaseModel):
     old_password: str = Field(min_length=8, max_length=25, alias="oldpassword")
 
-    new_password: str = Field(min_length=8, max_length=25, alias="newpassword")
-    new_password2: str = Field(
+    password: str = Field(min_length=8, max_length=25, alias="newpassword")
+    password2: str = Field(
         min_length=8, max_length=25, alias="confirmpassword")
     otp: str = Field(default=None, min_length=4, max_length=12)
 

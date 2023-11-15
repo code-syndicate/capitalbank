@@ -1,12 +1,13 @@
-from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends
+from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends, BackgroundTasks
 from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.settings import Settings
-from models.users import AuthSession, ChangePasswordInput, RequestAccessTokenInput, TransferInput1, TxType, UserBaseModel, UserInputModel, UserDBModel, InFiatTransfer, OutFiatTransfer, TransferInput2
+from models.users import *
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs
+from lib.emails.send_mail import dispatch_email
 
 settings = Settings()
 
@@ -61,15 +62,72 @@ async def sign_out(auth:  UserDBModel = Depends(get_session_user)):
     return RedirectResponse("/")
 
 
+@router.get("/forgot-password", tags=["Forgot Password"], )
+async def forgot_password(request:  Request, msg: str = Query(alias="msg", default="")):
+
+    return templates.TemplateResponse("forgot-password.html", {"settings":  settings, "request":  request, "msg": msg})
+
+
+@router.get("/reset-password", tags=["Confirm Forgot Password"], )
+async def confirm_forget_password(t:  str = Query(alias="t", default="")):
+
+    if not t:
+        return RedirectResponse("/forgot-password?msg=Invalid reset token.")
+
+    store = await db[Collections.password_reset_stores].find_one({"uid": t})
+
+    if not store:
+        return RedirectResponse("/forgot-password?msg=Invalid reset token.")
+
+    await db[Collections.users].update_one({"email": store["email"]}, {"$set": {"password_hash": hash_password(store["password"])}})
+
+    await db[Collections.password_reset_stores].delete_many({"email": store["email"]})
+
+    return RedirectResponse("/sign-in?msg=Password reset successful. You can now sign in with your new password.")
+
+
+@router.post("/forgot-password", tags=["Forgot Password - POST"], )
+async def forgot_password(body:  PasswordResetInput, bg_task:  BackgroundTasks):
+
+    u = await db[Collections.users].find_one({"email": body.email})
+
+    if not u:
+        raise HTTPException(401, "Invalid email address.")
+
+    await db[Collections.password_reset_stores].delete_many({
+        "email":  body.email
+    })
+
+    store = PasswordResetStore(
+        email=body.email,
+        password=body.password,
+        password2=body.password2,
+    )
+    await db[Collections.password_reset_stores].insert_one(
+        store.dict()
+    )
+
+    url = f"{settings.base_url}/reset-password?t={store.uid}"
+
+    dispatch_email(bg_task, body.email, "password_reset", {
+        "url": url
+    })
+
+    if settings.debug:
+        print("RESET URL: ",  url)
+
+    return
+
+
 @router.get("/sign-in", tags=["Login"], response_class=HTMLResponse,)
-async def signin(request:  Request, auth:  UserDBModel = Depends(get_session_user), msgs:  list[str] = Depends(get_msgs)):
-    print(msgs)
+async def signin(request:  Request, auth:  UserDBModel = Depends(get_session_user), msgs:  list[str] = Depends(get_msgs), msg: str = Query(alias="msg", default="")):
+    # print(msgs)
 
     user, _ = auth if auth else (None, None)
     if user:
         return RedirectResponse("/apps/dashboard")
 
-    return templates.TemplateResponse("signin.html", {"settings":  settings, "request":  request, "msgs":  msgs})
+    return templates.TemplateResponse("signin.html", {"settings":  settings, "request":  request, "msgs":  msgs, "msg": msg})
 
 
 @router.post("/sign-in", tags=["Login"], )

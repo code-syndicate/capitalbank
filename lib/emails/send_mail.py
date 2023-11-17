@@ -5,6 +5,7 @@ from email.message import EmailMessage
 from email.headerregistry import Address
 from jinja2 import Environment, PackageLoader, select_autoescape
 from models.settings import Settings
+from typing import Union
 
 
 settings = Settings()
@@ -21,7 +22,7 @@ def render_to_string(template_name: str, **kwargs):
     return template.render(**kwargs, settings=settings)
 
 
-def _dispatch_email(email_to: list[EmailStr] | EmailStr, email_type: str, email_data: dict):
+def _dispatch_email(email_to: Union[list[EmailStr], EmailStr], email_type: str, email_data: dict):
 
     if not email_type in EMAIL_DEFS.keys():
         raise ValueError("Invalid email type")

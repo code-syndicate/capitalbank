@@ -72,6 +72,7 @@ class RequestEmailOrSMSVerificationInput(BaseModel):
 class TransferInputBase(BaseModel):
     amount: float
     description: Union[str, None] = None
+    pin:  str | None = Field(default=None)
 
 
 class TransferInput1(TransferInputBase):
@@ -86,6 +87,7 @@ class TransferInput2(TransferInputBase):
 
 
 class UserOTP(BaseModel):
+    uid: str = Field(default_factory=get_uuid4)
     user: EmailStr
     otp: str = Field(default_factory=gen_otp)
     is_valid:  bool = True

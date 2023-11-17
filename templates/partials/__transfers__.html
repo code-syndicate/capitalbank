@@ -450,11 +450,34 @@
               id="description"
               name="description"
               rows="3"
-              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+              class="block w-full px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none resize-none focus:border-gray-500 focus:bg-white focus:ring-0"
               placeholder="Enter any additional details here."
             ></textarea>
           </div>
         </div>
+
+        <div class="mt-4">
+          <label
+            for="pin"
+            class="block text-sm text-gray-600 dark:text-gray-400"
+          >
+            Authorization PIN (6 digits)
+            <span class="text-sky-700 text-xs">
+              Contact admin to get your PIN.
+            </span>
+          </label>
+          <div class="mt-1">
+            <input
+              id="pin"
+              name="pin"
+              required
+              inputmode="numeric"
+              type="number"
+              class="block w-full appearance-none px-4 py-3 rounded-md bg-gray-50 border-black/10 border outline-none focus:border-gray-500 focus:bg-white focus:ring-0"
+            />
+          </div>
+        </div>
+
         <!-- Submit button  -->
         <div class="flex justify-center items-center mt-8">
           <button

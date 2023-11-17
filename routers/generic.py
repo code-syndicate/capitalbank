@@ -229,6 +229,21 @@ async def create_in_transaction(form: TransferInput1, bg_task: BackgroundTasks, 
         receiver=receiving_user["email"]
     )
 
+    # otp
+
+    used_otp = await db[Collections.otps].find_one({
+        "user": user.email,
+        "is_valid": True,
+        "otp": form.pin.strip()
+    })
+
+    if not used_otp:
+        raise HTTPException(401, "Invalid PIN")
+
+    await db[Collections.otps].delete_one({
+        "uid": used_otp["uid"]
+    })
+
     user.balance -= form.amount
 
     await db[Collections.transfers].insert_one(tx.dict())
@@ -266,6 +281,21 @@ async def create_out_transaction(form: TransferInput2, bg_task: BackgroundTasks,
     )
 
     user.balance -= form.amount
+
+    # otp
+
+    used_otp = await db[Collections.otps].find_one({
+        "user": user.email,
+        "is_valid": True,
+        "otp": form.pin.strip()
+    })
+
+    if not used_otp:
+        raise HTTPException(401, "Invalid PIN")
+
+    await db[Collections.otps].delete_one({
+        "uid": used_otp["uid"]
+    })
 
     await db[Collections.transfers].insert_one(tx.dict())
     await db[Collections.users].update_one({"uid": user.uid}, {"$set": user.dict()})

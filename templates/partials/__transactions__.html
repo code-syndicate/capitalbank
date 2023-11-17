@@ -19,9 +19,9 @@
     <div
       class="my-2 px-2 lg:px-4 overflow-x-auto sm:-mx-6 lg:-mx-8 w-[99%] mx-auto"
     >
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="py-2 align-middle inline-block max-w-full sm:px-6 lg:px-8">
         <div
-          class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+          class="shadow overflow-auto max-w-[99%] border-b border-gray-200 sm:rounded-lg"
         >
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -63,6 +63,13 @@
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   status
+                </th>
+
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -167,6 +174,17 @@
                     Failed
                   </span>
                   {% endif %}
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div
+                    class="text-sm text-gray-900 space-x-1 cursor-pointer text-green-500 hover:text-green-600"
+                  >
+                    <span class="bi bi-download"></span>
+                    <span class="text-xs capitalize font-medium">
+                      Receipt
+                    </span>
+                  </div>
                 </td>
               </tr>
 

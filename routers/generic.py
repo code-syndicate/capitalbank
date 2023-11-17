@@ -47,7 +47,7 @@ async def dashboard(request: Request, auth:  UserDBModel = Depends(get_session_u
 
     txs = out_transfers[:10]
 
-    return templates.TemplateResponse("dashboard.html", {"settings": settings, "request": request, "user": user, "tab": tab, "txs": txs})
+    return templates.TemplateResponse("dashboard.html", {"mdt": lambda x:   datetime.fromtimestamp(int(x)), "dt":  datetime.now().strftime("%d/%m/%Y, %H:%M"),  "settings": settings, "request": request, "user": user, "tab": tab, "txs": txs})
 
 
 @router.get("/sign-out", tags=["Sign out"], )

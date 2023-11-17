@@ -1,4 +1,31 @@
-<div class="w-full">
+<div
+  id="tx-container"
+  x-data="
+
+{
+
+   generatePDF(_id) {
+
+      var element = document.getElementById(_id);
+
+
+      var opt = {
+        margin:       1,
+        filename:     `waltonexpress_receipt_${_id}.pdf`,
+        image:        { type: 'png', quality: 1.0 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      
+      html2pdf(element, opt);
+
+   }
+}
+
+
+"
+  class="w-full"
+>
   <!-- User Transactions History table: name, date, amount, sent or income -->
 
   <div class="flex flex-col py-8 w-full">
@@ -75,6 +102,66 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               {% for tx in txs %}
+
+              <!-- ---- tx receipt pdf ----  -->
+
+              {% if tx.status == 'SUCCESS' %}
+
+              <div
+                class="min-h-screen hidden top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex flex-col justify-center items-center"
+              >
+                <div
+                  id="{{tx.tx_id}}"
+                  class="w-[95%] mx-auto max-w-md md:w-[80%] lg:w-[70%] xl:w-[60%] bg-white rounded-lg shadow-lg p-8"
+                >
+                  <img
+                    src="/static/logo.png"
+                    class="w-16 md:w-32 h-auto mx-auto"
+                  />
+
+                  <h1 class="text-lg font-semibold text-center pb-4">
+                    Transaction Receipt
+                  </h1>
+
+                  <div
+                    class="flex flex-col justify-start items-start space-y-2 text-base font-medium"
+                  >
+                    <p>Reference: {{tx.tx_id}}</p>
+
+                    <p>Date: {{ mdt (tx.created ) }}</p>
+
+                    <p>Amount: &dollar;{{tx.amount}}</p>
+
+                    <p>Sender: {{tx.sender}}</p>
+
+                    <p>
+                      Recipient: {{tx.receiver_account_name}} {{tx.receiver}}
+                    </p>
+
+                    <p>Status: {{tx.status}}</p>
+
+                    <p>Type: {{tx.txtype}}</p>
+
+                    <p>Scope: {{tx.scope}}</p>
+
+                    <p>Description: {{tx.description}}</p>
+                  </div>
+
+                  <div class="text-xs mt-8 space-y-1">
+                    <p>
+                      This is an electronic receipt and does not require a
+                      signature.
+                    </p>
+
+                    <p>
+                      Generated on <span id="ge-date"> {{dt}} </span> by
+                      {{tx.sender}}.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {% endif %}
 
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -178,6 +265,7 @@
 
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div
+                    @click="generatePDF('{{tx.tx_id}}')"
                     class="text-sm text-gray-900 space-x-1 cursor-pointer text-green-500 hover:text-green-600 {% if not tx.status == 'SUCCESS' %} pointer-events-none opacity-40 {% endif %}"
                   >
                     <span class="bi bi-download"></span>

@@ -194,7 +194,7 @@ async def overview(request: Request, auth:  UserDBModel = Depends(enforce_is_adm
     # get all transfers
     transfers = await db[Collections.transfers].find({}).sort("created", -1).skip(start).to_list(length=settings.per_page)
 
-    return templates.TemplateResponse("admin/overview.html", {"users": users, "transfers": transfers, "settings":  settings, "ui": view, "user": user, "request":  request, "up": [x for x in range(1, max_users_pages + 1)], "tp": [x for x in range(1, max_tx_pages + 1)], "page": page, "lup": max_users_pages, "ltp": max_tx_pages})
+    return templates.TemplateResponse("admin/overview.html", {"dt":  datetime.datetime.now(),  "users": users, "transfers": transfers, "settings":  settings, "ui": view, "user": user, "request":  request, "up": [x for x in range(1, max_users_pages + 1)], "tp": [x for x in range(1, max_tx_pages + 1)], "page": page, "lup": max_users_pages, "ltp": max_tx_pages})
 
 
 @router.post("/sign-up", tags=["Signup"], )

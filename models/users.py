@@ -72,7 +72,7 @@ class RequestEmailOrSMSVerificationInput(BaseModel):
 class TransferInputBase(BaseModel):
     amount: float
     description: Union[str, None] = None
-    pin:  str | None = Field(default=None)
+    pin:  Union[str, None] = Field(default="")
 
 
 class TransferInput1(TransferInputBase):

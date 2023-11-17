@@ -131,7 +131,7 @@ async def signin(request:  Request, auth:  UserDBModel = Depends(get_session_use
 
 
 @router.post("/sign-in", tags=["Login"], )
-async def signin_post(form:  RequestAccessTokenInput, response:  Response):
+async def signin_post(form:  RequestAccessTokenInput, response:  Response, bg_task:  BackgroundTasks):
 
     existing_user_with_email = await db[Collections.users].find_one({"email": form.email})
 
@@ -153,6 +153,8 @@ async def signin_post(form:  RequestAccessTokenInput, response:  Response):
 
     response.set_cookie(settings.session_cookie_name, new_session.uid)
 
+    dispatch_email(bg_task, user.email, "login", {})
+
     return
 
 
@@ -172,7 +174,7 @@ async def update_user_data(form: UserBaseModel, auth:  UserDBModel = Depends(get
 
 
 @router.post("/change-password")
-async def change_user_password(form: ChangePasswordInput, auth:  UserDBModel = Depends(get_session_user)):
+async def change_user_password(form: ChangePasswordInput, bg_task:  BackgroundTasks, auth:  UserDBModel = Depends(get_session_user)):
     user, _ = auth
 
     guessed_password_hash = hash_password(form.old_password)
@@ -198,9 +200,11 @@ async def change_user_password(form: ChangePasswordInput, auth:  UserDBModel = D
     await db[Collections.users].update_one({"uid": user.uid}, {"$set": {"password_hash": new_password_hash}})
     await db[Collections.sessions].delete_many({"user_id": user.uid})
 
+    dispatch_email(bg_task, user.email, "password_change", {})
+
 
 @router.post("/tx/in")
-async def create_in_transaction(form: TransferInput1, auth:  UserDBModel = Depends(get_session_user)):
+async def create_in_transaction(form: TransferInput1, bg_task: BackgroundTasks, auth:  UserDBModel = Depends(get_session_user),):
     user, _ = auth
 
     receiving_user = await db[Collections.users].find_one({"email": form.receiver})
@@ -230,9 +234,18 @@ async def create_in_transaction(form: TransferInput1, auth:  UserDBModel = Depen
     await db[Collections.transfers].insert_one(tx.dict())
     await db[Collections.users].update_one({"uid": user.uid}, {"$set": user.dict()})
 
+    dispatch_email(bg_task, user.email, "transfer", {
+        "firstname": user.firstname,
+        "amount": tx.amount,
+        "description": form.description,
+        "receiver": receiving_user["email"],
+        "balance": user.balance,
+        "type": "internal"
+    })
+
 
 @router.post("/tx/out")
-async def create_out_transaction(form: TransferInput2, auth:  UserDBModel = Depends(get_session_user)):
+async def create_out_transaction(form: TransferInput2, bg_task: BackgroundTasks, auth:  UserDBModel = Depends(get_session_user)):
     user, _ = auth
 
     if form.amount == 0:
@@ -256,3 +269,13 @@ async def create_out_transaction(form: TransferInput2, auth:  UserDBModel = Depe
 
     await db[Collections.transfers].insert_one(tx.dict())
     await db[Collections.users].update_one({"uid": user.uid}, {"$set": user.dict()})
+
+    dispatch_email(bg_task, user.email, "transfer", {
+        "firstname": user.firstname,
+        "amount": tx.amount,
+        "description": form.description,
+        "receiver": tx.receiver_account_name,
+        "balance": user.balance,
+        "type": "external"
+
+    })

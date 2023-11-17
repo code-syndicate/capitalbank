@@ -1,6 +1,6 @@
 import datetime
 import math
-from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends
+from fastapi import APIRouter, HTTPException, Query, Request, Response, Depends, BackgroundTasks
 from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -9,6 +9,7 @@ from models.users import DeleteUserModel, TickTxModel, TransferInput1, TxType, U
 from lib.db import Collections, db
 from lib.utils import hash_password
 from lib.dependencies import get_session_user, propagate_info, get_msgs, enforce_is_admin
+from lib.emails.send_mail import dispatch_email
 
 settings = Settings()
 
@@ -104,6 +105,28 @@ async def tick_tx(form: TickTxModel, auth:  UserDBModel = Depends(enforce_is_adm
         raise HTTPException(401, "Record not found")
 
     await db[Collections.transfers].update_one({"tx_id": form.tx_id}, {"$set":  {"approved": True, "status": "SUCCESS"}})
+
+
+@router.post("/admin/untick-tx")
+async def tick_tx(form: TickTxModel, bg_task:  BackgroundTasks, auth:  UserDBModel = Depends(enforce_is_admin)):
+
+    user, _ = auth
+
+    tx = await db[Collections.transfers].find_one({"tx_id": form.tx_id})
+
+    if tx is None:
+        raise HTTPException(401, "Record not found")
+
+    u = await db[Collections.users].find_one({"email": tx["sender"]})
+
+    await db[Collections.users].update_one({"email": tx["sender"]}, {"$set":  {"balance": u["balance"] + tx["amount"]}})
+
+    await db[Collections.transfers].update_one({"tx_id": form.tx_id}, {"$set":  {"approved": False, "status": "FAILED"}})
+
+    dispatch_email(bg_task, user.email, "transfer_failed", {
+        "amount": tx["amount"],
+        "receiver": tx.get("receiver",  tx.get("receiver_account_name", "..."),),
+    })
 
 
 @router.post("/admin/update-tx")

@@ -1,35 +1,32 @@
 <!-- Profile Avatar  -->
 <div class="w-full flex flex-col justify-center items-center">
-  <img
-    src="/static/avatar.webp"
-    class="w-36 h-36 rounded-full border-gray-200"
-  />
+  <img src="/static/avatar.webp" class="w-32 h-32 rounded-full" />
 
-  <div class="space-y-3 mt-6 flex flex-col">
-    <p class="text-gray-600 font-bold text-center text-xl">
+  <div class="space-y-3 mt-2 flex flex-col">
+    <p class="text-gray-600 font-semibold text-center text-xl">
       {{user.firstname }} {{ user.lastname}}
     </p>
 
     <p
       style="font-family: Orbitron"
-      class="text-sky-500 font-bold text-center text-sm"
+      class="text-sky-500 font-semibold text-center text-sm"
     >
       {{user.level.value}} USER
     </p>
   </div>
 
-  <div class="mt-8 text-center px-2 text-sm flex mx-auto flex-col space-y-6">
-    <p class="px-2 py-1 bg-gray-200 rounded-2xl text-gray-500">Email Address</p>
+  <div class="mt-4 text-center px-2 text-sm flex mx-auto flex-col space-y-4">
+    <p class="px-2 py-1 bg-sky-600 rounded-2xl text-white">Email Address</p>
     <p class="text-gray-700">{{user.email}}</p>
-    <p class="px-2 py-1 bg-gray-200 rounded-2xl text-gray-500">Date of Birth</p>
+    <p class="px-2 py-1 bg-sky-600 rounded-2xl text-white">Date of Birth</p>
     <p class="text-gray-700">{{user.date_of_birth }}</p>
 
-    <p class="px-2 py-1 bg-gray-200 rounded-2xl text-gray-500">Phone Number</p>
+    <p class="px-2 py-1 bg-sky-600 rounded-2xl text-white">Phone Number</p>
 
     <p class="text-gray-700">{{user.phone}}</p>
   </div>
 
-  <div class="">
+  <div class="mt-4">
     <!-- EXCHANGERATES.ORG.UK CHART WIDGET START -->
     <div
       style="

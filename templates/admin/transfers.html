@@ -538,6 +538,85 @@
 
 
 
+                    declineTx : ()=>{
+
+                      txId = '{{tx.tx_id}}';
+
+                 
+        
+                        submitting = true;
+                        showOverlay = true;
+
+
+                        actionText = 'Updating...';
+
+                        fetch('/admin/untick-tx', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            txId,
+                            
+                          }),
+                        })
+                          .then( async (res) => {
+
+                            if(!res.ok){
+                      
+                      if(res.status == 422){
+                      console.log('Form errors found');
+                      
+                      const errors = await res.json();
+                      console.log(errors);
+                      
+                      reqError = true;
+                      reqErrorMsg = JSON.stringify(errors);
+                      
+                      
+                      }
+                      else{
+                      
+                      const errorMsg = (await res.json()).detail;
+                        console.log(errorMsg);
+                                  
+                            reqError = true;
+                            reqErrorMsg  = errorMsg;
+                      }
+
+                       } else{
+                      
+                      console.log('Form submitted successfully');
+                      reqError = true;
+                      reqErrorMsg = 'Transfer declined successfully.';
+                      success = true;
+
+                       setTimeout(()=>{
+                          window.location.reload();
+
+                      }, 1000);
+
+                      
+                      }
+
+                          })
+                        
+                          .catch((err) => {
+                            console.log(err.message);
+                      reqError = true;
+                      reqErrorMsg = 'Unable to complete request [' + err.message + ']';
+                          });
+
+                            submitting = false;
+
+                      reqLoading = false;
+                      showOverlay = false;
+                      
+                    
+                  },
+
+
+
                     approveTx : ()=>{
 
                         txId = '{{tx.tx_id}}';
@@ -620,7 +699,7 @@
                   >
                     <div class="flex flex-row space-x-2">
                       <div
-                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
+                        class="rounded-full px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer self-start"
                       >
                         <i
                           @click="handleUpdate"
@@ -629,7 +708,7 @@
                       </div>
 
                       <div
-                        class="rounded-full px-2 py-1 bg-red-500 hover:bg-red-500/80 cursor-pointer"
+                        class="rounded-full px-2 py-1 bg-red-500 hover:bg-red-500/80 cursor-pointer self-start"
                       >
                         <i
                           @click="handleDelete"
@@ -639,20 +718,30 @@
                       {% if tx.approved %}
 
                       <div
-                        class="rounded-full text-white px-2 py-1 bg-gray-400"
+                        class="rounded-full text-white px-2 py-1 bg-gray-400 self-start"
                       >
                         <span> Approved </span>
                       </div>
 
-                      {% else %}
+                      {% elif not tx.status == "FAILED" %}
 
                       <div
-                        @click="approveTx"
-                        class="rounded-full text-white px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
+                        class="flex flex-col justify-center items-center space-y-1"
                       >
-                        <span> Approve </span>
-                      </div>
+                        <div
+                          @click="approveTx"
+                          class="rounded-full text-white px-2 py-1 bg-[#18D992] hover:bg-[#18D992]/80 cursor-pointer"
+                        >
+                          <span> Approve </span>
+                        </div>
 
+                        <div
+                          @click="declineTx"
+                          class="rounded-full text-white px-2 py-1 bg-red-500 hover:bg-red-500/80 cursor-pointer"
+                        >
+                          <span> Decline </span>
+                        </div>
+                      </div>
                       {% endif %}
                     </div>
                   </td>

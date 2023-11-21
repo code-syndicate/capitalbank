@@ -63,7 +63,7 @@ window.smartsupp||(function(d) {
       {% include "admin/__nav__.html" %}
       <div class="w-full lg:w-[80%] xl:w-[85] 2xl:w-[80%] bg-[#F2F2F2] py-8">
         <div
-          class="w-full mx-auto flex flex-col min-h-screen justify-center items-center"
+          class="w-full mx-auto md:flex flex-col min-h-screen justify-center items-center hidden"
         >
           <img
             class="block mx-auto"
@@ -73,6 +73,41 @@ window.smartsupp||(function(d) {
             alt="{{settings.app_name}} Logo"
           />
         </div>
+
+
+            <!-- ul  -->
+
+            <ul
+            class="flex flex-col text-black/50 text-center justify-center items-start space-y-8 text-sm md:hidden"
+          >
+
+
+            <h2 class="text-2xl text-left p-4 text-red-500"> Admin  </h2>
+
+            <a
+              class="px-8 hover:text-[#F2507B] {% if (ui == 'main') %} text-[#F2507B] {% endif %}"
+              href="/admin/overview/?ui=main"
+              >&nbsp; <i class="bi-speedometer"></i> Dashboard
+            </a>
+            <a
+              class="px-8 hover:text-[#F2507B] {% if (ui == 'users') %} text-[#F2507B] {% endif %}"
+              href="/admin/overview/?ui=users"
+              >&nbsp; <i class="bi-person"></i> Users
+            </a>
+            <a
+              class="px-8 hover:text-[#F2507B] {% if (ui == 'transfers') %} text-[#F2507B] {% endif %}"
+              href="/admin/overview/?ui=transfers"
+              >&nbsp; <i class="bi-download"></i> Transfers
+            </a>
+        
+            <a
+              class="px-8 hover:text-[#F2507B] {% if not ui %} text-[#F2507B] {% endif %}"
+              href="/admin/neu"
+              >&nbsp; <i class="bi-person"></i> Create new user
+            </a>
+          
+          </ul>
+
       </div>
     </div>
 
